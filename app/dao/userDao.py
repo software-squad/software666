@@ -6,12 +6,7 @@ def selUserById(user_id):
     print(user_id)
     sql = "SELECT * FROM EMPLOYEE \
        WHERE ID = %d"%(user_id)
-    # db = database.getUserDB()
-    # 打开数据库连接
-    conn = pymysql.connect(host=config.url, user="root", passwd="123456", database="test")
-
-    # 使用cursor()方法获取操作游标
-    db = conn.cursor()
+    db = database.getUserDB()
     try:
         # XXX 打印
         print('开始查找数据')
