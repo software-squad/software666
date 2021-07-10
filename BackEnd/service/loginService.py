@@ -27,8 +27,10 @@ def validateUserByAccount(user):
         return status_code, None, msg_code.PWD_WRONG
     else:
         result = result[0]
-        jwt_token = jwt.encode(token_dict,
-                              )
+        token = jwt.encode(token_dict,  # payload 有效载体
+                           "zhananbudanchou1234678",  # 进行加密签名的密钥
+                           algorithm="HS256",  # 指明签名算法方式，默认也是HS256
+                           headers=headers).decode('ascii')
         new_result['token'] = token
         new_result['userid'] = result['userid']
         new_result['status'] = result['status']
