@@ -4,13 +4,15 @@ from pydantic import BaseModel
 class StaffInf(BaseModel):
     userid: int
     password: str
-    status: str
-    username: str
+    status: int
+    loginname: str
     faceurl: str
     facepath: str
     deptid: int
+    deptname: str
     jobid: int
-    name: str
+    jobname: str
+    username: str
     cardid: int
     address: str
     postcode: str
@@ -24,10 +26,6 @@ class StaffInf(BaseModel):
     createdate: str
 
 
-class StaffDept(BaseModel):
-    dept: str
-
-
 class StaffDeptAndJob(BaseModel):
-    dept: str
-    job: str
+    deptid: int
+    jobid: int

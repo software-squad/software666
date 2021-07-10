@@ -1,46 +1,12 @@
-from fastapi import status
-from fastapi.responses import JSONResponse, Response  # , ORJSONResponse
-from typing import Union
+from fastapi.responses import JSONResponse
 
 
-def loginResponse(token, userid, userstatus, msg_code):
+def response(status_code, msg_code, items=None):
     return JSONResponse(
+        status_code=status_code,
         content={
-            'code': status.HTTP_200_OK,
-            'msg': msg_code,
-            'data': {
-                'token': token,
-                'userid': userid,
-                'userstatus': userstatus
-            }
-        }
-    )
-
-
-def showResponse(items, msg_code):
-    return JSONResponse(
-        content={
-            'code': status.HTTP_200_OK,
+            'code': status_code,
             'msg': msg_code,
             'data': items
-        }
-    )
-
-def showResponseFail(items, msg_code):
-    return JSONResponse(
-        content={
-            'code': status.HTTP_400_BAD_REQUEST,
-            'msg': msg_code,
-            'data': items
-        }
-    )
-
-
-def updateResponse(msg_code):
-    return JSONResponse(
-        content={
-            'code': status.HTTP_200_OK,
-            'msg': msg_code,
-            'data': None
         }
     )

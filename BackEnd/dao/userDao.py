@@ -1,29 +1,35 @@
+from fastapi import status
 from util import database
+import pymysql
 
 datalist = "STAFFS"
 
 
 def select(index, value):
     db, cursor = database.connectToDataBase()
-    sql = """SELECT * FROM %s \
-             WHERE %s = '%s'""" % (datalist, index, value)
+    sql = """SELECT * FROM %s WHERE %s = '%s'""" % (datalist, index, value)
+    status_code = status.HTTP_200_OK
     try:
         cursor.execute(sql)
         results = cursor.fetchall()
-    except:
+    except pymysql.Error:
         results = None
+        status_code = status.HTTP_400_BAD_REQUEST
         db.rollback()
     db.close()
-    return results
+    return status_code, results
 
 
 def edit(index, value, edit_index, edit_value):
     db, cursor = database.connectToDataBase()
     sql = "UPDATE %s SET %s = '%s' WHERE %s = '%s'" % \
           (datalist, edit_index, edit_value, index, value)
+    status_code = status.HTTP_200_OK
     try:
         cursor.execute(sql)
         db.commit()
-    except:
+    except pymysql.Error:
+        status_code = status.HTTP_400_BAD_REQUEST
         db.rollback()
     db.close()
+    return status_code

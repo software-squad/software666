@@ -1,16 +1,20 @@
+from fastapi import status
 from util import database
+import pymysql
 
 datalist = "NOTICES"
 
 
-def getAll():
+def getNews():
     db, cursor = database.connectToDataBase()
-    sql = "SELECT * FROM %s" % (datalist)
+    sql = "SELECT * FROM %s ORDER BY NOTICEID DESC LIMIT 2" % (datalist)
+    status_code = status.HTTP_200_OK
     try:
         cursor.execute(sql)
         results = cursor.fetchall()
-    except:
+    except pymysql.Error:
         results = None
+        status_code = status.HTTP_400_BAD_REQUEST
         db.rollback()
     db.close()
-    return results
+    return status_code, results

@@ -1,7 +1,13 @@
+from fastapi import status
 from dao import menuDao
 from util import msg_code
 
 
 def findNews():
-    result = menuDao.getAll()
-    return result, msg_code.SEARCH_SUCCESS
+    status_code, result = menuDao.getNews()
+    for item in result:
+        del item['userid']
+    code = msg_code.SEARCH_SUCCESS
+    if status_code == status.HTTP_400_BAD_REQUEST:
+        code = msg_code.SEARCH_FAILURE
+    return status_code, result, code
