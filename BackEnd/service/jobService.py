@@ -22,22 +22,22 @@ def searchJob(jobname):
 #     return info,res
 
 
-def editJob(jobid, jobname, remark):
+def editJob(job):
     print("====编辑单个职位信息====")
-    res = jobDao.editOneJob(jobid, jobname, remark)
+    res = jobDao.editOneJob(job.jobid, job.jobname, job.remark,job.deptid)
     # 返回是否能成功编辑
     return res
 
 
-def delJob(jobid):
+def delJob(job):
     print("====删除单个职位信息====")
-    res = jobDao.delOneJob(jobid)
+    res = jobDao.delOneJob(job.jobid)
     # 返回是否能成功删除
     return res
 
 
-def addJob(jobname, remark):
+def addJob(job):
     print("====增加单个职位信息====")
-    res = jobDao.addOneJob(jobname, remark)
+    res = jobDao.addOneJob(job.jobname, job.remark,job.deptid)
     # 返回是否能成功增加
     return res
