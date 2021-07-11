@@ -1,6 +1,6 @@
 from dao import deptDao
 
-# DONE
+# DONE 高明
 def showAllDepartmentService():
     # 实现展示所有部门的业务逻辑
     depts, isSuccess = deptDao.selectAllDept()
@@ -8,23 +8,23 @@ def showAllDepartmentService():
     print(deptsResult)
     return deptsResult, isSuccess
 
-def searchDepartment(dept):
-    result = True
-    return result
+# def searchDepartment(dept):
+#     result = True
+#     return result
 
 
-# DONE
+# DONE 高明
 def addDepartmentService(dept):
     # 实现添加部门的业务逻辑
     isSuccess = deptDao.insert(dept)
     return isSuccess
 
 
-def showDepartment(dept):
-    result = True
-    return result
+# def showDepartment(dept):
+#     result = True
+#     return result
 
-# DONE
+# DONE 高明
 def editDepartmentService(dept):
     # 实现添加部门的业务逻辑
     isRepeat = False
@@ -42,7 +42,7 @@ def editDepartmentService(dept):
         return isRepeat, isOperaSuccess
     
 
-# DONE
+# DONE 高明
 def delDepartmentService(dept):
     isOperaSuccess = deptDao.delete(dept)
     return isOperaSuccess

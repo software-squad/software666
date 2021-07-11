@@ -1,4 +1,8 @@
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response # , ORJSONResponse
+from starlette.status import HTTP_200_OK,HTTP_400_BAD_REQUEST
+from fastapi import status
+from typing import Union
+
 from starlette.status import HTTP_200_OK,HTTP_400_BAD_REQUEST
 
 def response(status_code, msg_code, items=None):
@@ -29,5 +33,25 @@ def res_400(msg:str,data:object = None) -> Response:
             'code': 400,
             'message': msg,
             'data': data,
+        }
+    )
+
+# 高明
+def showResponse(items, msg_code):
+    return JSONResponse(
+        content={
+            'code': status.HTTP_200_OK,
+            'msg': msg_code,
+            'data': items
+        }
+    )
+
+# 高明
+def showResponseFail(items, msg_code):
+    return JSONResponse(
+        content={
+            'code': status.HTTP_400_BAD_REQUEST,
+            'msg': msg_code,
+            'data': items
         }
     )

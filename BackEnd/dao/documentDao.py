@@ -2,7 +2,7 @@ from util import database
 
 import pymysql
 
-# DONE
+# DONE 高明
 def selectAllFiles():
     # 查询所有的文件信息
     data = dict()
@@ -36,7 +36,7 @@ def insert(name, pwd, income):
 
 
 
-# DONE
+# DONE 高明
 def delete(file):
     # 删除成员
     isOperaSuccess = True
@@ -54,7 +54,7 @@ def delete(file):
     return isOperaSuccess
 
 
-# DONE
+# DONE 高明
 def edit(file):
     # 修改成员
     isOperaSuccess = True

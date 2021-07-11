@@ -1,6 +1,6 @@
 from dao import documentDao
 
-# DONE
+# DONE 高明
 def showFilesServie():
     data = dict()
     isOperaSuccess = True
@@ -9,22 +9,22 @@ def showFilesServie():
     return filesResult, isOperaSuccess
 
 
-# DONE
+# DONE 高明
 def editFileService(file):
     isOperaSuccess = documentDao.edit(file)
     return isOperaSuccess
 
-# DONE
+# DONE 高明
 def delFileService(file):
     isOperaSuccess = documentDao.delete(file)
     return isOperaSuccess
 
 
-def uploadFile(file):
-    result = True
-    return result
+# def uploadFile(file):
+#     result = True
+#     return result
 
 
-def downloadFile():
-    result = True
-    return result
+# def downloadFile():
+#     result = True
+#     return result
