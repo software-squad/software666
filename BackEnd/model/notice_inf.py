@@ -7,3 +7,4 @@ class NoticeInf(BaseModel):
     content: str
     createdate: str
     userid: str
+    username: str

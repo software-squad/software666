@@ -1,9 +1,6 @@
 import pymysql
-import json
-import sys
-import database
+from util import database
 from fastapi import status
-sys.path.append('D:\\python and c++\\software666-master\\CSI\\util')  # 括号内容为文件的绝对路径
 
 datalist = "JOBS"
 

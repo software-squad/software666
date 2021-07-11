@@ -1,7 +1,6 @@
 from fastapi import status
 from util import database
 import pymysql
-from model import dept_inf
 
 datalist = "DEPARTMENTS"
 
@@ -21,92 +20,61 @@ def getAll():
     return status_code, results
 
 
-# DONE 高明
-def selectAllDept():
-    depts = dict()
-    isSuccess = True
-    db, cursor = database.connectToDataBase(database="software666")
-    sql = """SELECT deptid, deptname, remark
-        FROM departments"""
+def select(index, value):
+    db, cursor = database.connectToDataBase()
+    sql = """SELECT * FROM %s
+             WHERE %s = '%s'""" % (datalist, index, value)
+    status_code = status.HTTP_200_OK
     try:
         cursor.execute(sql)
-        depts = cursor.fetchall()
-    except pymysql.Error as e:
-        print(e.args[0], e.args[1])
+        results = cursor.fetchall()
+    except pymysql.Error:
+        results = None
+        status_code = status.HTTP_400_BAD_REQUEST
         db.rollback()
-        isSuccess = False
     db.close()
-    return depts, isSuccess
+    return status_code, results
 
 
-# DONE 高明
-def selectIdByName(deptname):
-    # 判断用户名和密码的匹配
-    deptid = dict()
-    isOperaSuccess = True
-    db, cursor = database.connectToDataBase(database="software666")
-    sql = """SELECT deptid FROM departments \
-            WHERE deptname = '%s'""" % (deptname)
-    try:
-        cursor.execute(sql)
-        deptid = cursor.fetchall()
-    except pymysql.Error as e:
-        print(e.args[0], e.args[1])
-        db.rollback()
-        isOperaSuccess = False
-    db.close()
-    return deptid, isOperaSuccess
-
-
-# DONE 高明
-def insert(dept: dept_inf.AddDeptInf):
-    # 添加部门
-    db, cursor = database.connectToDataBase(database="software666")
-    sql = """INSERT INTO departments(deptname, remark)
-             VALUES('%s','%s')""" % (dept.deptname, dept.remark)
+def insert(item):
+    db, cursor = database.connectToDataBase()
+    sql = "INSERT INTO %s VALUES(DEFAULT,'%s','%s')" % \
+          (datalist, item.deptname, item.remark)
+    status_code = status.HTTP_200_OK
     try:
         cursor.execute(sql)
         db.commit()
-        db.close()
-        return True
-    except pymysql.Error as e:
-        print(e.args[0], e.args[1])
+    except pymysql.Error:
+        status_code = status.HTTP_400_BAD_REQUEST
         db.rollback()
     db.close()
-    return False
+    return status_code
 
 
-# DONE 高明
-def delete(dept: dept_inf.DelDeptInf):
-    # 删除成员
-    isOperaSuccess = True
-    db, cursor = database.connectToDataBase(database="software666")
-    sql = "DELETE FROM departments WHERE deptid = %d" % dept.deptid
+def delete(index, value):
+    db, cursor = database.connectToDataBase()
+    sql = "DELETE FROM %s WHERE %s = '%s'" % (datalist, index, value)
+    status_code = status.HTTP_200_OK
     try:
         cursor.execute(sql)
         db.commit()
-    except pymysql.Error as e:
-        print(e.args[0], e.args[1])
-        isOperaSuccess = False
+    except pymysql.Error:
+        status_code = status.HTTP_400_BAD_REQUEST
         db.rollback()
     db.close()
-    return isOperaSuccess
+    return status_code
 
 
-# DONE 高明
-def edit(dept: dept_inf.DeptInf):
-    # 修改成员
-    isOperaSuccess = True
-    db, cursor = database.connectToDataBase(database="software666")
-
-    sql = """UPDATE departments SET deptname = '%s', remark = '%s'
-            WHERE deptid = %d""" % (dept.deptname, dept.remark, dept.deptid)
+def edit(index, value, edit_index, edit_value):
+    db, cursor = database.connectToDataBase()
+    sql = "UPDATE %s SET %s = '%s' WHERE %s = '%s'" % \
+          (datalist, edit_index, edit_value, index, value)
+    status_code = status.HTTP_200_OK
     try:
         cursor.execute(sql)
         db.commit()
-    except pymysql.Error as e:
-        print(e.args[0], e.args[1])
+    except pymysql.Error:
+        status_code = status.HTTP_400_BAD_REQUEST
         db.rollback()
-        isOperaSuccess = False
     db.close()
-    return isOperaSuccess
+    return status_code

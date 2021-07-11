@@ -4,6 +4,7 @@ from util import msg_code
 
 
 def getDept():
+    # 获取部门
     status_code, result = deptDao.getAll()
     code = msg_code.SEARCH_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -18,6 +19,7 @@ def getDept():
 
 
 def searchByDept(deptid):
+    # 通过部门查询工作
     status_code, result = jobDao.select('DEPTID', deptid)
     code = msg_code.SEARCH_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -32,6 +34,7 @@ def searchByDept(deptid):
 
 
 def searchByDeptAndJob(staff):
+    # 通过部门和工作查询员工
     status_code, result = staffDao.selectBy2('DEPTID', staff.deptid,
                                              'JOBID', staff.jobid)
     code = msg_code.SEARCH_SUCCESS
@@ -49,6 +52,7 @@ def searchByDeptAndJob(staff):
 
 
 def searchByUsername(username):
+    # 通过用户名查询员工
     status_code, result = staffDao.select('USERNAME', username)
     code = msg_code.SEARCH_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -65,6 +69,7 @@ def searchByUsername(username):
 
 
 def showOneStaff(userid):
+    # 展示一个员工数据
     status_code, result = staffDao.select('USERID', userid)
     code = msg_code.SEARCH_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -73,18 +78,22 @@ def showOneStaff(userid):
 
 
 def addStaff(staff):
+    # 添加员工
     status_code, result = staffDao.select('LOGINNAME', staff.loginname)
     code = msg_code.ADD_SUCCESS
-    if result:
-        code = msg_code.DATA_REPEATED
-    else:
-        status_code = staffDao.insert(staff)
     if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.ADD_FAILURE
+    elif result:
+        code = msg_code.DATA_REPEATED
+    else:
+        status_code = deptDao.insert(staff)
+        if status_code == status.HTTP_400_BAD_REQUEST:
+            code = msg_code.ADD_FAILURE
     return status_code, code
 
 
 def editStaff(staff):
+    # 修改员工信息
     status_code = []
     status_code.append(staffDao.edit('USERID', staff.userid,
                                      'USERID', staff.userid))
@@ -140,6 +149,7 @@ def editStaff(staff):
 
 
 def delStaff(staff):
+    # 删除员工
     status_code = staffDao.delete('USERID', staff.userid)
     code = msg_code.DEL_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:

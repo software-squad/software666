@@ -41,4 +41,3 @@ def addJob(jobname, remark):
     res = jobDao.addOneJob(jobname, remark)
     # 返回是否能成功增加
     return res
-

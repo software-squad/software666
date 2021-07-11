@@ -1,8 +1,6 @@
 import pymysql
 import sys
-import database
-sys.path.append('D:\\python and c++\\software666-master\\CSI\\util')  # 括号内容为文件的绝对路径
-# 后续要修改
+from util import database
 
 
 def selAllNotices():
@@ -30,25 +28,25 @@ def selAllNotices():
     return None, 1
 
 
-def editOneNotice(noticeid, title, createdate, content, userid):
+def editOneNotice(noticeid, title, createdate, content, userid, username):
     # 修改公告信息
     # result=0  更新成功
     # result=1  更新失败
     # result=2  数据重复
     db, cursor = database.connectToDataBase()
-    sql = "UPDATE NOTICES SET TITLE = '%s', CONTENT= '%s',CREATEDATE= '%s',USERID= '%d' \
-             WHERE NOTICEID = '%d' " % (title, content, createdate, userid, noticeid)
+    sql = "UPDATE NOTICES SET TITLE = '%s', CONTENT= '%s',CREATEDATE= '%s', USERID = '%d',USERNAME='%s' \
+             WHERE NOTICEID = '%d' " % (title, content, createdate, userid, username, noticeid)
     # TODO 这里能不能行呢？
     # 包括自己只能有一个
-    sql2 = "SELECT COUNT(noticeid) AS nums FROM NOTICES WHERE title= '%s' " % (title)
+    sql2 = "SELECT * FROM NOTICES WHERE title= '%s' " % (title)
     sql3 = "SELECT * FROM NOTICES WHERE NOTICEID= '%d' " % (noticeid)
     try:
         # 计算同名的有多少
         count = cursor.execute(sql2)
+        sameTitle = cursor.fetchall()
         cursor.execute(sql3)
         result = cursor.fetchall()
         print(result)
-        # dictJson=json.loads(result)
         for i in result:
             # 这里是原来的名字
             for k, v in i.items():
@@ -56,7 +54,7 @@ def editOneNotice(noticeid, title, createdate, content, userid):
                     originTitle = v
                     print(originTitle)
         "可以更新的两种情况：跟原来一样的名字 || 原来没有这个名字"
-        if (count == 1 and originTitle == title) or count == 0:
+        if (str(sameTitle != '()') and originTitle == title) or (str(sameTitle) == '()'):
             cursor.execute(sql)
             db.commit()
             return 0
@@ -89,7 +87,7 @@ def delOneNotice(noticeid):
     return 1
 
 
-def addOneNotice(title, content, createdate, userid):
+def addOneNotice(title, content, createdate, userid, username):
     # 新增公告
     # result=0  新增成功
     # result=1  新增失败
@@ -116,3 +114,7 @@ def addOneNotice(title, content, createdate, userid):
     cursor.close()
     db.close()
     return 1
+
+
+if __name__ == '__main__':
+    res = editOneNotice(3, "更新1：吃饭通知", "晚上到底吃啥", "2021-07-11", 2, "牟鑫3号")

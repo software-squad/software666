@@ -13,6 +13,7 @@ secret = 'zhananbudanchou1234678'
 
 
 def validateUserByAccount(user):
+    # 通过用户名和密码登录
     status_code, result = loginDao.select("LOGINNAME", user.loginname)
     token = 0
     code = msg_code.ENTER_SUCCESS
@@ -39,6 +40,7 @@ def validateUserByAccount(user):
 
 
 def validateUserByFace(user):
+    # 刷脸登录
     status_code, result = loginDao.select("FACEPATH", user.image)
     token = 0
     code = msg_code.ENTER_SUCCESS

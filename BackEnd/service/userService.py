@@ -4,6 +4,7 @@ from util import msg_code
 
 
 def changePassword(user):
+    # 更改密码
     status_code, result = userDao.select("USERID", user.userid)
     if status_code == status.HTTP_400_BAD_REQUEST or \
        result[0]['password'] != user.oldpwd:
@@ -14,6 +15,7 @@ def changePassword(user):
 
 
 def faceRegister(user):
+    # 刷脸登记
     status_code = userDao.edit('USERID', user.userid, 'FACEURL', user.image)
     code = msg_code.UPD_SUCCESS
     if status_code == msg_code.UPD_FAILURE:

@@ -15,9 +15,10 @@ def showNotices():
 #     return result
 
 
-def editNotice(noticeid, title, createdate, content, userid):
+def editNotice(noticeid, title, createdate, content, userid, username):
     print("====编辑单个公告信息====")
-    res = noticeDao.editOneNotice(noticeid, title, createdate, content, userid)
+    res = noticeDao.editOneNotice(noticeid, title, createdate,
+                                  content, userid, username)
     # 返回是否能成功编辑
     return res
 
@@ -28,7 +29,7 @@ def delNotice(noticeid):
     return res
 
 
-def addNotice(title, content, createdate, userid):
+def addNotice(title, content, createdate, userid, username):
     print("====增加单个公告信息====")
-    res = noticeDao.addOneNotice(title, content, createdate, userid)
+    res = noticeDao.addOneNotice(title, content, createdate, userid, username)
     return res

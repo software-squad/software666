@@ -1,4 +1,4 @@
-from fastapi.responses import JSONResponse, Response  # , ORJSONResponse
+from fastapi.responses import JSONResponse, Response
 from fastapi import status
 
 
@@ -31,29 +31,5 @@ def res_400(msg: str, data: object = None) -> Response:
             'code': status.HTTP_400_BAD_REQUEST,
             'message': msg,
             'data': data,
-        }
-    )
-
-
-# 高明
-def showResponse(items, msg_code):
-    return JSONResponse(
-        status_code=status.HTTP_200_OK,
-        content={
-            'code': status.HTTP_200_OK,
-            'msg': msg_code,
-            'data': items
-        }
-    )
-
-
-# 高明
-def showResponseFail(items, msg_code):
-    return JSONResponse(
-        status_code=status.HTTP_400_BAD_REQUEST,
-        content={
-            'code': status.HTTP_400_BAD_REQUEST,
-            'msg': msg_code,
-            'data': items
         }
     )
