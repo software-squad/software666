@@ -54,12 +54,12 @@ async def searchJob(jobname: str):
 
 
 @router.post("/edit", tags=["job"])
-async def editJob(jobid: int, jobname: str, remark: str):
+async def editJob(job:job_inf.JobInf):
     # 编辑职位
     # result=0  更新成功
     # result=1  更新失败
     # result=2  数据重复
-    result = jobService.editJob(jobid,  jobname,  remark)
+    result = jobService.editJob(job)
     if result == 0:
         return response_code.res_200(msg_code.UPD_SUCCESS)
     if result == 1:
@@ -69,11 +69,11 @@ async def editJob(jobid: int, jobname: str, remark: str):
 
 
 @router.post("/del", tags=["job"])
-async def delJob(id: int):
+async def delJob(job:job_inf.DelJobInf):
     # 删除职位
     # 0 成功
     # 1 失败
-    result = jobService.delJob(id)
+    result = jobService.delJob(job)
     if result == 0:
         return response_code.res_200(msg_code.DEL_SUCCESS)
     if result == 1:
@@ -81,12 +81,12 @@ async def delJob(id: int):
 
 
 @router.post("/add", tags=["job"])
-async def addJob(jobname: str, remark: str):
+async def addJob(job:job_inf.AddJobInf):
     # 增添职位
     # result=0  新增成功
     # result=1  新增失败
     # result=2  数据重复
-    result = jobService.addJob(jobname, remark)
+    result = jobService.addJob(job)
     if result == 0:
         return response_code.res_200(msg_code.ADD_SUCCESS)
     if result == 1:
