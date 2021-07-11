@@ -33,9 +33,9 @@ async def showNotices():
 
 
 @router.post("/edit", tags=["notice"])
-async def editNotice(noticeid: int, title: str, content: str, createdate: str, userid: int, username: str):
+async def editNotice(notice:notice_inf.NoticeInf):
     # 编辑公告
-    result = noticeService.editNotice(noticeid, title, createdate, content, userid, username)
+    result = noticeService.editNotice(notice)
     if result == 0:
         return response_code.res_200(msg_code.UPD_SUCCESS)
     if result == 1:
@@ -45,9 +45,9 @@ async def editNotice(noticeid: int, title: str, content: str, createdate: str, u
 
 
 @router.post("/del", tags=["notice"])
-async def delNotice(noticeid: int):
+async def delNotice(notice:notice_inf.DelNoticeInf):
     # 删除公告
-    result = noticeService.delNotice(noticeid)
+    result = noticeService.delNotice(notice)
     if result == 0:
         return response_code.res_200(msg_code.DEL_SUCCESS)
     if result == 1:
@@ -55,12 +55,12 @@ async def delNotice(noticeid: int):
 
 
 @router.post("/add", tags=["notice"])
-async def addNotice(title: str, content: str, createdate: str, userid: int, username: str):
+async def addNotice(notice:notice_inf.AddNoticeInf):
     # 添加公告
     # result=0  新增成功
     # result=1  新增失败
     # result=2  数据重复
-    result = noticeService.addNotice(title, content, createdate, userid, username)
+    result = noticeService.addNotice(notice)
     if result == 0:
         return response_code.res_200(msg_code.ADD_SUCCESS)
     if result == 1:
