@@ -5,48 +5,92 @@ from util import response_code
 from service import jobService
 
 from model import job_inf
+from util import msg_code
 
 # 构建api路由
 router = APIRouter()
 
 
-@router.post("/show", tags=["job"])
-async def showJobs(job: job_inf.job_inf):
+@router.get("/show", tags=["job"])
+async def showJobs():
     # 展示大量职位
-    result = jobService.showJobs(job)
-    return response_code.response(result)
+    "service应该返回是否查询成功和查询结果"
+    data,result = jobService.showJobs()
+    #result=0  查询成功；
+    #result=1  查询失败
+    #result=2  数据不存在
+    if result==0:
+        return response_code.res_200(msg_code.SEARCH_SUCCESS,data)
+    if result==1:
+        return response_code.res_400(msg_code.SEARCH_FAILURE,data)
+    if result==2:
+        return response_code.res_200(msg_code.DATA_NOT_EXIT,data)
 
-
-@router.post("/search", tags=["job"])
-async def searchJob(job: job_inf.job_inf):
+@router.get("/search", tags=["job"])
+async def searchJob(jobname: str):
     # 查询职位
-    result = jobService.searchJob(job)
-    return response_code.response(result)
+    #result=0  查询成功；
+    #result=1  查询失败
+    #result=2  数据不存在
+    data,result=jobService.searchJob(jobname)
+    if result==0:
+        return response_code.res_200(msg_code.SEARCH_SUCCESS,data)
+    if result==1:
+        return response_code.res_400(msg_code.SEARCH_FAILURE,data)
+    if result==2:
+        return response_code.res_200(msg_code.DATA_NOT_EXIT,data)
 
 
-@router.post("/one", tags=["job"])
-async def showOneJob(job: job_inf.job_inf):
-    # 展示一个职位
-    result = jobService.showOneJob(job)
-    return response_code.response(result)
+# @router.get("/one", tags=["job"])
+# async def showOneJob(job: job_inf.JobInf):
+#     # 展示一个职位
+#     data,result = jobService.showOneJob(job)
+#     if result:
+#         return response_code.response('10007',data)
+#     else:
+#         return response_code.response('10008',data)
 
 
 @router.post("/edit", tags=["job"])
-async def editJob(job: job_inf.job_inf):
+async def editJob(jobid:int,jobname:str,remark:str):
     # 编辑职位
-    result = jobService.editJob(job)
-    return response_code.response(result)
+    #result=0  更新成功
+    #result=1  更新失败
+    #result=2  数据重复
+    result = jobService.editJob(jobid,jobname,remark)
+    if result==0:
+        return response_code.res_200(msg_code.UPD_SUCCESS)
+    if result==1:
+        return response_code.res_400(msg_code.UPD_FAILURE)
+    if result==2:
+        return response_code.res_200(msg_code.DATA_REPEATED)
 
 
 @router.post("/del", tags=["job"])
-async def delJob(job: job_inf.job_inf):
+async def delJob(id:int):
     # 删除职位
-    result = jobService.delJob(job)
-    return response_code.response(result)
+    # 0 成功
+    # 1 失败
+    result = jobService.delJob(id)
+    if result==0:
+        return response_code.res_200(msg_code.DEL_SUCCESS)
+    if result==1:
+        return response_code.res_400(msg_code.DEL_FAILURE)
 
 
 @router.post("/add", tags=["job"])
-async def addJob(job: job_inf.job_inf):
+async def addJob(jobname:str,remark:str):
     # 增添职位
-    result = jobService.addJob(job)
-    return response_code.response(result)
+    #result=0  新增成功
+    #result=1  新增失败
+    #result=2  数据重复
+    result = jobService.addJob(jobname,remark)
+    if result==0:
+        return response_code.res_200(msg_code.ADD_SUCCESS)
+    if result==1:
+        return response_code.res_400(msg_code.ADD_FAILURE)
+    if result==2:
+        return response_code.res_200(msg_code.DATA_REPEATED)
+
+
+    
