@@ -1,6 +1,6 @@
 from fastapi import status
 from dao import staffDao, deptDao, jobDao
-from util import msg_code
+from util import msg_code, pwd_encode
 
 
 def getDept():
@@ -86,7 +86,8 @@ def addStaff(staff):
     elif result:
         code = msg_code.DATA_REPEATED
     else:
-        status_code = deptDao.insert(staff)
+        staff.password = pwd_encode.MD5(staff.password)
+        status_code = staffDao.insert(staff)
         if status_code == status.HTTP_400_BAD_REQUEST:
             code = msg_code.ADD_FAILURE
     return status_code, code

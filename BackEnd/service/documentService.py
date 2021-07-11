@@ -3,7 +3,7 @@ from dao import documentDao
 from util import msg_code
 
 
-def showFilesService():
+def showFiles():
     # 展示所有文件
     status_code, result = documentDao.getAll()
     code = msg_code.SEARCH_SUCCESS
@@ -12,7 +12,7 @@ def showFilesService():
     return status_code, result, code
 
 
-def editFileService(file):
+def editFile(file):
     # 修改文件
     status_code = []
     status_code.append(documentDao.edit('FILEID', file.fileid,
@@ -36,7 +36,7 @@ def editFileService(file):
     return status_code, code
 
 
-def delFileService(file):
+def delFile(file):
     # 删除文件
     status_code = documentDao.delete('FILEID', file.fileid)
     code = msg_code.DEL_SUCCESS

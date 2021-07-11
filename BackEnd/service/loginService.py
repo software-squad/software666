@@ -1,6 +1,6 @@
 from fastapi import status
 from dao import loginDao
-from util import msg_code
+from util import msg_code, pwd_encode
 import time
 import jwt
 
@@ -14,12 +14,12 @@ secret = 'zhananbudanchou1234678'
 
 def validateUserByAccount(user):
     # 通过用户名和密码登录
-    status_code, result = loginDao.select("LOGINNAME", user.loginname)
+    status_code, result = loginDao.select('LOGINNAME', user.loginname)
     token = 0
     code = msg_code.ENTER_SUCCESS
     new_result = {}
     if status_code == status.HTTP_400_BAD_REQUEST or not result or \
-       result[0]['password'] != user.password:
+       pwd_encode.MD5(user.password) != result[0]['password']:
         new_result = None
         code = msg_code.PWD_WRONG
         return status_code, None, msg_code.PWD_WRONG
@@ -31,7 +31,7 @@ def validateUserByAccount(user):
         }
         token = jwt.encode(token_dict,  # payload 有效载体
                            secret,  # 进行加密签名的密钥
-                           algorithm="HS256",  # 指明签名算法方式，默认也是HS256
+                           algorithm='HS256',  # 指明签名算法方式，默认也是HS256
                            headers=headers)
         new_result['token'] = token
         new_result['userid'] = result['userid']
@@ -41,12 +41,12 @@ def validateUserByAccount(user):
 
 def validateUserByFace(user):
     # 刷脸登录
-    status_code, result = loginDao.select("FACEPATH", user.image)
+    status_code, result = loginDao.select('FACEPATH', user.image)
     token = 0
     code = msg_code.ENTER_SUCCESS
     new_result = {}
     if status_code == status.HTTP_400_BAD_REQUEST or not result or \
-       result[0]['password'] != user.password:
+       pwd_encode.MD5(user.password) == result[0]['password']:
         new_result = None
         code = msg_code.PWD_WRONG
         return status_code, None, msg_code.PWD_WRONG
@@ -58,7 +58,7 @@ def validateUserByFace(user):
         }
         token = jwt.encode(token_dict,  # payload 有效载体
                            secret,  # 进行加密签名的密钥
-                           algorithm="HS256",  # 指明签名算法方式，默认也是HS256
+                           algorithm='HS256',  # 指明签名算法方式，默认也是HS256
                            headers=headers)
         new_result['token'] = token
         new_result['userid'] = result['userid']

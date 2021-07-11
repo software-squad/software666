@@ -3,7 +3,7 @@ from dao import deptDao
 from util import msg_code
 
 
-def showAllDepartmentsService():
+def showAllDepartments():
     # 展示所有部门
     status_code, result = deptDao.getAll()
     code = msg_code.SEARCH_SUCCESS
@@ -12,7 +12,7 @@ def showAllDepartmentsService():
     return status_code, result, code
 
 
-def addDepartmentService(dept):
+def addDepartment(dept):
     # 添加部门
     status_code, result = deptDao.select('DEPTNAME', dept.deptname)
     code = msg_code.ADD_SUCCESS

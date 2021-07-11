@@ -13,21 +13,21 @@ router = APIRouter()
 @router.get("/showmany", tags=["document"])
 async def showFiles():
     # 展示大量文件
-    status_code, files, msg_code = documentService.showFilesService()
+    status_code, files, msg_code = documentService.showFiles()
     return response_code.response(status_code, msg_code, files)
 
 
 @router.post("/edit", tags=["document"])
 async def editFile(file: document_inf.document_inf):
     # 修改文件
-    status_code, msg_code = documentService.editFileService(file)
+    status_code, msg_code = documentService.editFile(file)
     return response_code.response(status_code, msg_code)
 
 
 @router.post("/del", tags=["document"])
 async def delFile(file: document_inf.DelDocumentInf):
     # 删除文件
-    status_code, msg_code = documentService.delFileService(file)
+    status_code, msg_code = documentService.delFile(file)
     return response_code.response(status_code, msg_code)
 
 
