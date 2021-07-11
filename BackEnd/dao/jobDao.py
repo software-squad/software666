@@ -92,14 +92,14 @@ def searchOneJob(jobname):
 #     db.close()
 #     return None,False
 
-def editOneJob(jobid, jobname, remark):
+def editOneJob(jobid, jobname, remark,deptid):
     # result=0  更新成功
     # result=1  更新失败
     # result=2  数据重复
     db, cursor = database.connectToDataBase()
     # XXX 这里要加引号
-    sql = "UPDATE JOBS SET JOBNAME = '%s', REMARK = '%s' \
-             WHERE JOBID = '%d' " % (jobname, remark, jobid)
+    sql = "UPDATE JOBS SET JOBNAME = '%s', REMARK = '%s',DEPTID='%d' \
+             WHERE JOBID = '%d' " % (jobname, remark,deptid, jobid)
     # 包括自己只能有一个
     sql2 = "SELECT * FROM jobs WHERE jobname= '%s' " % (jobname)
     sql3 = "SELECT * FROM JOBS WHERE JOBID= '%d' " % (jobid)
@@ -151,7 +151,7 @@ def delOneJob(jobid):
     return 1
 
 
-def addOneJob(jobname, remark):
+def addOneJob(jobname, remark,deptid):
     # 添加职位
     # result=0  新增成功
     # result=1  新增失败
@@ -163,8 +163,8 @@ def addOneJob(jobname, remark):
     info = cursor.fetchall()
 
     if str(info) == "()":
-        sql = "INSERT INTO JOBS(JOBNAME, REMARK) \
-                VALUES('%s','%s')" % (jobname, remark)
+        sql = "INSERT INTO JOBS(JOBNAME, REMARK,DEPTID) \
+                VALUES('%s','%s','%s')" % (jobname, remark,deptid)
         try:
             cursor.execute(sql)
             db.commit()
