@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 
 
-class notice_inf(BaseModel):
-    noticeid: str
+class NoticeInf(BaseModel):
+    id: int
     title: str
     content: str
     createdate: str
