@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<u-swipe-action :show="item.show" :index="index" :key="item.userid" v-for="(item,index) in searchResults"
-			:options="options" btn-width="180" @click="click" @open="open(index)" @content-click="gotoOne(item.userid)">
+		<u-swipe-action :show="item.show" :index="index" :key="item.userid" :options="options" btn-width="180"
+			@click="click" @open="open(index)" @content-click="gotoOne">
 			<view class="u-body-item">
 				<image :src="item.faceurl" mode="aspectFill" class="avatar-item"></image>
 				<view class="info-item">
@@ -21,6 +21,23 @@
 
 <script>
 	export default {
+		
+		props: {
+			// 展示的对象
+			item: {
+				type: Object,
+				default () {
+					return {
+						show: false,
+						userid: 0,
+						faceurl: '../../static/头像.svg',
+						username:'无',
+						userjob:'无',
+						usertel:'无'
+					}
+				}
+			}
+		},
 		data() {
 			return {
 				delShow: false,
@@ -53,30 +70,7 @@
 				url: '/pages/staff/add'
 			})
 		},
-		onLoad: function(item) {
-			console.log('根据部门和职业搜索员工')
-			console.log(item)
-			uni.setNavigationBarTitle({
-				title: item.jobname
-			})
-			uni.request({
-				url: "/api/staff/showUserByDeptAndJob",
-				data: {
-					deptid: item.deptid,
-					jobid: item.jobid
-				},
-				success: (res) => {
-					// console.log(res)
-					this.searchResults = res.data.data
-					console.log('设置show')
-					for (var i in this.searchResults) {
-						this.searchResults[i].show = false
-					}
-					console.log(this.searchResults)
-				}
-			})
-			console.log(this.searchResults)
-		},
+
 		methods: {
 			click(index, option) {
 				if (option == 1) {
@@ -99,9 +93,12 @@
 				})
 				console.log(this.searchResults)
 			},
-			gotoOne(userid) {
+			gotoOne(index) {
+				console.log("即将跳转到个人信息页面")
+				let item = this.searchResults[index]
+				console.log(item)
 				uni.navigateTo({
-					url: '../staff/one?userid=' + userid
+					url: '../staff/one?userid=' + item.userid
 				})
 			},
 			navToEdit(index) {

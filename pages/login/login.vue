@@ -1,7 +1,9 @@
 <template>
 	<view>
 		<u-toast ref="uToast" />
-		<text class="title">CSI员工之家</text>
+		<view class="login-title-item">
+			<text class="title">CSI员工之家</text>
+		</view>
 		<u-gap height="200"></u-gap>
 
 		<u-input @change="change" :border="true" v-model="loginname" placeholder="请输入用户名" />
@@ -115,6 +117,7 @@
 		right: 0px;
 		width: 300px;
 		padding: 10px;
+		margin: 0 auto;
 	}
 
 	.remember {
@@ -122,4 +125,10 @@
 		margin-top: 50%;
 		color: #adadad;
 	}
+	
+	// .login-title-item{
+	// 	border-style: solid;
+	// 	margin: 0 auto;
+	// 	height: 150rpx;
+	// }
 </style>

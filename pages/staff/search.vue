@@ -20,15 +20,23 @@
 				<view class="goods-name">{{item.username}}</view>
 			</view>
 		</view> -->
-		<view class="" v-if="this.kw.length !== 0">
-			<view :key="index" v-for="(item,index) in searchResults" @click="gotoOne(item)">
+		<view class="sugg-list" v-if="this.kw.length !== 0">
+			<u-swipe-action :index="index" :key="item.userid" v-for="(item,index) in searchResults"
+				:show="item.show" :options="options" btn-width="180" 
+				@click="click" 
+				@open="open(index)" 
+				@content-click="gotoOne(item.userid)">
 				<view class="u-body-item">
 					<image :src="item.faceurl" mode="aspectFill" class="avatar-item"></image>
-					<view class="info-item" style="font-weight: bold;">{{item.username}}</view>
-					<view class="info-item" style="float: left;">Tel:{{item.tel}}</view>
+					<view class="info-item">
+						<text style="font-weight: bold;">{{item.username}}</text>
+					</view>
+					<view class="info-item">
+						<text style="font-weight: bold;">Tel:{{item.tel}}</text>
+					</view>
 					<u-tag :text="item.jobname" type="primary" />
 				</view>
-			</view>
+			</u-swipe-action>
 		</view>
 		<!-- 搜索历史 -->
 		<view class="history-box" v-else>
@@ -44,6 +52,8 @@
 					style="margin: 10rpx;padding: 10rpx;" />
 			</view>
 		</view>
+		<u-modal v-model="delShow" :content="delContent" :show-cancel-button="true" :async-close="true"
+			@confirm="confirmDel"></u-modal>
 	</view>
 </template>
 
@@ -58,7 +68,15 @@
 				// 搜索的结果列表
 				searchResults: [],
 				// 搜索历史的数组
-				historyList: []
+				historyList: [],
+				delShow: false,
+				delContent: '',
+				delIndex: '',
+				options: [{ text: '编辑',
+						style: { backgroundColor: '#007aff'}},
+					{ text: '删除',
+						style: {backgroundColor: '#dd524d'}}
+				],
 			};
 		},
 		onLoad() {
@@ -113,13 +131,7 @@
 				// this.searchResults = res.message
 				// this.saveSearchHistory()
 			},
-			gotoOne(item) {
-				console.log("即将跳转到个人信息页面")
-				console.log(item)
-				uni.navigateTo({
-					url: '../staff/one?userid=' + item.userid
-				})
-			},
+			
 			saveSearchHistory() {
 				console.log("存储搜索历史")
 				console.log(this.kw)
@@ -146,6 +158,65 @@
 				console.log("获取搜索list" + kw)
 				this.kw = kw
 				this.getSearchList()
+			},
+			
+			click(index, option) {
+				if (option == 1) {
+					this.delShow = true
+					this.delContent = "确认删除" + this.searchResults[index].username + "？"
+					this.delIndex = index
+				} else {
+					this.navToEdit(index)
+				}
+			},
+			open(index) {
+				// 先将正在被操作的swipeAction标记为打开状态，否则由于props的特性限制，
+				// 原本为'false'，再次设置为'false'会无效
+				console.log('打开中')
+				console.log(index)
+				console.log(this.searchResults[index])
+				this.searchResults[index].show = true;
+				this.searchResults.map((val, idx) => {
+					if (index != idx) this.searchResults[idx].show = false;
+				})
+				console.log(this.searchResults)
+			},
+			gotoOne(userid) {
+				console.log("即将跳转到个人信息页面")
+				uni.navigateTo({
+					url: '../staff/one?userid=' + userid
+				})
+			},navToEdit(index) {
+				let item = encodeURIComponent(JSON.stringify(this.searchResults[index]))
+				console.log(item)
+				uni.navigateTo({
+					url: '/pages/staff/edit?item=' + item,
+					success() {
+						console.log("编辑成功")
+					},
+					fail() {
+						console.log("编辑失败")
+					}
+
+				})
+			},
+			confirmDel() {
+				let index = this.delIndex
+				uni.request({
+					url: '/staff/del',
+					method: 'GET',
+					success: (res) => {
+						// TODO 更友好的提示
+						// this.$u.toast(`删除了第${index}个cell`);
+						this.searchResults.splice(index, 1);
+					}
+				})
+				this.delShow = false
+				this.$u.toast(`删除成功`);
+			},
+			cancel() {
+				this.delShow = false;
+				this.searchResults[this.delIndex].show = false;
 			}
 		},
 		computed: {

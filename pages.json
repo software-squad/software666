@@ -299,7 +299,34 @@
 			}
 
 		}
-	],
+	    ,{
+            "path" : "pages/test/test-login",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/test/test-subcomp",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "子组件测试",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "components/my-ui/my-card/my-card",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white", //状态栏字体颜色
 		"navigationBarTitleText": "CSI员工之家",
