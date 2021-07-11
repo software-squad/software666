@@ -9,9 +9,7 @@ class StaffInf(BaseModel):
     faceurl: str
     facepath: str
     deptid: int
-    deptname: str
     jobid: int
-    jobname: str
     username: str
     cardid: int
     address: str
@@ -24,6 +22,8 @@ class StaffInf(BaseModel):
     birthday: str
     education: str
     createdate: str
+    deptname: str
+    jobname: str
 
 
 class StaffDeptAndJob(BaseModel):

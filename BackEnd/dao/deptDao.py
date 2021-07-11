@@ -20,6 +20,7 @@ def getAll():
     db.close()
     return status_code, results
 
+
 # DONE 高明
 def selectAllDept():
     depts = dict()
@@ -36,6 +37,7 @@ def selectAllDept():
         isSuccess = False
     db.close()
     return depts, isSuccess
+
 
 # DONE 高明
 def selectIdByName(deptname):
@@ -55,8 +57,9 @@ def selectIdByName(deptname):
     db.close()
     return deptid, isOperaSuccess
 
+
 # DONE 高明
-def insert(dept:dept_inf.AddDeptInf):
+def insert(dept: dept_inf.AddDeptInf):
     # 添加部门
     db, cursor = database.connectToDataBase(database="software666")
     sql = """INSERT INTO departments(deptname, remark)
@@ -71,6 +74,7 @@ def insert(dept:dept_inf.AddDeptInf):
         db.rollback()
     db.close()
     return False
+
 
 # DONE 高明
 def delete(dept: dept_inf.DelDeptInf):
@@ -87,6 +91,7 @@ def delete(dept: dept_inf.DelDeptInf):
         db.rollback()
     db.close()
     return isOperaSuccess
+
 
 # DONE 高明
 def edit(dept: dept_inf.DeptInf):

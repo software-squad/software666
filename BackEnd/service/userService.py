@@ -4,8 +4,9 @@ from util import msg_code
 
 
 def changePassword(user):
-    status_code, result = userDao.select("USERID", user.userid)[0]
-    if status_code == status.HTTP_400_BAD_REQUEST or result['password'] != user.oldpwd:
+    status_code, result = userDao.select("USERID", user.userid)
+    if status_code == status.HTTP_400_BAD_REQUEST or \
+       result[0]['password'] != user.oldpwd:
         return status_code, msg_code.UPD_FAILURE
     else:
         userDao.edit('USERID', user.userid, 'PASSWORD', user.newpwd)

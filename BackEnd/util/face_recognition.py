@@ -3,7 +3,8 @@
 # import requests
 
 # client_id 为官网获取的AK， client_secret 为官网获取的SK
-# host = 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=bBdtji1hAx5h0VONFP1AS942&client_secret=auANLlS4mnRFDVUrz56t72Z9XrlRzALb'
+# host = 'https://aip.baidubce.com/oauth/2.0/token?grant_type=
+#         client_credentials&client_id=bBdtji1hAx5h0VONFP1AS942&client_secret=auANLlS4mnRFDVUrz56t72Z9XrlRzALb'
 # response = requests.get(host)
 # if response:
 #     print(response.json())
@@ -41,12 +42,3 @@ def faceMatch(img1_path, img2_path):
     if response:
         print(response.json())
     return response.json()
-
-
-def hash(s):
-    pwd = ""
-    for i in s:
-        pwd += chr(ord(i)+1)
-    print(pwd)
-
-hash("good")

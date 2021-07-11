@@ -9,8 +9,8 @@ def getDept():
     if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.SEARCH_FAILURE
     new_result = []
-    temp = {}
     for item in result:
+        temp = {}
         temp["deptid"] = item["deptid"]
         temp["deptname"] = item["deptname"]
         new_result.append(temp)
@@ -23,8 +23,8 @@ def searchByDept(deptid):
     if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.SEARCH_FAILURE
     new_result = []
-    temp = {}
     for item in result:
+        temp = {}
         temp["jobid"] = item["jobid"]
         temp["jobname"] = item["jobname"]
         new_result.append(temp)
@@ -38,8 +38,8 @@ def searchByDeptAndJob(staff):
     if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.SEARCH_FAILURE
     new_result = []
-    temp = {}
     for item in result:
+        temp = {}
         temp["userid"] = item["userid"]
         temp["username"] = item["username"]
         temp["jobname"] = item["jobname"]
@@ -54,8 +54,8 @@ def searchByUsername(username):
     if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.SEARCH_FAILURE
     new_result = []
-    temp = {}
     for item in result:
+        temp = {}
         temp["userid"] = item["userid"]
         temp["username"] = item["username"]
         temp["jobname"] = item["jobname"]
@@ -75,7 +75,7 @@ def showOneStaff(userid):
 def addStaff(staff):
     status_code, result = staffDao.select('LOGINNAME', staff.loginname)
     code = msg_code.ADD_SUCCESS
-    if result and result['loginname'] == staff.loginname:
+    if result:
         code = msg_code.DATA_REPEATED
     else:
         status_code = staffDao.insert(staff)
@@ -89,49 +89,53 @@ def editStaff(staff):
     status_code.append(staffDao.edit('USERID', staff.userid,
                                      'USERID', staff.userid))
     status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'PASSWORD', staff.password))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'STAFFDAO', staff.status))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'LOGINNAME', staff.loginname))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'FACEURL', staff.faceurl))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'FACEPATH', staff.facepath))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'DEPTID', staff.deptid))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'JOBID', staff.jobid))
-    status_code.append(staffDao.edit('USERID', staff.userid,
                                      'USERNAME', staff.username))
     status_code.append(staffDao.edit('USERID', staff.userid,
                                      'CARDID', staff.cardid))
+    status_code.append(staffDao.edit('USERID', staff.userid,
+                                     'SEX', staff.sex))
+    status_code.append(staffDao.edit('USERID', staff.userid,
+                                     'JOBID', staff.jobid))
+    status_code.append(staffDao.edit('USERID', staff.userid,
+                                     'EDUCATION', staff.education))
+    status_code.append(staffDao.edit('USERID', staff.userid,
+                                     'EMAIL', staff.email))
+    status_code.append(staffDao.edit('USERID', staff.userid,
+                                     'DEPTID', staff.deptid))
+    status_code.append(staffDao.edit('USERID', staff.userid,
+                                     'TEL', staff.tel))
+    status_code.append(staffDao.edit('USERID', staff.userid,
+                                     'PARTY', staff.party))
+    status_code.append(staffDao.edit('USERID', staff.userid,
+                                     'QQNUM', staff.qqnum))
     status_code.append(staffDao.edit('USERID', staff.userid,
                                      'ADDRESS', staff.address))
     status_code.append(staffDao.edit('USERID', staff.userid,
                                      'POSTCODE', staff.postcode))
     status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'TEL', staff.tel))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'QQNUM', staff.qqnum))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'EMAIL', staff.email))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'SEX', staff.sex))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'PARTY', staff.party))
-    status_code.append(staffDao.edit('USERID', staff.userid,
                                      'BIRTHDAY', staff.birthday))
     status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'EDUCATION', staff.education))
+                                     'LOGINNAME', staff.loginname))
+    status_code.append(staffDao.edit('USERID', staff.userid,
+                                     'PASSWORD', staff.password))
+    status_code.append(staffDao.edit('USERID', staff.userid,
+                                     'STATUS', staff.status))
     status_code.append(staffDao.edit('USERID', staff.userid,
                                      'CREATEDATE', staff.createdate))
+    status_code.append(staffDao.edit('USERID', staff.userid,
+                                     'FACEURL', staff.faceurl))
+    status_code.append(staffDao.edit('USERID', staff.userid,
+                                     'FACEPATH', staff.facepath))
+    status_code.append(staffDao.edit('USERID', staff.userid,
+                                     'DEPTNAME', staff.deptname))
+    status_code.append(staffDao.edit('USERID', staff.userid,
+                                     'JOBNAME', staff.jobname))
     if status.HTTP_400_BAD_REQUEST in status_code:
         status_code = status.HTTP_400_BAD_REQUEST
-        code = msg_code.UPD_SUCCESS
+        code = msg_code.UPD_FAILURE
     else:
         status_code = status.HTTP_200_OK
-        code = msg_code.UPD_FAILURE
+        code = msg_code.UPD_SUCCESS
     return status_code, code
 
 

@@ -1,5 +1,6 @@
 from dao import documentDao
 
+
 # DONE 高明
 def showFilesServie():
     data = dict()
@@ -13,6 +14,7 @@ def showFilesServie():
 def editFileService(file):
     isOperaSuccess = documentDao.edit(file)
     return isOperaSuccess
+
 
 # DONE 高明
 def delFileService(file):

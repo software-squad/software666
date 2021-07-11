@@ -41,17 +41,16 @@ def insert(item):
     db, cursor = database.connectToDataBase()
     sql = """INSERT INTO %s VALUES(DEFAULT,'%s','%s','%s','%s','%s','%s','%s','%s','%s',
              '%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')""" %\
-          (datalist, item.username, item.cardid, item.sex,
-           item.jobid, item.jobname, item.education, item.email, item.deptid,
-           item.deptname, item.tel, item.party, item.qqnum, item.address,
-           item.postcode, item.birthday, item.loginname, item.password,
-           item.status, item.createdate, item.faceurl, item.facepath)
+          (datalist, item.username, item.cardid, item.sex, item.jobid,
+           item.education, item.email, item.deptid, item.tel, item.party,
+           item.qqnum, item.address, item.postcode, item.birthday,
+           item.loginname, item.password, item.status, item.createdate,
+           item.faceurl, item.facepath, item.deptname, item.jobname)
     status_code = status.HTTP_200_OK
     try:
         cursor.execute(sql)
         db.commit()
-    except pymysql.Error as e:
-        print(e)
+    except pymysql.Error:
         status_code = status.HTTP_400_BAD_REQUEST
         db.rollback()
     db.close()
@@ -80,7 +79,8 @@ def edit(index, value, edit_index, edit_value):
     try:
         cursor.execute(sql)
         db.commit()
-    except pymysql.Error:
+    except pymysql.Error as e:
+        print(e)
         status_code = status.HTTP_400_BAD_REQUEST
         db.rollback()
     db.close()

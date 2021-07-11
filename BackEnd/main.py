@@ -9,8 +9,6 @@ from api import job
 from api import notice
 from api import document
 from starlette.middleware.cors import CORSMiddleware
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
 
 app = FastAPI()
 

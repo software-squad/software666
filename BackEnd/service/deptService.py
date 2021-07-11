@@ -1,5 +1,6 @@
 from dao import deptDao
 
+
 # DONE 高明
 def showAllDepartmentService():
     # 实现展示所有部门的业务逻辑
@@ -31,7 +32,7 @@ def editDepartmentService(dept):
     isOperaSuccess = True
     deptid, isOperaSuccess = deptDao.selectIdByName(dept.deptname)
     if isOperaSuccess:
-        if not deptid or (deptid[0]['deptid']==dept.deptid):
+        if not deptid or (deptid[0]['deptid'] == dept.deptid):
             isRepeat = False
             isOperaSuccess = deptDao.edit(dept)
             return isRepeat, isOperaSuccess
@@ -40,7 +41,7 @@ def editDepartmentService(dept):
             return isRepeat, isOperaSuccess
     else:
         return isRepeat, isOperaSuccess
-    
+
 
 # DONE 高明
 def delDepartmentService(dept):

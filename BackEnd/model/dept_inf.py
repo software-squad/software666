@@ -7,10 +7,12 @@ class DeptInf(BaseModel):
     deptname: str
     remark: str
 
+
 # 高明
 class AddDeptInf(BaseModel):
     deptname: str
     remark: str
+
 
 # 高明
 class DelDeptInf(BaseModel):

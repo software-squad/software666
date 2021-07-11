@@ -2,6 +2,7 @@ from util import database
 
 import pymysql
 
+
 # DONE 高明
 def selectAllFiles():
     # 查询所有的文件信息
@@ -29,11 +30,10 @@ def insert(name, pwd, income):
         cursor.execute(sql)
         db.commit()
         return True
-    except:
+    except pymysql.Error:
         db.rollback()
     db.close()
     return False
-
 
 
 # DONE 高明
@@ -60,19 +60,20 @@ def edit(file):
     isOperaSuccess = True
     db, cursor = database.connectToDataBase(database="software666")
     sql = """UPDATE documents SET fileid = %d
-, title = '%s'
-, filename = '%s'
-, remark = '%s'
-, createdate = '%s'
-, username = '%s'
-, filepath = '%s'
-             WHERE fileid = %d""" % (file.fileid
-, file.title
-, file.filename
-, file.remark
-, file.createdate
-, file.username
-, file.filepath, file.fileid)
+            , title = '%s'
+            , filename = '%s'
+            , remark = '%s'
+            , createdate = '%s'
+            , username = '%s'
+            , filepath = '%s'
+             WHERE fileid = %d""" % (file.fileid,
+                                     file.title,
+                                     file.filename,
+                                     file.remark,
+                                     file.createdate,
+                                     file.username,
+                                     file.filepath,
+                                     file.fileid)
     try:
         cursor.execute(sql)
         db.commit()
@@ -93,7 +94,7 @@ def display():
         results = cursor.fetchall()
         db.close()
         return results
-    except:
+    except pymysql.Error:
         db.rollback()
     db.close()
     return False

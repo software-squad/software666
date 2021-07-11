@@ -21,7 +21,6 @@ async def showAllDepartment():
         return response_code.showResponseFail(deptsList, "查询失败")
 
 
-
 # @router.post("/search", tags=["department"])
 # async def searchDepartment(dept: dept_inf.dept_inf):
 #     # 查询部门
@@ -51,7 +50,7 @@ async def addDepartment(dept: dept_inf.AddDeptInf):
 @router.post("/edit", tags=["department"])
 async def editDepartment(dept: dept_inf.DeptInf):
     # 编辑部门
-    isRepeat, isOperaSuccess  = deptService.editDepartmentService(dept)
+    isRepeat, isOperaSuccess = deptService.editDepartmentService(dept)
     if isRepeat or isOperaSuccess:
         if not isRepeat:
             if isOperaSuccess:
