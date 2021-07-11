@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class job_inf(BaseModel):
-    jobid: str
-    jobname: str
+class JobInf(BaseModel):
+    id: int
+    name: str
     remark: str
