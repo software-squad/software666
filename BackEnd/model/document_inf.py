@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class document_inf(BaseModel):
+class DocumentInf(BaseModel):
     fileid: int
     title: str
     filename: str
@@ -11,5 +11,8 @@ class document_inf(BaseModel):
     filepath: str
 
 
-class DelDocumentInf(BaseModel):
-    fileid: int
+class UploadDocumentInf(BaseModel):
+    title: str
+    remark: str
+    createdate: str
+    username: str

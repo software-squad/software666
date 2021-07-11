@@ -1,5 +1,4 @@
 import pymysql
-import sys
 from util import database
 
 
@@ -45,7 +44,6 @@ def editOneNotice(noticeid, title, createdate, content, userid, username):
         sameTitle = cursor.fetchall()
         cursor.execute(sql3)
         result = cursor.fetchall()
-        print(result)
         for i in result:
             # 这里是原来的名字
             for k, v in i.items():
@@ -53,7 +51,8 @@ def editOneNotice(noticeid, title, createdate, content, userid, username):
                     originTitle = v
                     print(originTitle)
         "可以更新的两种情况：跟原来一样的名字 || 原来没有这个名字"
-        if (str(sameTitle != '()') and originTitle == title) or (str(sameTitle) == '()'):
+        if (str(sameTitle != '()') and originTitle == title) or \
+           (str(sameTitle) == '()'):
             cursor.execute(sql)
             db.commit()
             return 0
@@ -99,7 +98,8 @@ def addOneNotice(title, content, createdate, userid, username):
     info = cursor.fetchall()
     if str(info) == "()":
         sql = "INSERT INTO NOTICES(TITLE, CONTENT,CREATEDATE,USERID,USERNAME) \
-                VALUES('%s','%s','%s','%d','%s')" % (title, content, createdate, userid,username)
+                VALUES('%s','%s','%s','%d','%s')" % \
+                    (title, content, createdate, userid, username)
         try:
             cursor.execute(sql)
             db.commit()

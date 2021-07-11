@@ -5,7 +5,7 @@ import time
 import jwt
 
 headers = {
-    'aig': 'HS256',  # 声明所使用的的算法
+    'alg': 'HS256',  # 声明所使用的的算法
     'typ': 'JWT'  # 声明token的类型
 }
 

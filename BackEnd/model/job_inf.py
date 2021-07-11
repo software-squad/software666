@@ -5,12 +5,14 @@ class JobInf(BaseModel):
     jobid: int
     jobname: str
     remark: str
-    deptid:int
+    deptid: int
+
 
 class DelJobInf(BaseModel):
-    jobid:int
+    jobid: int
+
 
 class AddJobInf(BaseModel):
     jobname: str
     remark: str
-    deptid:int
+    deptid: int

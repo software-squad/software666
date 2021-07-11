@@ -6,8 +6,6 @@ from service import noticeService
 
 from model import notice_inf
 
-import time, datetime
-
 from util import msg_code
 # 构建api路由
 router = APIRouter()
@@ -33,7 +31,7 @@ async def showNotices():
 
 
 @router.post("/edit", tags=["notice"])
-async def editNotice(notice:notice_inf.NoticeInf):
+async def editNotice(notice: notice_inf.NoticeInf):
     # 编辑公告
     result = noticeService.editNotice(notice)
     if result == 0:
@@ -44,10 +42,10 @@ async def editNotice(notice:notice_inf.NoticeInf):
         return response_code.res_200(msg_code.DATA_REPEATED)
 
 
-@router.post("/del", tags=["notice"])
-async def delNotice(notice:notice_inf.DelNoticeInf):
+@router.get("/del", tags=["notice"])
+async def delNotice(noticeid: int):
     # 删除公告
-    result = noticeService.delNotice(notice)
+    result = noticeService.delNotice(noticeid)
     if result == 0:
         return response_code.res_200(msg_code.DEL_SUCCESS)
     if result == 1:
@@ -55,7 +53,7 @@ async def delNotice(notice:notice_inf.DelNoticeInf):
 
 
 @router.post("/add", tags=["notice"])
-async def addNotice(notice:notice_inf.AddNoticeInf):
+async def addNotice(notice: notice_inf.AddNoticeInf):
     # 添加公告
     # result=0  新增成功
     # result=1  新增失败

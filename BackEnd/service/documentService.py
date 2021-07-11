@@ -36,18 +36,22 @@ def editFile(file):
     return status_code, code
 
 
-def delFile(file):
+def delFile(fileid):
     # 删除文件
-    status_code = documentDao.delete('FILEID', file.fileid)
+    status_code = documentDao.delete('FILEID', fileid)
     code = msg_code.DEL_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.DEL_FAILURE
     return status_code, code
 
 
-# def uploadFile(file):
-#     result = True
-#     return result
+def uploadFile(fileMsg, file):
+    # 上传文件
+    status_code = documentDao.insert(fileMsg, file)
+    code = msg_code.ADD_SUCCESS
+    if status_code == status.HTTP_400_BAD_REQUEST:
+        code = msg_code.ADD_FAILURE
+    return status_code, code
 
 
 # def downloadFile():

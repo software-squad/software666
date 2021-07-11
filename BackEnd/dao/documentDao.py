@@ -47,3 +47,19 @@ def edit(index, value, edit_index, edit_value):
         db.rollback()
     db.close()
     return status_code
+
+
+def insert(fileMsg, file):
+    db, cursor = database.connectToDataBase()
+    sql = "INSERT INTO %s VALUES(DEFAULT,'%s','《%s》','%s','%s','%s','%s');" % \
+          (datalist, fileMsg['title'], file.filename, fileMsg['remark'],
+           fileMsg['createdate'], fileMsg['username'], './file')
+    status_code = status.HTTP_200_OK
+    try:
+        cursor.execute(sql)
+        db.commit()
+    except pymysql.Error:
+        status_code = status.HTTP_400_BAD_REQUEST
+        db.rollback()
+    db.close()
+    return status_code

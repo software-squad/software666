@@ -54,7 +54,7 @@ async def searchJob(jobname: str):
 
 
 @router.post("/edit", tags=["job"])
-async def editJob(job:job_inf.JobInf):
+async def editJob(job: job_inf.JobInf):
     # 编辑职位
     # result=0  更新成功
     # result=1  更新失败
@@ -69,7 +69,7 @@ async def editJob(job:job_inf.JobInf):
 
 
 @router.post("/del", tags=["job"])
-async def delJob(job:job_inf.DelJobInf):
+async def delJob(job: job_inf.DelJobInf):
     # 删除职位
     # 0 成功
     # 1 失败
@@ -81,7 +81,7 @@ async def delJob(job:job_inf.DelJobInf):
 
 
 @router.post("/add", tags=["job"])
-async def addJob(job:job_inf.AddJobInf):
+async def addJob(job: job_inf.AddJobInf):
     # 增添职位
     # result=0  新增成功
     # result=1  新增失败

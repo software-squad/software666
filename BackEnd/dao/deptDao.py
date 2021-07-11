@@ -22,8 +22,7 @@ def getAll():
 
 def select(index, value):
     db, cursor = database.connectToDataBase()
-    sql = """SELECT * FROM %s
-             WHERE %s = '%s'""" % (datalist, index, value)
+    sql = "SELECT * FROM %s WHERE %s = '%s'" % (datalist, index, value)
     status_code = status.HTTP_200_OK
     try:
         cursor.execute(sql)

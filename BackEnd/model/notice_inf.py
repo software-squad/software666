@@ -9,12 +9,10 @@ class NoticeInf(BaseModel):
     userid: int
     username: str
 
-class DelNoticeInf(BaseModel):
-    noticeid:int
 
 class AddNoticeInf(BaseModel):
-    title:str
-    content:str
-    createdate:str
-    userid:int
-    username:str
+    title: str
+    content: str
+    createdate: str
+    userid: int
+    username: str

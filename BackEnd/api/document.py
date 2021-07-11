@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, UploadFile, File, Form
 
 from util import response_code
 
@@ -18,28 +18,26 @@ async def showFiles():
 
 
 @router.post("/edit", tags=["document"])
-async def editFile(file: document_inf.document_inf):
+async def editFile(file: document_inf.DocumentInf):
     # 修改文件
     status_code, msg_code = documentService.editFile(file)
     return response_code.response(status_code, msg_code)
 
 
-@router.post("/del", tags=["document"])
-async def delFile(file: document_inf.DelDocumentInf):
+@router.get("/del", tags=["document"])
+async def delFile(fileid: int):
     # 删除文件
-    status_code, msg_code = documentService.delFile(file)
+    status_code, msg_code = documentService.delFile(fileid)
     return response_code.response(status_code, msg_code)
 
 
-# @router.post("/upload", tags=["document"])
-# async def uploadFile(file: document_inf.document_inf):
-#     # 上传文件
-#     result = documentService.uploadFile(file)
-#     return response_code.response(result)
-
-
-# @router.post("/download", tags=["document"])
-# async def downloadFile(file: document_inf.document_inf):
-#     # 下载文件
-#     result = documentService.downloadFile(file)
-#     return response_code.response(result)
+@router.post("/upload", tags=["document"])
+async def uploadFile(file: UploadFile = File(...), fileMsg: str = Form(...)):
+    # 上传文件
+    fileMsgJson = '{%s}' % (fileMsg)
+    fileMsg = eval(fileMsgJson)
+    contents = await file.read()
+    with open("./file/%s" % (file.filename), 'wb') as f:
+        f.write(contents)
+    status_code, msg_code = documentService.uploadFile(fileMsg, file)
+    return response_code.response(status_code, msg_code)

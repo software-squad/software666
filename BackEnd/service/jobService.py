@@ -1,6 +1,4 @@
-import sys
 from dao import jobDao
-sys.path.append('D:\\python and c++\\software666-master\\CSI\\dao')  # 括号内容为文件的绝对路径
 
 
 def showJobs():
@@ -24,7 +22,7 @@ def searchJob(jobname):
 
 def editJob(job):
     print("====编辑单个职位信息====")
-    res = jobDao.editOneJob(job.jobid, job.jobname, job.remark,job.deptid)
+    res = jobDao.editOneJob(job.jobid, job.jobname, job.remark, job.deptid)
     # 返回是否能成功编辑
     return res
 
@@ -38,6 +36,6 @@ def delJob(job):
 
 def addJob(job):
     print("====增加单个职位信息====")
-    res = jobDao.addOneJob(job.jobname, job.remark,job.deptid)
+    res = jobDao.addOneJob(job.jobname, job.remark, job.deptid)
     # 返回是否能成功增加
     return res

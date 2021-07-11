@@ -1,6 +1,4 @@
-import sys
 from dao import noticeDao
-sys.path.append('D:\\python and c++\\software666-master\\CSI\\dao')  # 括号内容为文件的绝对路径
 
 
 # XXX 还要增加管理员权限的判断
@@ -23,13 +21,14 @@ def editNotice(notice):
     return res
 
 
-def delNotice(notice):
+def delNotice(noticeid):
     print("====删除单个公告信息====")
-    res = noticeDao.delOneNotice(notice.noticeid)
+    res = noticeDao.delOneNotice(noticeid)
     return res
 
 
 def addNotice(notice):
     print("====增加单个公告信息====")
-    res = noticeDao.addOneNotice(notice.title, notice.content, notice.createdate, notice.userid, notice.username)
+    res = noticeDao.addOneNotice(notice.title, notice.content, notice.createdate, 
+                                 notice.userid, notice.username)
     return res

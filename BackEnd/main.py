@@ -1,5 +1,5 @@
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, status
 from api import login
 from api import menu
 from api import user
@@ -9,6 +9,7 @@ from api import job
 from api import notice
 from api import document
 from starlette.middleware.cors import CORSMiddleware
+from util import jwt_decode, response_code
 
 app = FastAPI()
 
@@ -32,5 +33,14 @@ app.include_router(notice.router, prefix="/api/notice")
 app.include_router(document.router, prefix="/api/file")
 
 
+@app.middleware('http')
+async def add_process_time_header(request: Request, call_next):
+    response = await call_next(request)
+    if 'token' not in request.headers.keys() or \
+       jwt_decode.jwtEncode(request.headers['token']) is None:
+        return response_code.response(status.HTTP_401_UNAUTHORIZED,
+                                      'not allowed')
+    return response
+
 if __name__ == '__main__':
-    uvicorn.run("main:app", reload=True, host='localhost', port=8082)
+    uvicorn.run("main:app", reload=True, host='192.168.0.118', port=8082)
