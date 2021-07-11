@@ -36,7 +36,6 @@ def editOneNotice(noticeid, title, createdate, content, userid, username):
     db, cursor = database.connectToDataBase()
     sql = "UPDATE NOTICES SET TITLE = '%s', CONTENT= '%s',CREATEDATE= '%s', USERID = '%d',USERNAME='%s' \
              WHERE NOTICEID = '%d' " % (title, content, createdate, userid, username, noticeid)
-    # TODO 这里能不能行呢？
     # 包括自己只能有一个
     sql2 = "SELECT * FROM NOTICES WHERE title= '%s' " % (title)
     sql3 = "SELECT * FROM NOTICES WHERE NOTICEID= '%d' " % (noticeid)
@@ -99,8 +98,8 @@ def addOneNotice(title, content, createdate, userid, username):
     cursor.execute(sql3)
     info = cursor.fetchall()
     if str(info) == "()":
-        sql = "INSERT INTO NOTICES(TITLE, CONTENT,CREATEDATE,USERID) \
-                VALUES('%s','%s','%s','%d')" % (title, content, createdate, userid)
+        sql = "INSERT INTO NOTICES(TITLE, CONTENT,CREATEDATE,USERID,USERNAME) \
+                VALUES('%s','%s','%s','%d','%s')" % (title, content, createdate, userid,username)
         try:
             cursor.execute(sql)
             db.commit()
@@ -114,7 +113,3 @@ def addOneNotice(title, content, createdate, userid, username):
     cursor.close()
     db.close()
     return 1
-
-
-if __name__ == '__main__':
-    res = editOneNotice(3, "更新1：吃饭通知", "晚上到底吃啥", "2021-07-11", 2, "牟鑫3号")
