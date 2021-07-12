@@ -22,8 +22,6 @@ def editFile(file):
     status_code.append(documentDao.edit('FILEID', file.fileid,
                                         'REMARK', file.remark))
     status_code.append(documentDao.edit('FILEID', file.fileid,
-                                        'CREATEDATE', file.createdate))
-    status_code.append(documentDao.edit('FILEID', file.fileid,
                                         'USERNAME', file.username))
     status_code.append(documentDao.edit('FILEID', file.fileid,
                                         'FILEPATH', file.filepath))

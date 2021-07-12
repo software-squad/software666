@@ -27,14 +27,14 @@ def selAllNotices():
     return None, 1
 
 
-def editOneNotice(noticeid, title, createdate, content, userid, username):
+def editOneNotice(noticeid, title, content, userid, username):
     # 修改公告信息
     # result=0  更新成功
     # result=1  更新失败
     # result=2  数据重复
     db, cursor = database.connectToDataBase()
-    sql = "UPDATE NOTICES SET TITLE = '%s', CONTENT= '%s',CREATEDATE= '%s', USERID = '%d',USERNAME='%s' \
-             WHERE NOTICEID = '%d' " % (title, content, createdate, userid, username, noticeid)
+    sql = "UPDATE NOTICES SET TITLE = '%s', CONTENT= '%s', USERID = '%d',USERNAME='%s' \
+             WHERE NOTICEID = '%d' " % (title, content, userid, username, noticeid)
     # 包括自己只能有一个
     sql2 = "SELECT * FROM NOTICES WHERE title= '%s' " % (title)
     sql3 = "SELECT * FROM NOTICES WHERE NOTICEID= '%d' " % (noticeid)
@@ -85,7 +85,7 @@ def delOneNotice(noticeid):
     return 1
 
 
-def addOneNotice(title, content, createdate, userid, username):
+def addOneNotice(title, content, userid, username):
     # 新增公告
     # result=0  新增成功
     # result=1  新增失败
@@ -97,9 +97,9 @@ def addOneNotice(title, content, createdate, userid, username):
     cursor.execute(sql3)
     info = cursor.fetchall()
     if str(info) == "()":
-        sql = "INSERT INTO NOTICES(TITLE, CONTENT,CREATEDATE,USERID,USERNAME) \
-                VALUES('%s','%s','%s','%d','%s')" % \
-                    (title, content, createdate, userid, username)
+        sql = "INSERT INTO NOTICES(TITLE, CONTENT,USERID,USERNAME) \
+                VALUES('%s','%s','%d','%s')" % \
+                    (title, content, userid, username)
         try:
             cursor.execute(sql)
             db.commit()
