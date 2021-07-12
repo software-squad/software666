@@ -3,11 +3,11 @@
 		<u-gap height="40"></u-gap>
 		<text>文档标题</text>
 		<u-gap height="10"></u-gap>
-		<u-input type="text" :border="true" placeholder="请输入文档标题" />
+		<u-input type="text" :border="true" placeholder="请输入文档标题" v-model="item.title"/>
 		<u-gap height="30"></u-gap>
 		<text>文档描述</text>
 		<u-gap height="10"></u-gap>
-		<u-input type="textarea" height="700" :border="true" placeholder="请输入文档描述" />
+		<u-input type="textarea" height="700" :border="true" placeholder="请输入文档描述" v-model="item.remark"/>
 		<u-gap height="30"></u-gap>
 		<text>文档</text>
 		<u-image width="10%" height="80" src="/static/tab_icons/download.png"></u-image>
@@ -25,23 +25,7 @@
 	export default {
 		data() {
 			return {
-				filesList: [{
-					fileid: 1,
-					title: "《摸鱼：从入职到加薪》",
-					filename: "《摸鱼：从入职到加薪》",
-					remark: null,
-					createdate: "2021-07-09",
-					username: "李华",
-					filepath: "C:/公司资料"
-				}, {
-					fileid: 8,
-					title: "《加薪》",
-					filename: "《摸鱼：从入职到加薪》",
-					remark: null,
-					createdate: "2021-07-10",
-					username: "李华",
-					filepath: "C:/公司资料"
-				}]
+				item:{}
 			}
 		},
 		onLoad: function(option) {

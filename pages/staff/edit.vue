@@ -70,6 +70,7 @@
 </template>
 
 <script>
+	import request from '@../../api/request.js'
 	export default {
 		name: 'staffForm',
 		data() {
@@ -91,59 +92,7 @@
 					label: '普通用户',
 					value: 0
 				}, ],
-				posList: [{
-						value: 0,
-						label: '技术部',
-						children: [{
-								label: 'java工程师',
-								value: 0,
-							},
-							{
-								label: 'python工程师',
-								value: 1,
-							}
-						]
-					},
-					{
-						value: 1,
-						label: '人事部',
-						children: [{
-								label: '经理',
-								value: 0,
-							},
-							{
-								label: '打工人',
-								value: 1,
-							}
-						]
-					},
-					{
-						value: 2,
-						label: '生活部',
-						children: [{
-								label: '主厨',
-								value: 0,
-							},
-							{
-								label: '小二',
-								value: 1,
-							}
-						]
-					},
-					{
-						value: 3,
-						label: '后勤部',
-						children: [{
-								label: '清洁工',
-								value: 0,
-							},
-							{
-								label: '保安',
-								value: 1,
-							}
-						]
-					}
-				],
+				posList: [],
 				sexList: [{
 						value: '0',
 						label: '保密'
@@ -185,7 +134,9 @@
 					cardid: '',
 					sex: '', // Not Null
 					deptname: '', // Not Null
+					deptid: '',
 					jobname: '', // Not Null
+					jobid: '',
 					education: '',
 					email: '',
 					tel: '', // Not Null
@@ -194,9 +145,6 @@
 					address: '',
 					postcode: '',
 					birthday: '',
-
-					loginname: '',
-					password: '',
 					status: '',
 					// '民族',
 					// '所学专业',
@@ -297,12 +245,22 @@
 				this.$refs.uForm.validate(valid => {
 					console.log("正在提交")
 					console.log(this.form)
-					this.form.address = this.rangeAddress + this.detailAddress
 					if (valid) {
 						console.log('验证通过');
+						this.form.address = this.rangeAddress + this.detailAddress
+						request({
+							url: "/api/staff/editSubmit",
+							data: {
+								staff: this.form,
+							},
+							method: 'POST'
+						}).then(res => {
+							console.log('修改成功')
+						})
 					} else {
 						console.log('验证失败');
 					}
+
 				});
 			},
 			statusConfirm(e) {
@@ -317,7 +275,9 @@
 			posConfirm(e) {
 				this.posSelRes = e[0].label + " " + e[1].label
 				this.form.deptname = e[0].label
+				this.form.deptid = e[0].value
 				this.form.jobname = e[1].label
+				this.form.jobid = e[1].value
 				console.log(e)
 			},
 			eduConfirm(e) {
@@ -340,39 +300,29 @@
 			this.$refs.uForm.setRules(this.rules);
 		},
 		onLoad() {
-			// TODO 你们过来的数据
-			// let form = {
-			// 		username: '华晨宇', // Not Null
-			// 		cardid: '520131415926771111',
-			// 		sex: '男', // Not Null
-			// 		deptname: '技术部', // Not Null
-			// 		jobname: 'java工程师', // Not Null
-			// 		education: '本科',
-			// 		email: '199@qq.com',
-			// 		tel: '15387622222', // Not Null
-			// 		party: '群众',
-			// 		qqnum: '111',
-			// 		address: '四川省南充市仪陇县四组',
-			// 		postcode: '111',
-			// 		birthday: '2020-03-12',
-			// 		loginname: 'huachenyu',
-			// 		password: 'huahcenyu',
-			// 		status: '0'
-			// 	}
-			uni.request({
+			request({
+				url: '/api/staff/index',
+				// url:'http://192.168.0.106:8082/api/staff/index',
+				method: "GET",
+				}).then(res=>{
+					console.log(res)
+					this.posList = res.data.data
+				})
+			request({
 				url: "/api/staff/oneByUserid",
 				data: {
-					userid: 1,
+					userid: 14,
 				},
-				success: (res) => {
+				method:'GET',
+				}).then(res=>{
 					console.log(res)
 					let form = res.data.data
 					this.form = form
 					console.log(this.form)
 					this.posSelRes = form.deptname + " " + form.jobname
 					this.rangeAddress = form.address
-				}
-			})
+				})
+
 
 
 		}

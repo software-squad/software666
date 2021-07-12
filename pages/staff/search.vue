@@ -10,7 +10,7 @@
 
 		<view class="u-search-box">
 			<u-search v-model='kw' :show-action="true" action-text="搜索" :animation="true" placeholder='请输入员工姓名，不支持模糊搜索'
-				@search='gotoSearch' @custom='gotoSearch'></u-search>
+				@search='gotoSearch' @custom='gotoSearch' @change="change"></u-search>
 		</view>
 
 		<!-- 搜索建议列表 -->
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+	import request from '@../../api/request.js'
 	export default {
 		data() {
 			return {
@@ -72,6 +73,7 @@
 				delShow: false,
 				delContent: '',
 				delIndex: '',
+				delId:'',
 				options: [{ text: '编辑',
 						style: { backgroundColor: '#007aff'}},
 					{ text: '删除',
@@ -108,20 +110,33 @@
 					return
 				}
 
-				uni.request({
+				// uni.request({
+				// 	url: '/api/staff/showUserByUsername',
+				// 	method: 'GET',
+				// 	data: {
+				// 		username: this.kw
+				// 	},
+				// 	success: (res) => {
+				// 		console.log(res)
+				// 		if (res.data.code !== 200) alert(res.data.msg)
+				// 		this.searchResults = res.data.data
+				// 		this.saveSearchHistory()
+				// 	}
+				// })
+				
+				request({
 					url: '/api/staff/showUserByUsername',
-					method: 'GET',
-					data: {
-						username: this.kw
+					data:{
+						username:this.kw,
 					},
-					success: (res) => {
-						console.log(res)
-						if (res.data.code !== 200) alert(res.data.msg)
-						this.searchResults = res.data.data
-						this.saveSearchHistory()
-					}
+					method: 'GET',
+				}).then(res=>{
+					console.log(res)
+					if (res.data.code !== 200) alert(res.data.msg)
+					this.searchResults = res.data.data
+					this.saveSearchHistory()
 				})
-
+				
 				// const {
 				// 	data: res
 				// } = await uni.$http.get('/api/staff/showUserByUsername', {
@@ -165,6 +180,7 @@
 					this.delShow = true
 					this.delContent = "确认删除" + this.searchResults[index].username + "？"
 					this.delIndex = index
+					this.delId = this.searchResults[index].userid
 				} else {
 					this.navToEdit(index)
 				}
@@ -191,26 +207,39 @@
 				console.log(item)
 				uni.navigateTo({
 					url: '/pages/staff/edit?item=' + item,
-					success() {
-						console.log("编辑成功")
-					},
-					fail() {
-						console.log("编辑失败")
-					}
+					// success() {
+					// 	console.log("编辑成功")
+					// },
+					// fail() {
+					// 	console.log("编辑失败")
+					// }
 
 				})
 			},
 			confirmDel() {
 				let index = this.delIndex
-				uni.request({
-					url: '/staff/del',
+				// uni.request({
+				// 	url: '/api/staff/del',
+				// 	method: 'GET',
+				// 	success: (res) => {
+				// 		// TODO 更友好的提示
+				// 		// this.$u.toast(`删除了第${index}个cell`);
+				// 		this.searchResults.splice(index, 1);
+				// 	}
+				// })
+				
+				request({
+					url: '/api/staff/del',
+					data:{
+						userid:this.delId,
+					},
 					method: 'GET',
-					success: (res) => {
-						// TODO 更友好的提示
-						// this.$u.toast(`删除了第${index}个cell`);
-						this.searchResults.splice(index, 1);
-					}
+				}).then(res=>{
+					// TODO 更友好的提示
+					// this.$u.toast(`删除了第${index}个cell`);
+					this.searchResults.splice(index, 1);
 				})
+				
 				this.delShow = false
 				this.$u.toast(`删除成功`);
 			},

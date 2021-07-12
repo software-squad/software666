@@ -11,7 +11,7 @@
 				:scroll-top="scrollTop" :scroll-into-view="itemId">
 				<view v-for="(item,index) in tabbar" :key="index" class="u-tab-item"
 					:class="[current==index?'u-tab-item-active':'']" @tap.stop="swichMenu(index)">
-					<text class="u-line-1">{{item.deptname}}</text>
+					<text class="u-line-1">{{item.label}}</text>
 				</view>
 			</scroll-view>
 			
@@ -21,11 +21,11 @@
 					<view class="class-item" :id="'item'+current">
 						<!-- 展示部门名称 -->
 						<!-- <view class="item-title">
-						<text>{{tabbar[current].name}}</text>
+						<text>{{tabbar[current].label}}</text>
 					</view> -->
 						<view class="item-container">
-							<view class="thumb-box" v-for="(it,id) in tabbar[current].jobs" :key="id" @click="navToSearchByDeptAndJob(tabbar[current],it)">
-								<view class="item-menu-name">{{it.jobname}}</view>
+							<view class="thumb-box" v-for="(it,id) in tabbar[current].children" :key="id" @click="navToSearchByDeptAndJob(tabbar[current],it)">
+								<view class="item-menu-name">{{it.label}}</view>
 							</view>
 						</view>
 					</view>
@@ -36,7 +36,8 @@
 	</view>
 </template>
 <script>
-	// import classifyData from '@../../common/classify.data.js';
+	import classifyData from '@../../common/classify.data.js';
+	import request from '@../../api/request.js'
 	export default {
 		data() {
 			return {
@@ -51,26 +52,40 @@
 				scrollRightTop: 0, // 右边栏目scroll-view的滚动条高度
 				timer: null, // 定时器
 				tabbar: '',
-
 			}
 		},
 		onLoad() {
 			console.log("加载中")
 			let _this = this
-			uni.request({
+			// uni.request({
+			// 	url:'/api/staff/index',
+			// 	// url:'http://192.168.0.106:8082/api/staff/index',
+			// 	method:"GET",
+			// 	// header:{
+					
+			// 	// }
+			// 	success: (res)=>{
+			// 		console.log(res)
+			// 		_this.tabbar = res.data.data
+			// 		console.log(this.tabbar)
+			// 	}
+			// })
+			request({
 				url:'/api/staff/index',
 				method:"GET",
-				success: (res)=>{
-					console.log(res)
-					_this.tabbar = res.data.data
-					console.log(this.tabbar)
-				}
+			}).then(res=>{
+				console.log('返回中')
+				console.log(res)
+				_this.tabbar = res.data.data
+				console.log(this.tabbar)
+				console.log("加载结束")
+			}).catch(err=>{
+				console.log("错误")
 			})
-			console.log("加载结束")
 		},
-		onReady() {
-			this.getMenuItemTop()
-		},
+		// onReady() {
+		// 	this.getMenuItemTop()
+		// },
 		methods: {
 			// 点击搜索事件
 			navToSearchByUsername(){
@@ -83,7 +98,7 @@
 			},
 			navToSearchByDeptAndJob(dept,job){
 				uni.navigateTo({
-					url:'/pages/staff/show?deptid='+dept.deptid+"&jobid="+job.jobid+"&jobname="+job.jobname
+					url:'/pages/staff/show?deptid='+dept.value+"&jobid="+job.value+"&jobname="+job.label
 				})
 			},
 			// 点击左边的栏目切换

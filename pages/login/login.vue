@@ -84,6 +84,19 @@
 				// 		})
 				// 	})
 				// TODO 页面跳转逻辑
+				uni.request({
+					url:'/api/login',
+					method:'POST',
+					data:{
+						loginname: this.loginname,
+						password: this.password,
+					},
+					success: (res) => {
+						console.log(res)
+						uni.setStorageSync('token',res.data.data.token)
+						uni.setStorageSync('currentid',res.data.data.userid)
+					}
+				})
 				console.log('开始跳转中')
 				uni.switchTab({
 					url:'../menu/menu',

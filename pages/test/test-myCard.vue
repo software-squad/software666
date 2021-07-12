@@ -31,7 +31,6 @@
 </template>
 
 <script>
-	import request from '@../../api/request.js'
 	export default {
 		data() {
 			return {
@@ -67,19 +66,21 @@
 			})
 		},
 		onLoad: function(item) {
+			uni.setNavigationBarTitle({
+				title:'测试卡片子组件'
+			})
 			console.log('根据部门和职业搜索员工')
 			console.log(item)
 			uni.setNavigationBarTitle({
 				title: item.jobname
 			})
-			request({
+			uni.request({
 				url: "/api/staff/showUserByDeptAndJob",
 				data: {
 					deptid: item.deptid,
 					jobid: item.jobid
 				},
-				method:'POST',
-				}).then(res=>{
+				success: (res) => {
 					// console.log(res)
 					this.searchResults = res.data.data
 					console.log('设置show')
@@ -90,7 +91,8 @@
 						}
 					}
 					console.log(this.searchResults)
-				})
+				}
+			})
 			console.log(this.searchResults)
 		},
 		methods: {
@@ -136,14 +138,15 @@
 			},
 			confirmDel() {
 				let index = this.delIndex
-				request({
+				uni.request({
 					url: '/api/staff/del',
 					method: 'GET',
-					}).then(res=>{
+					success: (res) => {
 						// TODO 更友好的提示
 						// this.$u.toast(`删除了第${index}个cell`);
 						this.searchResults.splice(index, 1);
-					})
+					}
+				})
 				this.delShow = false
 				this.$u.toast(`删除成功`);
 			},
@@ -158,14 +161,14 @@
 <style>
 	
 	.page-inner{
-		background-color: #fafafa;
+		background-color: #f6f6f6;
 		height: calc(100vh);
 		/* #ifdef H5 */
 		height: calc(100vh - var(--window-top));
 		/* #endif */
 		display: flex;
 		flex-direction: column;
-		/* border-style: solid; */
+		border-style: solid;
 	}
 	.u-card-wrap {
 		background-color: #FFFFFF;

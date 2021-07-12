@@ -84,6 +84,7 @@
 </template>
 
 <script>
+	import request from '@../../api/request.js'
 	export default {
 		name: 'staffForm',
 		data() {
@@ -105,59 +106,7 @@
 					label: '普通用户',
 					value: 0
 				}, ],
-				posList: [{
-						value: 0,
-						label: '技术部',
-						children: [{
-								label: 'java工程师',
-								value: 0,
-							},
-							{
-								label: 'python工程师',
-								value: 1,
-							}
-						]
-					},
-					{
-						value: 1,
-						label: '人事部',
-						children: [{
-								label: '经理',
-								value: 0,
-							},
-							{
-								label: '打工人',
-								value: 1,
-							}
-						]
-					},
-					{
-						value: 2,
-						label: '生活部',
-						children: [{
-								label: '主厨',
-								value: 0,
-							},
-							{
-								label: '小二',
-								value: 1,
-							}
-						]
-					},
-					{
-						value: 3,
-						label: '后勤部',
-						children: [{
-								label: '清洁工',
-								value: 0,
-							},
-							{
-								label: '保安',
-								value: 1,
-							}
-						]
-					}
-				],
+				posList: [],
 				sexList: [{
 						value: '0',
 						label: '保密'
@@ -199,7 +148,9 @@
 					cardid: '',
 					sex: '', // Not Null
 					deptname: '', // Not Null
+					deptid:'',
 					jobname: '', // Not Null
+					jobid:'',
 					education: '',
 					email: '',
 					tel: '', // Not Null
@@ -208,9 +159,6 @@
 					address: '',
 					postcode: '',
 					birthday: '',
-
-					loginname: '',
-					password: '',
 					status: '',
 					// '民族',
 					// '所学专业',
@@ -237,21 +185,6 @@
 					// '备注'
 				],
 				rules: {
-					loginname: [{
-						required: true,
-						message: '账户名不能为空',
-						trigger: ['change', 'blur']
-					}, ],
-					password: [{
-						required: true,
-						message: '密码不能为空',
-						trigger: ['change', 'blur']
-					}, ],
-					status: [{
-						required: true,
-						message: '权限不能为空',
-						trigger: ['change', 'blur']
-					}, ],
 					username: [{
 						required: true,
 						message: '姓名不能为空',
@@ -304,13 +237,13 @@
 						message: "QQ号码格式不正确",
 						trigger: ['change', 'blur']
 					}, ],
-
+	
 					postcode: [{
 						type: 'number',
 						message: "邮编格式不正确",
 						trigger: ['change', 'blur']
 					}, ]
-
+	
 				},
 				// 文字提示
 				errorType: ['message'],
@@ -320,18 +253,27 @@
 				// errorType: ['message', 'border-bottom'],
 			}
 		},
-
+	
 		methods: {
 			formSubmit() {
 				this.$refs.uForm.validate(valid => {
 					console.log("正在提交")
 					console.log(this.form)
-					this.form.address = this.rangeAddress + this.detailAddress
 					if (valid) {
-						console.log('验证通过');
+						this.form.address = this.rangeAddress + this.detailAddress
+						request({
+							url: "/api/staff/editSubmit",
+							data: {
+								staff: this.form,
+							},
+							method: 'POST'
+						}).then(res => {
+							console.log('修改成功')
+						})
 					} else {
 						console.log('验证失败');
 					}
+					
 				});
 			},
 			statusConfirm(e) {
@@ -346,7 +288,9 @@
 			posConfirm(e) {
 				this.posSelRes = e[0].label + " " + e[1].label
 				this.form.deptname = e[0].label
+				this.form.deptid = e[0].value
 				this.form.jobname = e[1].label
+				this.form.jobid = e[1].value
 				console.log(e)
 			},
 			eduConfirm(e) {
@@ -361,7 +305,7 @@
 				console.log(e)
 				this.form.birthday = e.result
 			}
-
+	
 		},
 		// 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
 		onReady() {
@@ -369,9 +313,19 @@
 			this.$refs.uForm.setRules(this.rules);
 		},
 		onLoad() {
-
+			uni.request({
+				url:'/api/staff/index',
+				// url:'http://192.168.0.106:8082/api/staff/index',
+				method:"GET",
+				header: {
+					'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjYwNjQyMDMuNDI1Mjg3NywibmFtZSI6InN1cGVybWFuIn0.cvNLYSAhGBP3RLQkV4359GhRGoUgwMwCBTOH1q5v77w' //自定义请求头信息
+				},
+				success: (res)=>{
+					console.log(res)
+					this.posList = res.data.data
+				}
+			})
 		}
-
 	}
 </script>
 

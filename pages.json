@@ -219,16 +219,6 @@
 			}
 
 		}, {
-			"path": "pages/staff/index",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
-				"app-plus": {
-					"titleNView": false
-				}
-			}
-
-		}, {
 			"path": "pages/staff/edit",
 			"style": {
 				"navigationBarTitleText": "编辑信息",
@@ -262,7 +252,7 @@
 		}, {
 			"path": "pages/staff/index",
 			"style": {
-				"navigationBarTitleText": "CSI员工之家",
+				"navigationBarTitleText": "员工中心",
 				"enablePullDownRefresh": false
 			}
 
@@ -326,6 +316,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/test/test-myCard",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white", //状态栏字体颜色
@@ -373,7 +372,7 @@
 			},
 			{
 				"pagePath": "pages/user/user",
-				"text": "个人中心",
+				"text": "我的",
 				"iconPath": "static/tab_icons/user.png",
 				"selectedIconPath": "static/tab_icons/userHL.png"
 			}

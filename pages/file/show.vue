@@ -2,8 +2,8 @@
 	<view>
 		<u-gap height="10"></u-gap>
 		<u-search @click="navToSearchByFilename" placeholder="请输入文件名称" ></u-search>
-
-		<view :index="index" v-for="(item,index) in filesList" @click="navToOne(index)">
+		
+		<view :index="index" :key="item.fileid" v-for="(item,index) in filesList" @click="navToOne(index)">
 			<view class="u-body-item">
 				<!-- <image :src="item.faceurl" mode="aspectFill" class="avatar-item"></image> -->
 				<view class="info-item" style="font-weight: bold;">文件标题：{{item.title}}</view>
@@ -18,30 +18,25 @@
 	export default {
 		data() {
 			return {
-				filesList: [{
-					fileid: 1,
-					title: "《摸鱼：从入职到加薪》",
-					filename: "《摸鱼：从入职到加薪》",
-					remark: null,
-					createdate: "2021-07-09",
-					username: "李华",
-					filepath: "C:/公司资料"
-				}, {
-					fileid: 8,
-					title: "《加薪》",
-					filename: "《摸鱼：从入职到加薪》",
-					remark: null,
-					createdate: "2021-07-10",
-					username: "李华",
-					filepath: "C:/公司资料"
-				}]
-
+				filesList: [],
 			}
 		},
-		onLoad: function(option) {
-			const item = JSON.parse(decodeURIComponent(option.item));
-			console.log(item.title); //打印出上个页面传递的参数。
-			console.log(item.filename); //打印出上个页面传递的参数。
+			
+		async onLoad(){
+			await uni.request({
+				url:'/api/file/showmany',
+				method:'GET',
+				success: (res) => {
+					if(res.data.msg=="10001"){
+						this.filesList = res.data.data
+					}else{
+						this.$u.toast(`数据获取失败`);
+					}
+				},
+				fail(){
+					this.$u.toast(`数据获取失败`);
+				}
+			})
 		},
 		methods: {
 			onNavigationBarButtonTap: function(e) {
@@ -50,12 +45,10 @@
 				})
 			},
 			navToOne(index) {
-				this.item = this.filesList[index]
+				let item = encodeURIComponent(JSON.stringify(this.filesList[index]))
 				uni.navigateTo({
-					url: 'one?item=' + encodeURIComponent(JSON.stringify(this.item))
+					url: 'one?item=' + item
 				})
-				console.log(this.item.title);
-				console.log(this.item.filename);
 			},	
 			navToSearchByFilename(){
 				uni.navigateTo({
