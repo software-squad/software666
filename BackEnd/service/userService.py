@@ -1,6 +1,6 @@
-from fastapi import status
+from fastapi import status, UploadFile
 from dao import userDao
-from util import msg_code, pwd_encode
+from util import msg_code, pwd_encode, face_recognition
 
 
 def changePassword(user):
@@ -15,9 +15,14 @@ def changePassword(user):
         return status_code, msg_code.UPD_SUCCESS
 
 
-def faceRegister(user):
-    # 刷脸登记
-    status_code = userDao.edit('USERID', user.userid, 'FACEURL', user.image)
+def faceRegister(contentsByte, image: UploadFile, userid: int):
+    # 将上传的人脸图片保存在本地
+    imagePath = face_recognition.uploadFile2ImageStr64(contentsByte,
+                                                       image,
+                                                       userid)
+    status_code = userDao.edit('userid', userid, 'facepath', imagePath)
+    # with open("./faceImage/%d%s"%(userid,image.filename), 'wb') as f:
+    #     f.write(contentsByte)
     code = msg_code.UPD_SUCCESS
     if status_code == msg_code.UPD_FAILURE:
         code = msg_code.UPD_FAILURE

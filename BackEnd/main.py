@@ -36,12 +36,19 @@ app.include_router(document.router, prefix="/api/file")
 @app.middleware('http')
 async def add_process_time_header(request: Request, call_next):
     response = await call_next(request)
-    print(request.headers)
-    if 'token' not in request.headers.keys() or \
-       jwt_decode.jwtEncode(request.headers['token']) is None:
+    url = str(request.url)
+    try:
+        last = url[url.rindex('/') + 1:]
+        print(last)
+        if last != 'login' and last != 'docs' and last != 'openapi.json':
+            if 'token' not in request.headers.keys() or \
+               jwt_decode.jwtEncode(request.headers['token']) is None:
+                return response_code.response(status.HTTP_401_UNAUTHORIZED,
+                                              'not allowed')
+    except Exception:
         return response_code.response(status.HTTP_401_UNAUTHORIZED,
                                       'not allowed')
     return response
 
 if __name__ == '__main__':
-    uvicorn.run("main:app", reload=True, host='192.168.0.106', port=8082)
+    uvicorn.run("main:app", reload=False, host='192.168.0.106', port=8082)
