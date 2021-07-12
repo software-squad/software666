@@ -1,10 +1,12 @@
-from fastapi import APIRouter, UploadFile, File, Form
+from fastapi import APIRouter, UploadFile, File, Form, status
 
-from util import response_code
+from util import response_code, msg_code
 
 from service import documentService
 
 from model import document_inf
+
+from starlette.responses import FileResponse
 
 # 构建api路由
 router = APIRouter()
@@ -41,3 +43,16 @@ async def uploadFile(file: UploadFile = File(...), fileMsg: str = Form(...)):
         f.write(contents)
     status_code, msg_code = documentService.uploadFile(fileMsg, file)
     return response_code.response(status_code, msg_code)
+
+
+@router.get("/download", tags=["document"])
+async def downloadFile(fileid):
+    # 下载文件
+    status_code, file_path, msg_code1 = documentService.downloadFile(fileid)
+    print(file_path)
+    if status_code == status.HTTP_200_OK and \
+       msg_code1 == msg_code.SEARCH_SUCCESS:
+        return FileResponse(file_path, filename=file_path[
+                                                file_path.rindex('/') + 1:])
+    else:
+        return response_code.response(status_code, msg_code1)

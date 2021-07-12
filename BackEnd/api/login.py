@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, UploadFile, File, Form
 
 from util import response_code
 
@@ -18,7 +18,11 @@ async def loginByNameAndPwd(user: login_inf.LoginInf):
 
 
 @router.post("/facelogin", tags=["login"])
-async def loginByFace(user: login_inf.FaceLoginInf):
+async def loginByFace(faceImage: UploadFile = File(...),
+                      loginname: str = Form(...)):
     # 刷脸登录
-    status_code, result, msg_code = loginService.validateUserByFace(user)
+    faceByte = await faceImage.read()  # 获得刷脸时上传照片的字节
+    status_code, result, msg_code = loginService.validateUserByFace(faceByte,
+                                                                    faceImage,
+                                                                    loginname)
     return response_code.response(status_code, msg_code, result)

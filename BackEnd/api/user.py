@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, UploadFile, File, Form
 
 from util import response_code
 
@@ -18,7 +18,10 @@ async def changePassword(user: user_inf.PwdChange):
 
 
 @router.post("/facereg", tags=["user"])
-async def faceRegister(user: user_inf.FaceReg):
+async def faceRegister(image: UploadFile = File(...), userid: int = Form(...)):
     # 刷脸登记
-    status_code, msg_code = userService.faceRegister(user)
+    contentsByte = await image.read()
+    status_code, msg_code = userService.faceRegister(contentsByte,
+                                                     image,
+                                                     userid)
     return response_code.response(status_code, msg_code)

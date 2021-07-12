@@ -12,8 +12,15 @@ def getDept():
     new_result = []
     for item in result:
         temp = {}
-        temp["deptid"] = item["deptid"]
-        temp["deptname"] = item["deptname"]
+        temp["value"] = item["deptid"]
+        temp["label"] = item["deptname"]
+        temp["children"] = []
+        status_code1, result1 = jobDao.select('DEPTID', item['deptid'])
+        for item1 in result1:
+            temp1 = {}
+            temp1["value"] = item1["jobid"]
+            temp1["label"] = item1["jobname"]
+            temp["children"].append(temp1)
         new_result.append(temp)
     return status_code, new_result, code
 
@@ -47,6 +54,10 @@ def searchByDeptAndJob(staff):
         temp["username"] = item["username"]
         temp["jobname"] = item["jobname"]
         temp["tel"] = item["tel"]
+        temp["faceurl"] = item["faceurl"]
+        temp["deptname"] = item["deptname"]
+        temp["sex"] = item["sex"]
+        temp["remark"] = item["remark"]
         new_result.append(temp)
     return status_code, new_result, code
 
@@ -64,6 +75,10 @@ def searchByUsername(username):
         temp["username"] = item["username"]
         temp["jobname"] = item["jobname"]
         temp["tel"] = item["tel"]
+        temp["faceurl"] = item["faceurl"]
+        temp["deptname"] = item["deptname"]
+        temp["sex"] = item["sex"]
+        temp["remark"] = item["remark"]
         new_result.append(temp)
     return status_code, new_result, code
 
@@ -74,6 +89,13 @@ def showOneStaff(userid):
     code = msg_code.SEARCH_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.SEARCH_FAILURE
+    else:
+        result = result[0]
+        del result['loginname']
+        del result['password']
+        del result['deptid']
+        del result['jobid']
+        del result['createdate']
     return status_code, result, code
 
 
@@ -93,11 +115,23 @@ def addStaff(staff):
     return status_code, code
 
 
-def editStaff(staff):
+def editStaffShow(userid):
+    # 编辑员工信息前，先传递原本信息
+    status_code, result = staffDao.select('USERID', userid)
+    code = msg_code.SEARCH_SUCCESS
+    if status_code == status.HTTP_400_BAD_REQUEST:
+        code = msg_code.SEARCH_FAILURE
+    else:
+        result = result[0]
+        result['loginname'] = ''
+        result['password'] = ''
+        result['createdate'] = ''
+    return status_code, result, code
+
+
+def editStaffSubmit(staff):
     # 修改员工信息
     status_code = []
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'USERID', staff.userid))
     status_code.append(staffDao.edit('USERID', staff.userid,
                                      'USERNAME', staff.username))
     status_code.append(staffDao.edit('USERID', staff.userid,
@@ -125,13 +159,7 @@ def editStaff(staff):
     status_code.append(staffDao.edit('USERID', staff.userid,
                                      'BIRTHDAY', staff.birthday))
     status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'LOGINNAME', staff.loginname))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'PASSWORD', staff.password))
-    status_code.append(staffDao.edit('USERID', staff.userid,
                                      'STATUS', staff.status))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'CREATEDATE', staff.createdate))
     status_code.append(staffDao.edit('USERID', staff.userid,
                                      'FACEURL', staff.faceurl))
     status_code.append(staffDao.edit('USERID', staff.userid,
@@ -149,9 +177,9 @@ def editStaff(staff):
     return status_code, code
 
 
-def delStaff(staff):
+def delStaff(userid):
     # 删除员工
-    status_code = staffDao.delete('USERID', staff.userid)
+    status_code = staffDao.delete('USERID', userid)
     code = msg_code.DEL_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.DEL_FAILURE

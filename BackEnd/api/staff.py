@@ -48,15 +48,23 @@ async def addStaff(staff: staff_inf.StaffInf):
     return response_code.response(status_code, msg_code)
 
 
-@router.post("/edit", tags=["staff"])
-async def editStaff(staff: staff_inf.StaffInf):
+@router.get("/editByUserid", tags=["staff"])
+async def editStaffByUserid(userid: int):
     # 编辑员工信息
-    status_code, msg_code = staffService.editStaff(staff)
+    status_code, result, msg_code = staffService.editStaffShow(userid)
+    return response_code.response(status_code, msg_code, result)
+
+
+@router.post("/editSubmit", tags=["staff"])
+async def editStaffSubmit(staff: staff_inf.StaffInf):
+    # 编辑员工信息，提交环节
+    print(staff.loginname)
+    status_code, msg_code = staffService.editStaffSubmit(staff)
     return response_code.response(status_code, msg_code)
 
 
-@router.post("/del", tags=["staff"])
-async def delStaff(staff: staff_inf.StaffInf):
+@router.get("/del", tags=["staff"])
+async def delStaff(userid: int):
     # 删除员工
-    status_code, msg_code = staffService.delStaff(staff)
+    status_code, msg_code = staffService.delStaff(userid)
     return response_code.response(status_code, msg_code)

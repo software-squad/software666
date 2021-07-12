@@ -39,12 +39,12 @@ def selectBy2(index1, value1, index2, value2):
 def insert(item):
     db, cursor = database.connectToDataBase()
     sql = """INSERT INTO %s VALUES(DEFAULT,'%s','%s','%s','%s','%s','%s','%s','%s','%s',
-             '%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')""" %\
+             '%s','%s','%s','%s','%s','%s','%s',DEFAULT,'%s','%s','%s','%s','%s')""" %\
           (datalist, item.username, item.cardid, item.sex, item.jobid,
            item.education, item.email, item.deptid, item.tel, item.party,
            item.qqnum, item.address, item.postcode, item.birthday,
-           item.loginname, item.password, item.status, item.createdate,
-           item.faceurl, item.facepath, item.deptname, item.jobname)
+           item.loginname, item.password, item.status, item.faceurl,
+           item.facepath, item.deptname, item.jobname, item.remark)
     status_code = status.HTTP_200_OK
     try:
         cursor.execute(sql)

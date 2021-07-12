@@ -1,24 +1,10 @@
-
-# encoding:utf-8
-# import requests
-
-# client_id 为官网获取的AK， client_secret 为官网获取的SK
-# host = 'https://aip.baidubce.com/oauth/2.0/token?grant_type=
-#         client_credentials&client_id=bBdtji1hAx5h0VONFP1AS942&client_secret=auANLlS4mnRFDVUrz56t72Z9XrlRzALb'
-# response = requests.get(host)
-# if response:
-#     print(response.json())
-
-# https://aip.baidubce.com/rest/2.0/face/v1/merge?access_token=24.f9ba9c5341b67688ab4added8bc91dec.2592000.1485570332.282335-8574074
-
-
-# encoding:utf-8
-
+from fastapi import UploadFile
 import requests
 import base64
+import os
 
 '''
-人脸对比
+人脸对比，图片传输
 '''
 
 
@@ -41,4 +27,26 @@ def faceMatch(img1_path, img2_path):
     response = requests.post(request_url, json=params, headers=headers)
     if response:
         print(response.json())
-    return response.json()
+    return response.json()['result']['score']
+
+
+def uploadFile2ImageStr64(contentsByte, image: UploadFile, userid):
+    with open("./faceImage/%d%s" % (userid, image.filename), 'wb') as f:
+        f.write(contentsByte)
+    # imageStr64 = str(base64.b64encode(open("./faceImage/%d%s"%(userid, image.filename), 'rb').read()),'utf-8')
+    return "./faceImage/%d%s" % (userid, image.filename)
+
+
+def createFacePath(faceByte, faceImage):
+    with open("./tempFace/%s" % (faceImage.filename), 'wb') as f:
+        f.write(faceByte)
+    return "./tempFace/%s" % (faceImage.filename)
+
+
+def delFaceTemp(facePath):
+    if os.path.exists(facePath):  # 如果文件存在
+        # 删除文件，可使用以下两种方法。
+        os.remove(facePath)
+        # os.unlink(path)
+    else:
+        print('no such file:%s' % facePath)  # 则返回文件不存在

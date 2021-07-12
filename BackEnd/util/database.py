@@ -1,7 +1,7 @@
 import pymysql
 
 
-def connectToDataBase(host="192.168.0.109", user="root",
+def connectToDataBase(host="192.168.0.101", user="root",
                       password="123456", database="software666"):
     db = pymysql.connect(host=host, user=user,
                          passwd=password, database=database)

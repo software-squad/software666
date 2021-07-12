@@ -27,7 +27,7 @@ def addDepartment(dept):
     return status_code, code
 
 
-def editDepartmentService(dept):
+def editDepartment(dept):
     # 编辑部门
     status_code, result = deptDao.select('DEPTNAME', dept.deptname)
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -39,6 +39,8 @@ def editDepartmentService(dept):
         status_code.append(deptDao.edit('DEPTID', dept.deptid,
                                         'DEPTNAME', dept.deptname))
         status_code.append(deptDao.edit('DEPTID', dept.deptid,
+                                        'DEPTURL', dept.depturl))
+        status_code.append(deptDao.edit('DEPTID', dept.deptid,
                                         'REMARK', dept.remark))
         if status.HTTP_400_BAD_REQUEST in status_code:
             status_code = status.HTTP_400_BAD_REQUEST
@@ -49,7 +51,7 @@ def editDepartmentService(dept):
     return status_code, code
 
 
-def delDepartmentService(dept):
+def delDepartment(dept):
     # 删除部门
     status_code = deptDao.delete('DEPTID', dept.deptid)
     code = msg_code.DEL_SUCCESS

@@ -9,6 +9,9 @@ def showFiles():
     code = msg_code.SEARCH_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.SEARCH_FAILURE
+    else:
+        for item in result:
+            item['createdate'] = str(item['createdate'])
     return status_code, result, code
 
 
@@ -21,8 +24,6 @@ def editFile(file):
                                         'FILENAME', file.filename))
     status_code.append(documentDao.edit('FILEID', file.fileid,
                                         'REMARK', file.remark))
-    status_code.append(documentDao.edit('FILEID', file.fileid,
-                                        'CREATEDATE', file.createdate))
     status_code.append(documentDao.edit('FILEID', file.fileid,
                                         'USERNAME', file.username))
     status_code.append(documentDao.edit('FILEID', file.fileid,
@@ -54,6 +55,12 @@ def uploadFile(fileMsg, file):
     return status_code, code
 
 
-# def downloadFile():
-#     result = True
-#     return result
+def downloadFile(fileid):
+    # 下载文件
+    status_code, result = documentDao.select('FILEID', fileid)
+    code = msg_code.SEARCH_SUCCESS
+    if status_code == status.HTTP_400_BAD_REQUEST:
+        code = msg_code.SEARCH_FAILURE
+    else:
+        result = result[0]
+    return status_code, result['filepath'] + result['filename'], code
