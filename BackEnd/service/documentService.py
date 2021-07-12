@@ -54,6 +54,9 @@ def uploadFile(fileMsg, file):
     return status_code, code
 
 
-# def downloadFile():
-#     result = True
-#     return result
+def downloadFile(fileid):
+    status_code, result = documentDao.select('FILEID', fileid)
+    code = msg_code.SEARCH_SUCCESS
+    if status_code == status.HTTP_400_BAD_REQUEST:
+        code = msg_code.SEARCH_FAILURE
+    return status_code, result['filepath'] + result['filename'], code
