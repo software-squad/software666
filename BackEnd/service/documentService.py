@@ -9,6 +9,9 @@ def showFiles():
     code = msg_code.SEARCH_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.SEARCH_FAILURE
+    else:
+        for item in result:
+            item['createdate'] = str(item['createdate'])
     return status_code, result, code
 
 
@@ -53,8 +56,11 @@ def uploadFile(fileMsg, file):
 
 
 def downloadFile(fileid):
+    # 下载文件
     status_code, result = documentDao.select('FILEID', fileid)
     code = msg_code.SEARCH_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.SEARCH_FAILURE
+    else:
+        result = result[0]
     return status_code, result['filepath'] + result['filename'], code

@@ -37,8 +37,8 @@ def select(index, value):
 
 def insert(item):
     db, cursor = database.connectToDataBase()
-    sql = "INSERT INTO %s VALUES(DEFAULT,'%s','%s')" % \
-          (datalist, item.deptname, item.remark)
+    sql = "INSERT INTO %s VALUES(DEFAULT,'%s','%s','%s')" % \
+          (datalist, item.deptname, item.depturl, item.remark)
     status_code = status.HTTP_200_OK
     try:
         cursor.execute(sql)

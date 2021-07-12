@@ -51,9 +51,10 @@ def edit(index, value, edit_index, edit_value):
 
 def insert(fileMsg, file):
     db, cursor = database.connectToDataBase()
-    sql = "INSERT INTO %s VALUES(DEFAULT,'%s','%s','%s','%s','%s','%s');" % \
-          (datalist, fileMsg['title'], file.filename, fileMsg['remark'],
-           fileMsg['createdate'], fileMsg['username'], './file')
+    sql = """INSERT INTO %s (TITLE, FILENAME, REMARK, USERNAME, FILEPATH)
+             VALUES ('%s','%s','%s','%s','%s');""" % (
+             datalist, fileMsg['title'], file.filename, fileMsg['remark'],
+             fileMsg['username'], './file/')
     status_code = status.HTTP_200_OK
     try:
         cursor.execute(sql)

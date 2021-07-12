@@ -24,6 +24,7 @@ class StaffInf(BaseModel):
     createdate: str
     deptname: str
     jobname: str
+    remark: str
 
 
 class StaffDeptAndJob(BaseModel):

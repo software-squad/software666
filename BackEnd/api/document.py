@@ -52,6 +52,7 @@ async def downloadFile(fileid):
     print(file_path)
     if status_code == status.HTTP_200_OK and \
        msg_code1 == msg_code.SEARCH_SUCCESS:
-        return FileResponse(file_path)
+        return FileResponse(file_path, filename=file_path[
+                                                file_path.rindex('/') + 1:])
     else:
         return response_code.response(status_code, msg_code1)
