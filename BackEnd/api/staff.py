@@ -51,8 +51,8 @@ async def addStaff(staff: staff_inf.StaffInf):
 @router.get("/editByUserid", tags=["staff"])
 async def editStaffByUserid(userid: int):
     # 编辑员工信息
-    status_code, msg_code = staffService.editStaffShow(userid)
-    return response_code.response(status_code, msg_code)
+    status_code, result, msg_code = staffService.editStaffShow(userid)
+    return response_code.response(status_code, msg_code, result)
 
 
 @router.post("/editSubmit", tags=["staff"])
