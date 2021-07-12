@@ -177,9 +177,9 @@ def editStaffSubmit(staff):
     return status_code, code
 
 
-def delStaff(staff):
+def delStaff(userid):
     # 删除员工
-    status_code = staffDao.delete('USERID', staff.userid)
+    status_code = staffDao.delete('USERID', userid)
     code = msg_code.DEL_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.DEL_FAILURE
