@@ -42,10 +42,10 @@ async def editNotice(notice: notice_inf.NoticeInf):
         return response_code.res_200(msg_code.DATA_REPEATED)
 
 
-@router.get("/del", tags=["notice"])
-async def delNotice(noticeid: int):
+@router.post("/del", tags=["notice"])
+async def delNotice(notice: notice_inf.DelNoticeInf):
     # 删除公告
-    result = noticeService.delNotice(noticeid)
+    result = noticeService.delNotice(notice)
     if result == 0:
         return response_code.res_200(msg_code.DEL_SUCCESS)
     if result == 1:
@@ -53,7 +53,7 @@ async def delNotice(noticeid: int):
 
 
 @router.post("/add", tags=["notice"])
-async def addNotice(notice: notice_inf.AddNoticeInf):
+async def addNotice(notice: notice_inf.NoticeInf):
     # 添加公告
     # result=0  新增成功
     # result=1  新增失败

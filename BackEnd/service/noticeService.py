@@ -25,9 +25,9 @@ def editNotice(notice):
     return res
 
 
-def delNotice(noticeid):
+def delNotice(notice):
     print("====删除单个公告信息====")
-    res = noticeDao.delOneNotice(noticeid)
+    res = noticeDao.delOneNotice(notice.noticeid)
     return res
 
 

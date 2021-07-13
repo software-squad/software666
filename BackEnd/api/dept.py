@@ -11,7 +11,7 @@ router = APIRouter()
 
 
 @router.get("/showAll", tags=["department"])
-async def showAllDepartments():
+async def showDepartments():
     # 展示所有部门
     status_code, depts, msg_code = deptService.showAllDepartments()
     return response_code.response(status_code, msg_code, depts)
@@ -32,7 +32,7 @@ async def editDepartment(dept: dept_inf.DeptInf):
 
 
 @router.post("/del", tags=["department"])
-async def delDepartment(dept: dept_inf.DeptInf):
+async def delDepartment(dept: dept_inf.DelDeptInf):
     # 删除部门
     status_code, msg_code = deptService.delDepartment(dept)
     return response_code.response(status_code, msg_code)

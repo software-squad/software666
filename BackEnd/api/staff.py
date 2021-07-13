@@ -11,7 +11,7 @@ router = APIRouter()
 
 
 @router.get("/index", tags=["staff"])
-async def showAllStaff(deptid: int = None):
+async def showStaffs(deptid: int = None):
     # 展示全体员工
     if deptid is None:
         status_code, staff, msg_code = staffService.getDept()

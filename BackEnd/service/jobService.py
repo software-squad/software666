@@ -22,7 +22,7 @@ def searchJob(jobname):
 
 def editJob(job):
     print("====编辑单个职位信息====")
-    res = jobDao.editOneJob(job.jobid, job.jobname, job.remark, job.deptid)
+    res = jobDao.editOneJob(job.jobid, job.jobname, job.remark)
     # 返回是否能成功编辑
     return res
 

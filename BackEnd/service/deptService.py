@@ -51,9 +51,9 @@ def editDepartment(dept):
     return status_code, code
 
 
-def delDepartment(deptid):
+def delDepartment(dept):
     # 删除部门
-    status_code = deptDao.delete('DEPTID', deptid)
+    status_code = deptDao.delete('DEPTID', dept.deptid)
     code = msg_code.DEL_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.DEL_FAILURE
