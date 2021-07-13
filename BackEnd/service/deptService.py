@@ -32,7 +32,7 @@ def editDepartment(dept):
     status_code, result = deptDao.select('DEPTNAME', dept.deptname)
     if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.UPD_FAILURE
-    elif result:
+    elif result and result[0]['deptid'] != dept.deptid:
         code = msg_code.DATA_REPEATED
     else:
         status_code = []

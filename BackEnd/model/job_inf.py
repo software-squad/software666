@@ -2,17 +2,12 @@ from pydantic import BaseModel
 
 
 class JobInf(BaseModel):
-    jobid: int
+    jobid: int = None
     jobname: str
     remark: str
-    deptid: int
+    deptname: str = None
+    deptid: int = None
 
 
 class DelJobInf(BaseModel):
     jobid: int
-
-
-class AddJobInf(BaseModel):
-    jobname: str
-    remark: str
-    deptid: int

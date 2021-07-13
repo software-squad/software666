@@ -11,14 +11,14 @@ router = APIRouter()
 
 
 @router.get("/showAll", tags=["department"])
-async def showAllDepartments():
+async def showDepartments():
     # 展示所有部门
     status_code, depts, msg_code = deptService.showAllDepartments()
     return response_code.response(status_code, msg_code, depts)
 
 
 @router.post("/add", tags=["department"])
-async def addDepartment(dept: dept_inf.AddDeptInf):
+async def addDepartment(dept: dept_inf.DeptInf):
     # 增添部门
     status_code, msg_code = deptService.addDepartment(dept)
     return response_code.response(status_code, msg_code)
