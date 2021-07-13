@@ -4,13 +4,8 @@
 		<u-notice-bar mode="horizontal" :is-circular="true" type="none" :list="list" padding="60rpx"></u-notice-bar>
 		<u-card :title="title" :title-size="37" :sub-title="subTitle" :thumb="thumb" thumb-width="40" margin="40rpx">
 				<view class="" slot="body">
-					<view class="u-body-item u-flex u-border-bottom u-col-between u-p-t-0">
-						<view class="u-body-item-title u-line-2">重要通知：今天吃饭不要钱！</view>
-						<image src="https://img11.360buyimg.com/n7/jfs/t1/94448/29/2734/524808/5dd4cc16E990dfb6b/59c256f85a8c3757.jpg" mode="aspectFill"></image>
-					</view>
-					<view class="u-body-item u-flex u-row-between u-p-b-0">
-						<view class="u-body-item-title u-line-2">谨防诈骗！朱某是骗子</view>
-						<image src="https://img12.360buyimg.com/n7/jfs/t1/102191/19/9072/330688/5e0af7cfE17698872/c91c00d713bf729a.jpg" mode="aspectFill"></image>
+					<view class="u-body-item u-flex u-border-bottom u-col-between u-p-t-0" :index="index" v-for="(item,index) in notice" @click="clickNoticeBar(item,index)">
+						<view class="u-body-item-title u-line-2">{{item.title}}</view>
 					</view>
 				</view>
 				
@@ -49,51 +44,41 @@
 </template>
 
 <script>
-	// import {menuSendData} from "/api/api.js"
+	import {menuSendData} from "../../api/api.js"
 	export default {
 		data() {
 			return {
+				subTitle:"CSI员工之家",
+				title:"最新公告",
+				thumb:"/static/menu/bell.png",
+				//变量定义
 				list: [
 						'欢迎登录CSI员工之家！'
 				],
-				title: '最新公告',
-				subTitle: 'CSI员工之家',
-				thumb: '/static/menu/bell.png',
-				//变量定义
-				notice1id:'',
-				title1: '',
-				content1:'',
-				createdate1:'',
-				username1: '',
-				noticeid2:'',
-				title2: '',
-				content2:'',
-				createdate2:'',
-				username2: ''
+				notice:[],
 			}
 		},
 		onLoad() {
-			// submit(){
-			// 	menuSendData(data)
-			// 	.then((response) => {
-			// 		this.notice1id = response.data[0].noticeid;
-			// 		this.title1 = response.data[0].title;
-			// 		this.content1 = response.data[0].content;
-			// 		this.createdate1 = response.data[0].createdate;
-			// 		this.username2 = response.data[1].username;
-			// 		this.notice2id = response.data[1].noticeid;
-			// 		this.title2 = response.data[1].title;
-			// 		this.content2 = response.data[1].content;
-			// 		this.createdate2 = response.data[1].createdate;
-			// 		this.username2 = response.data[1].username;
-			// 	})
-			// 	.catch((error) => {
-			// 	  console.log(error);
-			// 	 })
-			// }
+			menuSendData()
+			.then((response) => {
+				this.notice = []
+				for (let i = 0; i < 2; i++) {
+					let d = {
+						noticeid: response.data.data[i].noticeid,
+						title: response.data.data[i].title,
+						content: response.data.data[i].content,
+						userid: response.data.data[i].userid,
+						createdate: response.data.data[i].createdate,
+						username: response.data.data[i].username
+					}
+					this.notice.push(d)
+				}
+			})
+			.catch((error) => {
+				console.log(error);
+			})
 		},
 		methods: {
-				
 			clickJob(){
 				uni.navigateTo({
 					url:'../job/show'
@@ -117,7 +102,15 @@
 					url:'../notice/show'
 				})
 			},
-			
+				
+			clickNoticeBar(item,index){
+				console.log("navtoNotice")
+				uni.navigateTo({
+					url: "../notice/one?item="+encodeURIComponent(JSON.stringify(item))
+				})
+				console.log(item.title)
+				console.log(item.userid)
+			}
 			
 			
 			
@@ -135,13 +128,6 @@
 			padding: 1px;
 		},
 		
-	.u-body-item image {
-			width: 120rpx;
-			flex: 0 0 120rpx;
-			height: 120rpx;
-			border-radius: 8rpx;
-			margin-left: 12rpx;
-		},
 	.u-body-item {
 		font-size: 32rpx;
 		color: #333;

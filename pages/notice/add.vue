@@ -4,11 +4,11 @@
 		<u-gap height="40"></u-gap>
 		<text>公告标题</text>
 		<u-gap height="10"></u-gap>
-		<u-input type="text" :border="true" placeholder="请输入公告标题" v-model="item.title" />
+		<u-input type="text" :border="true" placeholder="请输入文档标题"  v-model="title"/>
 		<u-gap height="30"></u-gap>
 		<text>公告内容</text>
 		<u-gap height="10"></u-gap>
-		<u-input type="textarea" :border="true" placeholder="请输入公告内容" v-model="item.content" />
+		<u-input type="textarea" height="700" :border="true" placeholder="请输入文档描述" v-model="content"/>
 		<u-gap height="80"></u-gap>
 		<u-col span="400">
 			<u-row gutter="20">
@@ -22,28 +22,23 @@
 
 <script>
 	import {
-		noticeEditSendData
+		noticeAddSendData
 	} from "../../api/api.js"
 	export default {
 		data() {
 			return {
 				show: false,
 				content1: '确认发布?',
-				item: '',
 				//noticeid: '',
 				title: '',
 				content: '',
 				createdate: '',
-				userid: '',
+				userid: 0,
 				username: '',
 				List: [],
 			}
 		},
-		onLoad: function(option) {
-			this.item = JSON.parse(decodeURIComponent(option.item));
-			console.log(this.item.title); //打印出上个页面传递的参数。
-			console.log(this.item.content); //打印出上个页面传递的参数。
-		},
+		onLoad() {},
 		methods: {
 			open() {
 				this.show = true;
@@ -58,6 +53,7 @@
 			// 	console.log(this.item.title)
 			// 	console.log(this.item.content)
 			// },
+
 			showSuccessToast() {
 				this.$refs.uToast.show({
 					title: '发布成功',
@@ -72,14 +68,15 @@
 			},
 			submit() {
 				let data = {
-					noticeid: this.item.noticeid,
-					title: this.item.title,
-					content: this.item.content,
-					//createdate: this.item.createdate,
-					userid: this.item.userid,
-					username: this.item.username,
+					//noticeid: this.noticeid,
+					title: this.title,
+					content: this.content,
+					//createdate: this.createdate,
+					userid: this.userid,
+					username: this.username,
+					username: this.username,
 				}
-				noticeEditSendData(data)
+				noticeAddSendData(data)
 					.then((response) => {
 						this.showSuccessToast();
 						uni.navigateTo({

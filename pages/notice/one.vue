@@ -1,70 +1,74 @@
 <template>
 	<view>
-		<u-gap height="40"></u-gap>
-		<text>公告标题</text>
-		<u-gap height="10"></u-gap>
-		<u-input type="text" :border="true" placeholder="请输入公告标题"/>
-		<u-gap height="30"></u-gap>
-		<text>公告内容</text>
-		<u-gap height="10"></u-gap>
-		<u-input type="textarea" height="700" :border="true" placeholder="请输入公告内容"/>
-		<u-gap height="80"></u-gap>
+		<u-toast ref="uToast" />
+		<uni-group title="公告标题" top="20">
+			<view>{{item.title}}</view>
+		</uni-group>
+		<uni-group title="公告内容" top="20">
+			<view>{{item.content}}</view>
+		</uni-group>
+
 		<u-col span="400" justify="center">
 			<u-row gutter="20">
-				<button @click="navToEdit" type="primary">编辑</button>
-				<button @click="navToShow" type="warn">删除</button>
+				<button @click="submit" type="primary">编辑</button>
+				<u-modal v-model="show" :content="content1" :show-cancel-button="true" @confirm="delet"
+					@cancel="cancel"></u-modal>
+				<button @click="open" type="warn">删除</button>
 			</u-row>
-		</u-col>		
+		</u-col>
 	</view>
+
 </template>
 
 <script>
-	import {SendData} from "../../api/notice_edit.js"
+	import {
+		noticeEditSendData
+	} from "../../api/api.js"
+	import {
+		noticeDeletSendData
+	} from "../../api/api.js"
 	export default {
 		data() {
 			return {
-				item:'',
-				List: [{
-						noticeid: 1,
-						title: "公告一",
-						content: "这是公告一",
-						createdate: "2020-11-20",
-						userid: "20196666",
-					},
-					{
-						noticeid: 2,
-						title: "公告二",
-						content: "这是公告二",
-						createdate: "2020-1-10",
-						userid: "20196666",
-					},
-				]
-				
+				show: false,
+				item: '',
+				noticeid: 0,
+				title: '',
+				content: '',
+				createdate: '',
+				userid: '',
+				username: '',
+				content1: '确认删除?',
 			}
 		},
 		onLoad: function(option) {
 			this.item = JSON.parse(decodeURIComponent(option.item));
+			console.log("noticeOne")
 			console.log(this.item.title); //打印出上个页面传递的参数。
 			console.log(this.item.content); //打印出上个页面传递的参数。
 		},
 		methods: {
-			navToEdit() {
-				uni.navigateTo({
-					url: 'edit?item=' + encodeURIComponent(JSON.stringify(this.item))
-				})
-				console.log(this.item.title)
-				console.log(this.item.content)
+			open() {
+				this.show = true;
 			},
-			navToShow() {
-				uni.navigateTo({
-					url: 'show?item=' + encodeURIComponent(JSON.stringify(this.item))
-				})
-				console.log(this.item.title)
-				console.log(this.item.content)
+			cancel() {
+				this.show = false;
 			},
-			
-			
-			
+			// navToEdit() {
+			// 	uni.navigateTo({
+			// 		url: 'edit?item=' + encodeURIComponent(JSON.stringify(this.item))
+			// 	})
+			// 	console.log(this.item.title)
+			// 	console.log(this.item.content)
+			// },
+			// navToShow() {
+			// 	uni.navigateTo({
+			// 		url: 'show?item=' + encodeURIComponent(JSON.stringify(this.item))
+			// 	})
+			// 	console.log(this.item.title)
+			// 	console.log(this.item.content)
+			// },
+
 			showDeletSuccessToast() {
 				this.$refs.uToast.show({
 					title: '删除成功',
@@ -91,39 +95,43 @@
 			},
 			submit() {
 				let data = {
-					title:this.title,
-					content:this.content,
+					noticeid: this.item.noticeid,
+					title: this.item.title,
+					content: this.item.content,
+					createdate: this.item.createdate,
+					userid: this.item.userid,
+					username: this.item.username,
 				}
-				SendData(data)
+				noticeEditSendData(data)
 					.then((response) => {
 						this.showEditSuccessToast();
-						uni.switchTab({
-						    url: '/pages/notice/one'
+						uni.navigateTo({
+							url: 'edit?item=' + encodeURIComponent(JSON.stringify(this.item))
 						})
 					})
 					.catch((error) => {
 						console.log(error);
 						this.showEditFalseToast();
-					})		
+					})
 			},
-			
+
 			delet() {
 				let data = {
-			
+					noticeid: this.item.noticeid,
 				}
-				SendData(data)
+				noticeDeletSendData(data)
 					.then((response) => {
 						this.showDeletSuccessToast();
-						uni.switchTab({
-						    url: '/pages/notice/show'
+						uni.navigateTo({
+							url: '/pages/notice/show'
 						})
 					})
 					.catch((error) => {
 						console.log(error);
 						this.showDeletFalseToast();
-					})		
+					})
 			},
-			
+
 		}
 	}
 </script>

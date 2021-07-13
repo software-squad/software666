@@ -1,18 +1,15 @@
 <template>
 	<view>
 		<u-toast ref="uToast" />
-		<view class="login-title-item">
-			<text class="title">CSI员工之家</text>
-		</view>
+		<text class="title">CSI员工之家</text>
 		<u-gap height="200"></u-gap>
-
 		<u-input @change="change" :border="true" v-model="loginname" placeholder="请输入用户名" />
 		<u-gap height="10"></u-gap>
 		<u-input type="password" :border="true" v-model="password" placeholder="请输入密码" />
 
 		<u-gap height="80"></u-gap>
 
-		<u-checkbox v-model="remember" >记住密码</u-checkbox>
+		<u-checkbox v-model="remember">记住密码</u-checkbox>
 		<u-gap height="80"></u-gap>
 
 		<u-col span="400">
@@ -26,8 +23,8 @@
 
 <script>
 	import {
-		SendData
-	} from "../../api/login.js"
+		loginSendData
+	} from "../../api/api.js"
 	export default {
 		data() {
 			return {
@@ -36,6 +33,7 @@
 				remember: false,
 				userid: '',
 				status: '',
+				token:''
 			}
 		},
 
@@ -45,74 +43,67 @@
 			showFalseToast() {
 				this.$refs.uToast.show({
 					title: '用户名或密码错误',
-					type: 'false'
+					type: 'false',
 				})
 			},
 			showSuccessToast() {
 				this.$refs.uToast.show({
 					title: '登录成功',
-					type: 'success'
+					type: 'success',
 				})
+				uni.setStorage({
+					key:"userid",
+					data:this.userid
+				})
+				sessionStorage.setItem("userid", this.userid)
+				sessionStorage.setItem("token", this.token)
+				console.log(sessionStorage.getItem("userid"))
+				console.log(sessionStorage.getItem("token"))
+				// console.log(this.loginname)
 				//将登录成功的状态存入缓存
 				if (this.remember) {
 					//如果选择记住密码，将账号和密码存缓存
-					localStorage.setItem('loginname', this.loginname);
-					localStorage.setItem('pwd', this.password);
-					//window.localStorage.setItem("user", obj)
+					//window.sessionStorage.setItem("user", obj),
+					sessionStorage.setItem("password", this.password);
+					console.log(sessionStorage.getItem("password"))
 				}
 			},
 			submit() {
 				let data = {
 					loginname: this.loginname,
 					password: this.password,
-					userid: this.userid,
-					status: this.status,
-					remember: this.remember,
+					// userid: this.userid,
+					// status: this.status,
+					// remember: this.remember,
 				}
-				// SendData(data)
-				// 	.then((response) => {
-				// 		this.showSuccessToast();
-				// 		uni.switchTab({
-				// 		    url: '/pages/menu/menu'
-				// 		})
-				// 	})
-				// 	.catch((error) => {
-				// 		console.log(error);
-				// 		this.showFalseToast();
-				// 		uni.switchTab({
-				// 		    url: '/pages/login/login'
-				// 		})
-				// 	})
-				// TODO 页面跳转逻辑
-				uni.request({
-					url:'/api/login',
-					method:'POST',
-					data:{
-						loginname: this.loginname,
-						password: this.password,
-					},
-					success: (res) => {
-						console.log(res)
-						uni.setStorageSync('token',res.data.data.token)
-						uni.setStorageSync('currentid',res.data.data.userid)
-					}
-				})
-				console.log('开始跳转中')
-				uni.switchTab({
-					url:'../menu/menu',
-				})
+				loginSendData(data)
+					.then((response) => {
+						this.userid = response.data.data.userid;
+						this.token = response.data.data.token;
+						this.showSuccessToast();
+						uni.switchTab({
+							url: '/pages/menu/menu'
+						})
+					})
+					.catch((error) => {
+						console.log(error);
+						this.showFalseToast();
+						uni.switchTab({
+							url: '/pages/login/login'
+						})
+					})
 			},
 			//监听账号输入操作,如果输入账号，自动输入密码
-			change() {
-				let loginname = this.loginname
-				let password = JSON.parse(localStorage.getItem("password"))
-				if (loginname === "admin") {
-					this.password = password
-				}
-			},
-			checkboxChange(e) {
-				console.log(e);
-			},
+			// change() {
+			// 	let loginname = this.loginname
+			// 	let password = JSON.parse(localStorage.getItem("password"))
+			// 	if (loginname === "admin") {
+			// 		this.password = password
+			// 	}
+			// },
+			// checkboxChange(e) {
+			// 	console.log(e);
+			// },
 		}
 	};
 </script>
@@ -130,7 +121,6 @@
 		right: 0px;
 		width: 300px;
 		padding: 10px;
-		margin: 0 auto;
 	}
 
 	.remember {
@@ -138,10 +128,4 @@
 		margin-top: 50%;
 		color: #adadad;
 	}
-	
-	// .login-title-item{
-	// 	border-style: solid;
-	// 	margin: 0 auto;
-	// 	height: 150rpx;
-	// }
 </style>

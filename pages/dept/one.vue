@@ -1,17 +1,22 @@
 <template>
 	<view>
+		<u-toast ref="uToast" />
 		<u-gap height="40"></u-gap>
 		<view class="deptOne">
-			<text>部门名字</text>
-			<u-input type="text" :border="true" placeholder="请输入部门名字"/>
+			<image :src="imageSrc" ></image>
+			<u-gap height="60"></u-gap>
+			<text class="title">部门名字:</text>
 			<u-gap height="30"></u-gap>
-			<text>部门描述</text>
-			<u-gap height="10"></u-gap>
-			<u-input type="textarea" height="700" :border="true" placeholder="请输入部门描述"/>
+			<text>{{item.deptname}}</text>
+			<u-gap height="60"></u-gap>
+			<text class="title">部门描述:</text>
+			<u-gap height="30"></u-gap>
+			<text>{{item.remark}}</text>
 			<u-gap height="80"></u-gap>
 			<u-col span="400">
 				<u-row gutter="20">
 					<button @click="navToEdit" >编辑</button>
+					<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="confirmExit" @cancel="cancel"></u-modal>
 					<button @click="del" type="error">删除</button>
 				</u-row>
 			</u-col>
@@ -20,34 +25,29 @@
 </template>
 
 <script>
+	import {deptOneDelSendData} from "../../api/api.js"
 	export default {
 		data() {
 			return {
-				value: '',
-				deptName:'',
-				deptDctipt:'',
-				item:''
+				deptid:'',
+				deptname:'',
+				remark:'',
+				depturl:'',
+				item:'',
+				imageSrc:'',
+				show: false,
+				content: '确认删除该部门？'
 			}
 		},
 		onLoad: function(option) {
 			this.item = JSON.parse(decodeURIComponent(option.item))
+			this.imageSrc=this.item.depturl
 			console.log("one")
-			console.log(this.item.name)
-			console.log(this.item.dcrpt)
+			console.log(this.imageSrc)
+			console.log(this.item.depturl)
+			console.log(this.item.remark)
 		},
 		methods: {
-			showSuccessToast() {
-				this.$refs.uToast.show({
-					title: '编辑成功',
-					type: 'success'
-				})
-			},
-			showFalseToast() {
-				this.$refs.uToast.show({
-					title: '编辑失败，该部门已存在',
-					type: 'false'
-				})
-			},
 			showDelSuccessToast() {
 				this.$refs.uToast.show({
 					title: '删除成功',
@@ -61,20 +61,28 @@
 				})
 			},
 			del(){
-				let data = {
-							
+				this.show = true;
+			},
+			confirmExit(){
+				let data = { 
+					deptid:this.item.deptid
 				}
-				SendData(data)
+				console.log(this.item.deptid)
+				console.log(data)
+				deptOneDelSendData(data)
 					.then((response) => {
-						this.showSuccessToast();
-						uni.switchTab({
+						this.showDelSuccessToast();
+						uni.navigateTo({
 							url: '/pages/dept/show'
 						})
 					})
 					.catch((error) => {
 						console.log(error);
-						this.showFalseToast();
+						this.showDelFalseToast();
 					})		
+			},
+			cancel(){
+				this.show = false;
 			},
 			navToEdit(){
 				uni.navigateTo({
@@ -93,6 +101,9 @@
 <style>
 	.deptOne{
 		margin: 0 50rpx;
+	},
+	.title{
+		font-size: larger;
+		font-weight: bold;
 	}
-
 </style>

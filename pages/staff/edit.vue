@@ -2,7 +2,7 @@
 	<view class="form-box">
 		<u-form :model="form" ref="uForm" label-position="top" :required=true>
 
-			<u-form-item label="姓名" prop="username">
+			<u-form-item label="姓名" prop="username" required>
 				<u-input v-model="form.username" placeholder='请输入姓名' />
 			</u-form-item>
 
@@ -10,7 +10,7 @@
 				<u-input v-model="form.cardid" placeholder='请输入身份证号码' />
 			</u-form-item>
 
-			<u-form-item label="性别" prop="sex">
+			<u-form-item label="性别" prop="sex" required>
 				<u-select v-model="sexSelShow" mode="single-column" :list="sexList" @confirm="sexConfirm"></u-select>
 				<u-input v-model="form.sex" type="select" @click="sexSelShow = true" placeholder='请选择性别' />
 			</u-form-item>
@@ -26,7 +26,7 @@
 				<u-input v-model="form.birthday" type="select" @click="calSelShow = true" placeholder='请选择出生日期' />
 			</u-form-item>
 
-			<u-form-item label="职位" prop="position">
+			<u-form-item label="职位" prop="position" required>
 				<u-select v-model="posSelShow" mode="mutil-column-auto" :list="posList" @confirm="posConfirm">
 				</u-select>
 				<u-input v-model="posSelRes" type="select" @click="posSelShow = true" placeholder='请选择职位' />
@@ -41,7 +41,7 @@
 				<u-input v-model='form.email' type='text' placeholder='请输入邮箱' />
 			</u-form-item>
 
-			<u-form-item label="电话号码" prop='tel'>
+			<u-form-item label="电话号码" prop='tel' required>
 				<u-input v-model='form.tel' type='digit' placeholder='请输入电话号码' />
 			</u-form-item>
 
@@ -64,13 +64,18 @@
 				<u-input v-model='form.postcode' type='text' placeholder='请输入邮政编码' />
 			</u-form-item>
 
+			<u-form-item label="备注信息" prop='remark'>
+				<u-input v-model='form.remark' type='text' placeholder='' />
+			</u-form-item>
+
 			<u-button class="form-button" type="primary" @click="formSubmit">提交</u-button>
+
 		</u-form>
+		<u-toast ref="uToast" />
 	</view>
 </template>
 
 <script>
-	import request from '@../../api/request.js'
 	export default {
 		name: 'staffForm',
 		data() {
@@ -130,46 +135,31 @@
 					},
 				],
 				form: {
-					username: '', // Not Null
-					cardid: '',
-					sex: '', // Not Null
-					deptname: '', // Not Null
+					userid: 0,
+					password: '',
+					status: '',
+					// TODO 登录名去掉
+					loginname: '',
+					faceurl: '',
+					facepath: '',
 					deptid: '',
-					jobname: '', // Not Null
 					jobid: '',
-					education: '',
-					email: '',
-					tel: '', // Not Null
-					party: '',
-					qqnum: '',
+					username: '',
+					cardid: '',
 					address: '',
 					postcode: '',
+					tel: '',
+					qqnum: '',
+					email: '',
+					sex: '',
+					party: '',
 					birthday: '',
-					status: '',
-					// '民族',
-					// '所学专业',
-					// '爱好',
-					// '备注'
+					education: '',
+					// createdate: '',
+					deptname: '',
+					jobname: '',
+					remark: '',
 				},
-				labelForm: [
-					'姓名', // Not Null
-					'身份证号码',
-					'性别', // Not Null
-					'部门', // Not Null
-					'职位', // Not Null
-					'学历',
-					'邮箱',
-					'手机', // Not Null
-					'政治面貌',
-					'QQ号码',
-					'联系地址',
-					'邮政编码',
-					'出生日期',
-					// '民族',
-					// '所学专业',
-					// '爱好',
-					// '备注'
-				],
 				rules: {
 					username: [{
 						required: true,
@@ -246,16 +236,19 @@
 					console.log("正在提交")
 					console.log(this.form)
 					if (valid) {
-						console.log('验证通过');
 						this.form.address = this.rangeAddress + this.detailAddress
-						request({
+						this.$request.request({
 							url: "/api/staff/editSubmit",
 							data: {
-								staff: this.form,
+								...this.form,
 							},
 							method: 'POST'
 						}).then(res => {
-							console.log('修改成功')
+							this.$refs.uToast.show({
+								title: '提交成功',
+								type: 'success',
+							})
+							uni.navigateBack()
 						})
 					} else {
 						console.log('验证失败');
@@ -292,41 +285,34 @@
 				console.log(e)
 				this.form.birthday = e.result
 			}
-
 		},
 		// 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
 		onReady() {
-			console.log('onready')
 			this.$refs.uForm.setRules(this.rules);
 		},
-		onLoad() {
-			request({
+		onLoad: function(item) {
+			this.$request.request({
 				url: '/api/staff/index',
 				// url:'http://192.168.0.106:8082/api/staff/index',
 				method: "GET",
-				}).then(res=>{
-					console.log(res)
-					this.posList = res.data.data
-				})
-			request({
-				url: "/api/staff/oneByUserid",
+			}).then(res => {
+				this.posList = res.data.data
+			})
+			this.$request.request({
+				url: "/api/staff/editByUserid",
 				data: {
-					userid: 14,
+					userid: item.userid,
 				},
-				method:'GET',
-				}).then(res=>{
-					console.log(res)
-					let form = res.data.data
-					this.form = form
-					console.log(this.form)
-					this.posSelRes = form.deptname + " " + form.jobname
-					this.rangeAddress = form.address
-				})
-
-
-
+				method: 'GET',
+			}).then(res => {
+				console.log(res)
+				let form = res.data.data
+				this.form = form
+				console.log(this.form)
+				this.posSelRes = form.deptname + " " + form.jobname
+				this.rangeAddress = form.address
+			})
 		}
-
 	}
 </script>
 

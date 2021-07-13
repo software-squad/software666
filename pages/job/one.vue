@@ -1,53 +1,48 @@
 <template>
 	<view>
-		<u-gap height="40"></u-gap>
-		<view class="deptOne">
-			<text>职位名字</text>
-			<u-input type="text" :border="true" placeholder="请输入职位名字"/>
+		<u-toast ref="uToast" />
+		<view class="jobOne">
+			<u-gap height="60"></u-gap>
+			<text class="title">职位名字:</text>
 			<u-gap height="30"></u-gap>
-			<text>职位描述</text>
-			<u-gap height="10"></u-gap>
-			<u-input type="textarea" height="700" :border="true" placeholder="请输入职位描述"/>
+			<text>{{item.jobname}}</text>
+			<u-gap height="60"></u-gap>
+			<text class="title">职位描述:</text>
+			<u-gap height="30"></u-gap>
+			<text>{{item.remark}}</text>
 			<u-gap height="80"></u-gap>
 			<u-col span="400">
 				<u-row gutter="20">
-					<button @click="navToEdit()" >编辑</button>
-					<button @click="del" type="error">删除</button>
-				</u-row>
-			</u-col>
+						<button @click="navToEdit" >编辑</button>
+						<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="confirm" @cancel="cancel"></u-modal>
+						<button @click="del" type="error">删除</button>
+					</u-row>
+				</u-col>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {jobOneDelSendData} from "../../api/api.js"
 	export default {
 		data() {
 			return {
+				jobid:'',
 				value: '',
-				deptName:'',
-				deptDctipt:'',
-				item:''
+				jobname:'',
+				remark:'',
+				item:'',
+				show: false,
+				content:'确认删除？'
 			}
 		},
 		onLoad: function(option) {
 			this.item = JSON.parse(decodeURIComponent(option.item));
-			console.log("one");
-			console.log(this.item.name);
-			console.log(this.item.dcrpt);
+			// console.log("one");
+			// console.log(this.item.name);
+			// console.log(this.item.remark);
 		},
 		methods: {
-			showSuccessToast() {
-				this.$refs.uToast.show({
-					title: '编辑成功',
-					type: 'success'
-				})
-			},
-			showFalseToast() {
-				this.$refs.uToast.show({
-					title: '编辑失败，该职位已存在',
-					type: 'false'
-				})
-			},
 			showDelSuccessToast() {
 				this.$refs.uToast.show({
 					title: '删除成功',
@@ -61,28 +56,34 @@
 				})
 			},
 			del(){
+				this.show = true;	
+			},
+			confirm(){
 				let data = {
-							
+					jobid:this.item.jobid		
 				}
-				SendData(data)
+				jobOneDelSendData(data)
 					.then((response) => {
-						this.showSuccessToast();
-						uni.switchTab({
+						this.showDelSuccessToast();
+						uni.navigateTo({
 							url: '/pages/job/show'
 						})
 					})
 					.catch((error) => {
 						console.log(error);
-						this.showFalseToast();
-					})		
+						this.showDelFalseToast();
+					})	
+			},
+			cancel(){
+				this.show = false;
 			},
 			navToEdit(){
 				uni.navigateTo({
 					url: "edit?item="+encodeURIComponent(JSON.stringify(this.item))
 				}),
 				console.log("one")
-				console.log(this.item.name),
-				console.log(this.item.dcrpt)
+				// console.log(this.item.name),
+				// console.log(this.item.dcrpt)
 			}
 			
 			
@@ -91,8 +92,12 @@
 </script>
 
 <style>
-	.deptOne{
+	.jobOne{
 		margin: 0 50rpx;
+	},
+	.title{
+		font-size: larger;
+		font-weight: bold;
 	}
 
 </style>

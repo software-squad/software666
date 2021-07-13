@@ -1,13 +1,15 @@
 <template>
 	<view>
 		<view class="search">
+			<!-- TODO 搜索框吸顶 已完成 -->
+			<u-sticky>
 			<u-search placeholder="请输入职位名称" v-model="searchJobName" shape="round" @change="search" :show-action="false"></u-search>
+			</u-sticky>
 		</view>
 		<view :index="index" v-for="(item,index) in jobsShow" @click="navToEdit(item,index)" >
 				<view class="u-body-item" >
-					<image :src="item.depturl" mode="aspectFill" class="avatar-item"></image>
-					<view class="info-item" style="font-weight: bold;">{{item.name}}</view>
-					<view class="info-item" >职位描述:{{item.dcrpt}}</view>
+					<view class="info-item" style="font-weight: bold;">职位名称:{{item.jobname}}</view>
+					<view class="info-item" >职位描述:{{item.remark}}</view>
 				</view>
 			</navigator>
 		</view>
@@ -15,47 +17,38 @@
 </template>
 
 <script>
+	import {jobShowSendData} from "../../api/api.js"
 	export default {
 		data() {
 			return {
 				searchJobName:'',
 				keyword:'',
-				jobs: [{
-						name:'干饭工程师',
-						depturl:'/static/dept/dept.jpg',
-						dcrpt:'负责干饭'
-					},
-					{
-						name:'java工程师',
-						depturl:'/static/dept/dept.jpg',
-						dcrpt:'专注技术，攻克难题，勇攀高峰'
-					},
-					{
-						name:'摸鱼工程师',
-						depturl:'/static/dept/dept.jpg',
-						dcrpt:'负责摸鱼'
-					},
-					{
-						name:'摸鱼工程师',
-						depturl:'/static/dept/dept.jpg',
-						dcrpt:'负责摸鱼'
-					},
-					{
-						name:'摸鱼工程师',
-						depturl:'/static/dept/dept.jpg',
-						dcrpt:'负责摸鱼'
-					},
-					{
-						name:'摸鱼工程师',
-						depturl:'/static/dept/dept.jpg',
-						dcrpt:'负责摸鱼'
-					}],
-				jobsShow:[]
+				jobs: [],
+				jobsShow:[],
 				
 			}
 		},
 		onLoad() {
-			this.jobsShow = this.jobs
+			jobShowSendData()
+			.then((response) => {
+				this.jobs = []
+				console.log("response")
+				console.log(response.data.data)
+				for (let i = 0; i < response.data.data.length; i++) {
+					let d = {
+						jobid: response.data.data[i].jobid,
+						jobname: response.data.data[i].jobname,
+						remark: response.data.data[i].remark,
+					}
+					this.jobs.push(d)
+				}
+				console.log("jobs")
+				console.log(this.jobs)
+				this.jobsShow = this.jobs
+			})
+			.catch((error) => {
+				console.log(error);
+			})
 		},
 		onNavigationBarButtonTap:function(e){
 		    uni.navigateTo({
@@ -70,7 +63,7 @@
 				else {
 					this.jobsShow = []
 					this.jobs.forEach((item) => {
-						if(item.name.includes(this.searchJobName))
+						if(item.jobname.includes(this.searchJobName))
 						this.jobsShow.push(item)
 					})
 				}
@@ -81,8 +74,8 @@
 					url: "one?item="+encodeURIComponent(JSON.stringify(item))
 				}),
 				console.log("show")
-				console.log(item.name),
-				console.log(item.dcrpt)
+				// console.log(item.name),
+				// console.log(item.dcrpt)
 			},
 		}
 	}

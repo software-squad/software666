@@ -1,16 +1,25 @@
 <template>
 	<view>
 		<u-gap height="10"></u-gap>
-		<u-search @click="navToSearchByFilename" placeholder="请输入文件名称" ></u-search>
-		
-		<view :index="index" :key="item.fileid" v-for="(item,index) in filesList" @click="navToOne(index)">
+		<view class="search">
+			<u-sticky>
+				<u-search placeholder="请输入文件标题" v-model="searchFileTitle" shape="round" @change="search"
+					:show-action="false"></u-search>
+			</u-sticky>
+		</view>
+
+		<u-swipe-action :show="item.show" :index="index" :key="item.fileid" v-for="(item,index) in itemShows"
+			:options="options" btn-width="180" @click="click" @open="open(index)" @content-click="navToOne(index)"
+			class="u-card-wrap">
 			<view class="u-body-item">
 				<!-- <image :src="item.faceurl" mode="aspectFill" class="avatar-item"></image> -->
 				<view class="info-item" style="font-weight: bold;">文件标题：{{item.title}}</view>
 				<view class="info-item" style="float: left;">文件名称：{{item.filename}}</view>
 				<u-tag :text="item.createdate" type="primary" />
 			</view>
-		</view>
+		</u-swipe-action>
+		<u-modal v-model="delShow" :content="delContent" :show-cancel-button="true" :async-close="true"
+			@confirm="confirmDel"></u-modal>
 	</view>
 </template>
 
@@ -18,70 +27,125 @@
 	export default {
 		data() {
 			return {
-				filesList: [],
+				delShow: false,
+				delContent: '',
+				delIndex: '',
+				delId: '',
+				items: [],
+				itemShows: [],
+				searchFileTitle: '',
+				options: [{
+						text: '编辑',
+						style: {
+							backgroundColor: '#007aff'
+						}
+					},
+					{
+						text: '删除',
+						style: {
+							backgroundColor: '#dd524d'
+						}
+					}
+				],
 			}
 		},
-			
-		async onLoad(){
-			await uni.request({
-				url:'/api/file/showmany',
-				method:'GET',
-				success: (res) => {
-					if(res.data.msg=="10001"){
-						this.filesList = res.data.data
-					}else{
-						this.$u.toast(`数据获取失败`);
+
+		async onLoad() {
+			await this.$request.request({
+				url: '/api/file/showmany',
+				method: 'GET',
+			}).then(res => {
+				if (res.data.msg == "10007") {
+					this.items = res.data.data
+					this.itemShows = res.data.data
+					for (var i in this.itemShows) {
+						this.itemShows[i].show = false
 					}
-				},
-				fail(){
+				} else {
 					this.$u.toast(`数据获取失败`);
 				}
+			}).catch(err => {})
+		},
+
+		onNavigationBarButtonTap() {
+			uni.navigateTo({
+				url: "upload"
 			})
 		},
+
 		methods: {
-			onNavigationBarButtonTap: function(e) {
-				uni.navigateTo({
-					url: "edit"
-				})
-			},
 			navToOne(index) {
-				let item = encodeURIComponent(JSON.stringify(this.filesList[index]))
+				let item = encodeURIComponent(JSON.stringify(this.itemShows[index]))
 				uni.navigateTo({
 					url: 'one?item=' + item
 				})
-			},	
-			navToSearchByFilename(){
+			},
+
+			navToSearchByFilename() {
 				uni.navigateTo({
-					url:'./search',
+					url: './search',
 					success() {
 						console.log('回到广场')
 					}
 				})
 			},
-			
-			
-			submit() {
-				GetData()
-					.then((response) => {
-						this.List = []
-						for (let i = 0; i < response.data.data.length; i++) {
-							let l = {
-								fileid: response.data.data[i].fileid,
-								title: response.data.data[i].title,
-								filename: response.data.data[i].filename,
-								createdate: response.data.data[i].createdate,
-								username: response.data.data[i].username,
-								remark: response.data.data[i].remark,
-								filepath: response.data.data[i].filepath,
-								show: false
-							}
-							this.List.push(l)
-						}
+
+			search() {
+				if (this.searchFileTitle == "") {
+					this.itemShows = this.items
+				} else {
+					this.itemShows = []
+					this.items.forEach((item) => {
+						if (item.title.includes(this.searchFileTitle))
+							this.itemShows.push(item)
 					})
-					.catch((error) => {
-						console.log(error);
-					})
+				}
 			},
+
+			click(index, option) {
+				if (option == 1) {
+					this.delShow = true
+					this.delContent = "确认删除" + this.itemShows[index].title + "？"
+					this.delIndex = index
+					this.delId = this.itemShows[index].fileid
+				} else {
+					uni.navigateTo({
+						url: '/pages/file/edit?item=' + encodeURIComponent(JSON.stringify(this.itemShows[index]))
+					})
+				}
+			},
+
+			open(index) {
+				// 先将正在被操作的swipeAction标记为打开状态，否则由于props的特性限制，
+				// 原本为'false'，再次设置为'false'会无效
+				console.log(this.itemShows[index])
+				this.itemShows[index].show = true;
+				this.itemShows.map((val, idx) => {
+					if (index != idx) this.itemShows[idx].show = false;
+				})
+			},
+
+
+			confirmDel() {
+				let index = this.delIndex
+				this.$request.request({
+					url: '/api/file/del',
+					data: {
+						fileid: this.delId,
+					},
+					method: 'GET',
+				}).then(res => {
+					this.itemShows.splice(index, 1);
+					this.items.splice(index, 1)
+				})
+				this.delShow = false
+				this.$u.toast(`删除成功`);
+			},
+
+			cancel() {
+				this.delShow = false;
+				this.itemShows[this.delIndex].show = false;
+			}
 
 		}
 	}
@@ -123,4 +187,9 @@
 	}
 
 	.avatar-item {}
+
+	.u-card-wrap {
+		background-color: #FFFFFF;
+		margin: 20rpx 0rpx 0rpx 0rpx;
+	}
 </style>

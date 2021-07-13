@@ -5,6 +5,12 @@
 			 class="u-card-wrap">
 			<view class="u-body-item">
 				<image :src="item.faceurl" mode="aspectFill" class="avatar-item"></image>
+				
+				<!-- TODO 调成u-image 有默认头像格式 -->
+				<!-- shape="circle" -->
+				<u-image width='120rpx' height='120rpx' slot="title" :src="item.faceurl" 
+				mode="aspectFill"></u-image>
+				
 				<view calss="info-item">
 					<u-row class="info-item-row">
 						<u-col span=12>
@@ -31,7 +37,6 @@
 </template>
 
 <script>
-	import request from '@../../api/request.js'
 	export default {
 		data() {
 			return {
@@ -39,7 +44,6 @@
 				delContent: '',
 				delIndex: '',
 				searchResults: [],
-				verticalLine:"  |  ",
 				options: [{
 						text: '编辑',
 						style: {
@@ -56,12 +60,6 @@
 			};
 		},
 		onNavigationBarButtonTap: function(e) {
-			console.log('点击加号')
-			let data = {
-				isadd: true,
-				employee: ''
-			}
-			let item = encodeURIComponent(JSON.stringify(data))
 			uni.navigateTo({
 				url: '/pages/staff/add'
 			})
@@ -72,7 +70,7 @@
 			uni.setNavigationBarTitle({
 				title: item.jobname
 			})
-			request({
+			this.$request.request({
 				url: "/api/staff/showUserByDeptAndJob",
 				data: {
 					deptid: item.deptid,
@@ -80,18 +78,23 @@
 				},
 				method:'POST',
 				}).then(res=>{
-					// console.log(res)
 					this.searchResults = res.data.data
-					console.log('设置show')
 					for (var i in this.searchResults) {
 						this.searchResults[i].show = false
 						if(!this.searchResults[i].remark){
 							this.searchResults[i].remark = '无详细描述'
 						}
+						if (!this.searchResults[i].faceurl) {
+							if (this.searchResults[i].sex == '男') {
+								this.searchResults[i].faceurl = '/static/boy1.svg'
+							} else if (this.searchResults[i].sex == '女') {
+								this.searchResults[i].faceurl = '/static/girl1.svg'
+							} else {
+								this.searchResults[i].faceurl = '/static/头像.svg'
+							}
+						}
 					}
-					console.log(this.searchResults)
 				})
-			console.log(this.searchResults)
 		},
 		methods: {
 			click(index, option) {
@@ -99,6 +102,7 @@
 					this.delShow = true
 					this.delContent = "确认删除" + this.searchResults[index].username + "？"
 					this.delIndex = index
+					this.delId = this.searchResults[index].userid
 				} else {
 					this.navToEdit(index)
 				}
@@ -121,23 +125,19 @@
 				})
 			},
 			navToEdit(index) {
-				let item = encodeURIComponent(JSON.stringify(this.searchResults[index]))
-				console.log(item)
+				// console.log('准备编辑')
+				// console.log(this.searchResults[index])
 				uni.navigateTo({
-					url: '/pages/staff/edit?item=' + item,
-					success() {
-						console.log("编辑成功")
-					},
-					fail() {
-						console.log("编辑失败")
-					}
-
+					url: '/pages/staff/edit?userid=' + this.searchResults[index].userid,
 				})
 			},
 			confirmDel() {
 				let index = this.delIndex
-				request({
+				console.log('删除的id')
+				console.log(this.delId)
+				this.$request.request({
 					url: '/api/staff/del',
+					data:{userid:this.delId,},
 					method: 'GET',
 					}).then(res=>{
 						// TODO 更友好的提示

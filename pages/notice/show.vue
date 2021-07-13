@@ -1,5 +1,6 @@
 <template>
 	<view>
+		<u-toast ref="uToast" />
 		<view :index="index" v-for="(item,index) in List" @click="navToOne(index)">
 			<view class="u-body-item">
 				<!-- <image :src="item.faceurl" mode="aspectFill" class="avatar-item"></image> -->
@@ -13,40 +14,30 @@
 
 <script>
 	import {
-		GetData
-	} from "../../api/notice_show.js"
+		noticeShowGetData
+	} from "../../api/api.js"
 	export default {
 		data() {
 			return {
-				item:'',
-				List: [{
-						noticeid: '',
-						title: "公告一",
-						content: "这是公告一",
-						createdate: "2020-11-20",
-						userid: "20196666",
-					},
-					{
-						noticeid: '',
-						title: "公告二",
-						content: "这是公告二",
-						createdate: "2020-1-10",
-						userid: "20196666",
-					},
-				]
+				item: '',
+				List: [],
+				//noticeid: '',
+				// title: '',
+				// content: '',
+				// createdate: '',
+				// userid: '',
 			}
 		},
 		computed: {},
-		onLoad: function(option) {
-		
+		onLoad() {
+			this.submit()
+		},
+		onNavigationBarButtonTap: function(e) {
+			uni.navigateTo({
+				url: "add"
+			})
 		},
 		methods: {
-			onNavigationBarButtonTap: function(e) {
-				uni.navigateTo({
-					url: "edit"
-				})
-			},
-			
 			navToOne(index) {
 				this.item = this.List[index]
 				uni.navigateTo({
@@ -57,7 +48,15 @@
 			},
 
 			submit() {
-				GetData()
+				let data = {
+					noticeid: this.item.noticeid,
+					title: this.item.title,
+					content: this.item.content,
+					createdate: this.item.createdate,
+					userid: this.item.userid,
+					username: this.item.username,
+				}
+				noticeShowGetData(data)
 					.then((response) => {
 						this.List = []
 						for (let i = 0; i < response.data.data.length; i++) {
@@ -67,6 +66,7 @@
 								content: response.data.data[i].content,
 								createdate: response.data.data[i].createdate,
 								userid: response.data.data[i].userid,
+								username: response.data.data[i].userid,
 								show: false
 							}
 							this.List.push(l)

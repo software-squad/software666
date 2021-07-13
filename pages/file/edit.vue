@@ -1,18 +1,24 @@
 <template>
 	<view>
-		<u-gap height="40"></u-gap>
-		<text>文档标题</text>
-		<u-gap height="10"></u-gap>
-		<u-input type="text" :border="true" placeholder="请输入文档标题" />
-		<u-gap height="30"></u-gap>
-		<text>文档描述</text>
-		<u-gap height="10"></u-gap>
-		<u-input type="textarea" height="700" :border="true" placeholder="请输入文档描述" />
-		<u-gap height="30"></u-gap>
-		<text>文档</text>
-		<u-image width="10%" height="80" src="/static/tab_icons/download.png"></u-image>
-		<u-gap height="40"></u-gap>
-		<button @click="navToShow(index)" class="loginButtonActivity" type="primary">上传</button>
+		<u-field v-model="item.title" label="标题" placeholder="取个标题吧" label-align="center">
+		</u-field>
+		
+		<u-field type="textarea" v-model="item.remark" label="描述" placeholder="说点什么吧" label-align="center"></u-field>
+		<!-- <u-gap height="15" bg-color="#f9f9f9"></u-gap> -->
+		<!-- <view>
+			<u-action-sheet :list="list" v-model="show" @click="click"></u-action-sheet>
+			<u-button @click="show = true">选择文件</u-button>
+		</view> -->
+
+		<!-- <uni-file-picker fileMediatype="all" :list-styles="listStyle" limit="1" autoUpload='false' @select="select"
+			@progress="progress" @success="success" @fail="fail" ref='files' />
+		<u-gap height="15" bg-color="#f9f9f9"></u-gap> -->
+
+		<view class="sub_com">
+			<u-button class="sub_bott" @click="submit" type="primary">提交</u-button>
+		</view>
+		<u-toast ref="uToast"/>
+
 	</view>
 </template>
 
@@ -20,77 +26,93 @@
 	export default {
 		data() {
 			return {
-				filesList: [{
-					fileid: 1,
-					title: "《摸鱼：从入职到加薪》",
-					filename: "《摸鱼：从入职到加薪》",
-					remark: null,
-					createdate: "2021-07-09",
-					username: "李华",
-					filepath: "C:/公司资料"
-				}, {
-					fileid: 8,
-					title: "《加薪》",
-					filename: "《摸鱼：从入职到加薪》",
-					remark: null,
-					createdate: "2021-07-10",
-					username: "李华",
-					filepath: "C:/公司资料"
-				}]
+				// 方案一，选择上传
+				// acctionlist
+				// list: [{
+				// 	text: '上传图片',
+				// }, {
+				// 	text: '上传视频'
+				// }],
+				// show: false,
 
+				// 方案二，使用uni-file-picker
+				listStyle: {
+					"borderStyle": {
+						"color": "#eee", // 边框颜色
+						"width": "1px", // 边框宽度
+						"style": "solid", // 边框样式
+						"radius": "5px" // 边框圆角，不支持百分比
+					},
+					"border": false, // 是否显示边框
+					"dividline": true // 是否显示分隔线
+				},
+				
+				item: {
+					title: "",
+					filename: "",
+					remark: '',
+					createdate: "",
+					username: "",
+					filepath: ""
+				},
+				tempFilePath: '',
+				tempFile: null,
 			}
 		},
-		onLoad: function(option) {
-			this.item = JSON.parse(decodeURIComponent(option.item));
-			console.log(this.item.title); //打印出上个页面传递的参数。
-			console.log(this.item.filename); //打印出上个页面传递的参数。
-		},
 		methods: {
-			navToShow() {
-				uni.navigateTo({
-					url: 'show?item=' + encodeURIComponent(JSON.stringify(this.item))
-				})
-				console.log(this.item.title)
-				console.log(this.item.filename)
-			},
-
-
-
-
-
-			showSuccessToast() {
-				this.$refs.uToast.show({
-					title: '上传成功',
-					type: 'success'
-				})
-			},
-			showFalseToast() {
-				this.$refs.uToast.show({
-					title: '上传失败',
-					type: 'false'
-				})
-			},
 			submit() {
-				let data = {
-
-				}
-				SendData(data)
+				this.$request.request(data)
 					.then((response) => {
-						this.showSuccessToast();
-						uni.switchTab({
-							url: '/pages/file/show'
+						console.log('服务器请求结果', res)
+						this.$refs.uToast.show({
+							title: '上传成功',
+							type: 'success',
+							duration:2000,
+							// back :true,
+							// url: '/pages/file/show'
+						})
+						uni.redirectTo({
+							url:'/pages/file/show'
 						})
 					})
 					.catch((error) => {
 						console.log(error);
-						this.showFalseToast();
+						this.$refs.uToast.show({
+							title: '上传失败',
+							type: 'false'
+						})
 					})
-			},
+			}
 
-		}
+		},
+		
+		onLoad: function(option) {
+			console.log('带参跳转结果', option)
+			if (option) {
+				this.item = JSON.parse(decodeURIComponent(option.item));
+				this.fileLink = baseURL+this.item.fileid
+			}else{
+				this.$u.toast('点击为空')
+			}
+		},
 	}
 </script>
 
 <style>
+	.sub_com {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 30rpx;
+		position: absolute;
+		bottom: 0rpx;
 
+	}
+
+	.sub_bott {
+		width: 100%;
+		/* background-color:#fed404;
+  color:#343537; */
+	}
 </style>

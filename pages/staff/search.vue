@@ -1,43 +1,49 @@
 <template>
-	<view>
-		<!-- TODO 上一个页面的搜索框，可以保证页面跳转一致性，但是不能正常输入 -->
-		<!-- <view class="u-search-box">
-			<view class="u-search-inner">
-				<u-icon name="search" color="#909399" :size="28"></u-icon>
-				<text @change="gotoSearch" class="u-search-text">请输入员工姓名，不支持模糊搜索</text>
-			</view>
-		</view> -->
+	<view class="page-inner">
 
+		<!-- 搜索框 -->
 		<view class="u-search-box">
-			<u-search v-model='kw' :show-action="true" action-text="搜索" :animation="true" placeholder='请输入员工姓名，不支持模糊搜索'
-				@search='gotoSearch' @custom='gotoSearch' @change="change"></u-search>
+			<u-sticky>
+				<u-search v-model='kw' :show-action="true" action-text="搜索" :animation="true"
+					placeholder='请输入员工姓名，不支持模糊搜索' @search='getSearchList' @custom='getSearchList' @change="change">
+				</u-search>
+			</u-sticky>
 		</view>
 
 		<!-- 搜索建议列表 -->
-		<!-- <uni-icons type="arrowright" size="16"></uni-icons> -->
-		<!-- <view class="sugg-list" v-if="this.kw.length !== 0">
-			<view class="sugg-item" v-for="(item, i) in searchResults" :key="i" @click="gotoOne(item)">
-				<view class="goods-name">{{item.username}}</view>
-			</view>
-		</view> -->
 		<view class="sugg-list" v-if="this.kw.length !== 0">
-			<u-swipe-action :index="index" :key="item.userid" v-for="(item,index) in searchResults"
-				:show="item.show" :options="options" btn-width="180" 
-				@click="click" 
-				@open="open(index)" 
-				@content-click="gotoOne(item.userid)">
+			<u-swipe-action :index="index" :key="item.userid" v-for="(item,index) in searchResults" :show="item.show"
+				:options="options" btn-width="180" @click="click" @open="open(index)"
+				@content-click="gotoOne(item.userid)" :disabled="true">
 				<view class="u-body-item">
 					<image :src="item.faceurl" mode="aspectFill" class="avatar-item"></image>
-					<view class="info-item">
-						<text style="font-weight: bold;">{{item.username}}</text>
+
+					<!-- TODO 调成u-image 有默认头像格式 -->
+					<!-- shape="circle" -->
+					<u-image width='120rpx' height='120rpx' slot="title" :src="item.faceurl" mode="aspectFill">
+					</u-image>
+
+					<view calss="info-item">
+						<u-row class="info-item-row">
+							<u-col span=12>
+								<text style="font-size: larger;font-weight: bold;">{{item.username}}</text>
+							</u-col>
+						</u-row>
+						<u-row class="info-item-row">
+							<u-col span="12">
+								<text>{{item.sex}}&nbsp;|&nbsp;{{item.deptname}}&nbsp;|&nbsp;{{item.jobname}}</text>
+							</u-col>
+						</u-row>
+						<u-row class="info-item-row">
+							<u-col span="12">
+								<view class="u-line-2" style="color: #C0C4CC;">{{item.remark}}</view>
+							</u-col>
+						</u-row>
 					</view>
-					<view class="info-item">
-						<text style="font-weight: bold;">Tel:{{item.tel}}</text>
-					</view>
-					<u-tag :text="item.jobname" type="primary" />
 				</view>
 			</u-swipe-action>
 		</view>
+
 		<!-- 搜索历史 -->
 		<view class="history-box" v-else>
 			<!-- 标题区域 -->
@@ -52,91 +58,99 @@
 					style="margin: 10rpx;padding: 10rpx;" />
 			</view>
 		</view>
+
+		<!-- 模态框是否确认传输 -->
 		<u-modal v-model="delShow" :content="delContent" :show-cancel-button="true" :async-close="true"
 			@confirm="confirmDel"></u-modal>
+
+		<!-- 提示 -->
+		<u-toast ref="uToast" />
 	</view>
 </template>
 
 <script>
-	import request from '@../../api/request.js'
 	export default {
 		data() {
 			return {
-				// 定时器
-				timer: null,
-				// 搜索框中的关键词
-				kw: '',
-				// 搜索的结果列表
-				searchResults: [],
-				// 搜索历史的数组
-				historyList: [],
+				timer: null, // 定时器
+				kw: '', // 搜索框中的关键词
+				searchResults: [], // 搜索的结果列表
+				historyList: [], // 搜索历史的数组
 				delShow: false,
 				delContent: '',
 				delIndex: '',
-				delId:'',
-				options: [{ text: '编辑',
-						style: { backgroundColor: '#007aff'}},
-					{ text: '删除',
-						style: {backgroundColor: '#dd524d'}}
+				delId: '',
+				options: [{
+						text: '编辑',
+						style: {
+							backgroundColor: '#007aff'
+						}
+					},
+					{
+						text: '删除',
+						style: {
+							backgroundColor: '#dd524d'
+						}
+					}
 				],
 			};
+		},
+		onNavigationBarButtonTap: function(e) {
+			uni.navigateTo({
+				url: '/pages/staff/add'
+			})
 		},
 		onLoad() {
 			console.log("员工搜索中")
 			this.historyList = JSON.parse(uni.getStorageSync('kw') || '[]')
 		},
 		methods: {
-			// gotoSearch 输入事件的处理函数
-			gotoSearch(e) {
-				console.log('搜索中')
-				console.log(this.kw)
+			// change 输入事件的处理函数
+			change(e) {
 				if (this.kw.length == 0) {
+					this.searchResults = []
 					return
 				}
-				this.getSearchList()
-				// clearTimeout(this.timer)
-				// this.timer = setTimeout(() => {
-				// 	this.kw = e.value
-				// 	console.log(this.kw)
-				// 	this.getSearchList()
-				// }, 500)
+				// 动态搜索
+				clearTimeout(this.timer)
+				this.timer = setTimeout(() => {
+					this.getSearchList()
+				}, 500)
 			},
 			getSearchList() {
 				console.log("获取搜索列表")
-
 				// 判断搜索关键词是否为空
 				if (this.kw.length === 0) {
 					this.searchResults = []
 					return
 				}
-
-				// uni.request({
-				// 	url: '/api/staff/showUserByUsername',
-				// 	method: 'GET',
-				// 	data: {
-				// 		username: this.kw
-				// 	},
-				// 	success: (res) => {
-				// 		console.log(res)
-				// 		if (res.data.code !== 200) alert(res.data.msg)
-				// 		this.searchResults = res.data.data
-				// 		this.saveSearchHistory()
-				// 	}
-				// })
-				
-				request({
+				this.$request.request({
 					url: '/api/staff/showUserByUsername',
-					data:{
-						username:this.kw,
+					data: {
+						username: this.kw,
 					},
 					method: 'GET',
-				}).then(res=>{
-					console.log(res)
+				}).then(res => {
 					if (res.data.code !== 200) alert(res.data.msg)
 					this.searchResults = res.data.data
+					for (var i in this.searchResults) {
+						this.searchResults[i].show = false
+						if (!this.searchResults[i].remark) {
+							this.searchResults[i].remark = '无详细描述'
+						}
+						if (!this.searchResults[i].faceurl) {
+							if (this.searchResults[i].sex == '男') {
+								this.searchResults[i].faceurl = '/static/boy1.svg'
+							} else if (this.searchResults[i].sex == '女') {
+								this.searchResults[i].faceurl = '/static/girl1.svg'
+							} else {
+								this.searchResults[i].faceurl = '/static/头像.svg'
+							}
+						}
+					}
 					this.saveSearchHistory()
 				})
-				
+
 				// const {
 				// 	data: res
 				// } = await uni.$http.get('/api/staff/showUserByUsername', {
@@ -146,7 +160,7 @@
 				// this.searchResults = res.message
 				// this.saveSearchHistory()
 			},
-			
+
 			saveSearchHistory() {
 				console.log("存储搜索历史")
 				console.log(this.kw)
@@ -174,7 +188,7 @@
 				this.kw = kw
 				this.getSearchList()
 			},
-			
+
 			click(index, option) {
 				if (option == 1) {
 					this.delShow = true
@@ -202,7 +216,8 @@
 				uni.navigateTo({
 					url: '../staff/one?userid=' + userid
 				})
-			},navToEdit(index) {
+			},
+			navToEdit(index) {
 				let item = encodeURIComponent(JSON.stringify(this.searchResults[index]))
 				console.log(item)
 				uni.navigateTo({
@@ -218,30 +233,21 @@
 			},
 			confirmDel() {
 				let index = this.delIndex
-				// uni.request({
-				// 	url: '/api/staff/del',
-				// 	method: 'GET',
-				// 	success: (res) => {
-				// 		// TODO 更友好的提示
-				// 		// this.$u.toast(`删除了第${index}个cell`);
-				// 		this.searchResults.splice(index, 1);
-				// 	}
-				// })
-				
-				request({
+				this.$request.request({
 					url: '/api/staff/del',
-					data:{
-						userid:this.delId,
+					data: {
+						userid: this.delId,
 					},
 					method: 'GET',
-				}).then(res=>{
-					// TODO 更友好的提示
-					// this.$u.toast(`删除了第${index}个cell`);
+				}).then(res => {
 					this.searchResults.splice(index, 1);
 				})
-				
+
 				this.delShow = false
-				this.$u.toast(`删除成功`);
+				this.$refs.uToast.show({
+					title: '删除成功',
+					type: 'success',
+				})
 			},
 			cancel() {
 				this.delShow = false;
@@ -257,6 +263,17 @@
 </script>
 
 <style lang="scss">
+	.page-inner {
+		background-color: #fafafa;
+		height: calc(100vh);
+		/* #ifdef H5 */
+		height: calc(100vh - var(--window-top));
+		/* #endif */
+		display: flex;
+		flex-direction: column;
+		/* border-style: solid; */
+	}
+
 	.u-search-box {
 		padding: 15rpx 30rpx;
 	}
@@ -328,8 +345,8 @@
 		font-size: 32rpx;
 		color: #333;
 		padding: 20rpx 20rpx;
-		margin: 30rpx 20rpx;
-		border-style: solid;
+		// margin: 30rpx 20rpx;
+		// border-style: solid;
 		/* TODO */
 		overflow: hidden;
 	}
@@ -338,8 +355,7 @@
 		font-size: 32rpx;
 		color: #333;
 		padding: 20rpx 20rpx;
-		margin: 30rpx 20rpx;
-		border-style: solid;
+		/* border-style: solid; */
 		/* TODO */
 		overflow: hidden;
 	}
@@ -354,6 +370,7 @@
 		float: left;
 	}
 
+
 	.info-item {
 		font-size: large;
 		float: left;
@@ -361,5 +378,13 @@
 
 		padding-left: 10rpx;
 		/* border-style: solid;  /* TODO */
+	}
+
+	.avatar-item {
+		margin-right: 10rpx;
+	}
+
+	.info-item-row {
+		margin-bottom: 5rpx;
 	}
 </style>

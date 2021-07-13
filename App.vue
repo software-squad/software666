@@ -1,6 +1,5 @@
 <script>
 	import md5Libs from "uview-ui/libs/function/md5.js"
-	import request from '@../../api/request.js'
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')

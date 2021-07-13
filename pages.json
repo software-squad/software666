@@ -3,13 +3,8 @@
 		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/login/login",
-			"style": {
-				"navigationBarTitleText": "登录界面",
-				"enablePullDownRefresh": false
-			}
-		}, {
+		 // 首页放在第一位，避免uni.navigateBack(OBJECT)返回错误
+		 {
 			"path": "pages/menu/menu",
 			"style": {
 				"navigationBarTitleText": "首页",
@@ -17,7 +12,6 @@
 				"backgroundColor": "#376CBD"
 
 				// "app-plus":{
-
 				// 	"titleNView": {
 				// 		"buttons": [{
 				// 				"text": "\ue606",
@@ -29,13 +23,19 @@
 				// 				"text": "\ue60d",
 				// 				"fontSrc": "/static/iconfont.ttf",
 				// 				"fontSize": "22px"
-
 				// 			}
 				// 		]
 				// 	}
 				// } 
 			}
 
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录界面",
+				"enablePullDownRefresh": false
+			}
 		},
 		{
 			"path": "pages/test/test",
@@ -59,8 +59,6 @@
 				"app-plus": {
 					"titleNView": {
 						"buttons": [{
-							"color": "#FFFFFF",
-							"colorPressed": "#eee",
 							"fontSrc": "/static/iconfont.ttf",
 							"fontSize": "22px",
 							"float": "right",
@@ -174,7 +172,7 @@
 				"enablePullDownRefresh": false
 			}
 		}, {
-			"path": "pages/notice/upload",
+			"path": "pages/notice/add",
 			"style": {
 				"navigationBarTitleText": "发布公告",
 				"enablePullDownRefresh": false
@@ -219,6 +217,16 @@
 			}
 
 		}, {
+			"path": "pages/staff/index",
+			"style": {
+				"navigationBarTitleText": "员工中心",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"titleNView": true
+				}
+			}
+
+		}, {
 			"path": "pages/staff/edit",
 			"style": {
 				"navigationBarTitleText": "编辑信息",
@@ -252,7 +260,7 @@
 		}, {
 			"path": "pages/staff/index",
 			"style": {
-				"navigationBarTitleText": "员工中心",
+				"navigationBarTitleText": "CSI员工之家",
 				"enablePullDownRefresh": false
 			}
 
@@ -270,8 +278,17 @@
 			"path": "pages/staff/search",
 			"style": {
 				// "navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-				// "app-plus":{"titleNView":false}
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"fontSrc": "/static/iconfont.ttf",
+							"fontSize": "22px",
+							"float": "right",
+							"text": "\ue716" // 字体图标\u 开头，加上字体图标unicode后面四位
+						}]
+					}
+				}
 			}
 
 		}, {
@@ -289,43 +306,7 @@
 			}
 
 		}
-	    ,{
-            "path" : "pages/test/test-login",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/test/test-subcomp",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "子组件测试",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "components/my-ui/my-card/my-card",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/test/test-myCard",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white", //状态栏字体颜色
 		"navigationBarTitleText": "CSI员工之家",
@@ -372,7 +353,7 @@
 			},
 			{
 				"pagePath": "pages/user/user",
-				"text": "我的",
+				"text": "个人中心",
 				"iconPath": "static/tab_icons/user.png",
 				"selectedIconPath": "static/tab_icons/userHL.png"
 			}

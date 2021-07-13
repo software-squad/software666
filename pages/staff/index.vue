@@ -1,11 +1,13 @@
 <template>
 	<view class="u-wrap">
+		<!-- 搜索栏 -->
 		<view class="u-search-box">
 			<view class="u-search-inner" @click="navToSearchByUsername">
 				<u-icon name="search" color="#909399" :size="28"></u-icon>
 				<text class="u-search-text">请输入员工姓名，不支持模糊搜索</text>
 			</view>
 		</view>
+
 		<view class="u-menu-wrap">
 			<scroll-view scroll-y scroll-with-animation="true" class="u-tab-view menu-scroll-view"
 				:scroll-top="scrollTop" :scroll-into-view="itemId">
@@ -14,7 +16,7 @@
 					<text class="u-line-1">{{item.label}}</text>
 				</view>
 			</scroll-view>
-			
+
 			<scroll-view :scroll-top="scrollRightTop" scroll-y="true" scroll-with-animation="true" class="right-box"
 				@scroll="rightScroll">
 				<view class="page-view">
@@ -24,20 +26,25 @@
 						<text>{{tabbar[current].label}}</text>
 					</view> -->
 						<view class="item-container">
-							<view class="thumb-box" v-for="(it,id) in tabbar[current].children" :key="id" @click="navToSearchByDeptAndJob(tabbar[current],it)">
+							<view class="thumb-box" v-for="(it,id) in tabbar[current].children" :key="id"
+								@click="navToSearchByDeptAndJob(tabbar[current],it)">
 								<view class="item-menu-name">{{it.label}}</view>
 							</view>
 						</view>
 					</view>
 				</view>
+				<!-- TODO 权限隐藏 -->
+				<u-icon class="icon-circle-plus-fill" size="100" name="plus-circle-fill" @click="navToAdd"></u-icon>	
+				
 			</scroll-view>
-			
+		
 		</view>
+		<!-- TODO -->
+		
+		<u-toast ref="uToast" />
 	</view>
 </template>
 <script>
-	import classifyData from '@../../common/classify.data.js';
-	import request from '@../../api/request.js'
 	export default {
 		data() {
 			return {
@@ -57,48 +64,35 @@
 		onLoad() {
 			console.log("加载中")
 			let _this = this
-			// uni.request({
-			// 	url:'/api/staff/index',
-			// 	// url:'http://192.168.0.106:8082/api/staff/index',
-			// 	method:"GET",
-			// 	// header:{
-					
-			// 	// }
-			// 	success: (res)=>{
-			// 		console.log(res)
-			// 		_this.tabbar = res.data.data
-			// 		console.log(this.tabbar)
-			// 	}
-			// })
-			request({
-				url:'/api/staff/index',
-				method:"GET",
-			}).then(res=>{
-				console.log('返回中')
-				console.log(res)
+			this.$request.request({
+				url: '/api/staff/index',
+				method: "GET",
+			}).then(res => {
 				_this.tabbar = res.data.data
-				console.log(this.tabbar)
-				console.log("加载结束")
-			}).catch(err=>{
-				console.log("错误")
+				console.log("数据加载成功")
 			})
 		},
 		// onReady() {
 		// 	this.getMenuItemTop()
 		// },
 		methods: {
-			// 点击搜索事件
-			navToSearchByUsername(){
+			navToAdd(){
 				uni.navigateTo({
-					url:'./search',
+					url: '/pages/staff/add'
+				})
+			},
+			// 点击搜索事件
+			navToSearchByUsername() {
+				uni.navigateTo({
+					url: './search',
 					success() {
 						console.log('回到广场')
 					}
 				})
 			},
-			navToSearchByDeptAndJob(dept,job){
+			navToSearchByDeptAndJob(dept, job) {
 				uni.navigateTo({
-					url:'/pages/staff/show?deptid='+dept.value+"&jobid="+job.value+"&jobname="+job.label
+					url: '/pages/staff/show?deptid=' + dept.value + "&jobid=" + job.value + "&jobname=" + job.label
 				})
 			},
 			// 点击左边的栏目切换
@@ -210,6 +204,18 @@
 </script>
 
 <style lang="scss" scoped>
+	.icon-circle-plus-fill{
+	  color: #42b983;
+	  position: absolute;
+	  bottom: 120rpx;
+	  right: 20rpx;
+	}
+	.icon-circle-plus-fill:hover{
+	  // -webkit-box-shadow: #ccc 10px 10px 10px;
+	  // -moz-box-shadow: #ccc 10px 10px 10px;
+	  box-shadow: #ccc 10px 10px 10px;
+	}
+	
 	.u-wrap {
 		height: calc(100vh);
 		/* #ifdef H5 */
@@ -217,7 +223,7 @@
 		/* #endif */
 		display: flex;
 		flex-direction: column;
-		
+
 	}
 
 	.u-search-box {

@@ -1,15 +1,16 @@
 <template>
 	<view>
+		<u-toast ref="uToast" />
 		<view class="userimage">
 			<u-image width="250rpx" height="250rpx" :src="imageSrc" shape="circle"></u-image>
 		</view>
 		<u-gap height="200"></u-gap>
 		<view class="password">
-			<u-input type="password" :border="true" v-model="password" placeholder="请输入原密码" />
+			<u-input type="password" :border="true" v-model="oldpwd" placeholder="请输入原密码" />
 			<u-gap height="30"></u-gap>
-			<u-input type="password" :border="true" v-model="password" placeholder="请输入新密码" />
+			<u-input type="password" :border="true" v-model="newpwd" placeholder="请输入新密码" />
 			<u-gap height="30"></u-gap>
-			<u-input type="password" :border="true" v-model="password" placeholder="请再次输入新密码" />
+			<u-input type="password" :border="true" v-model="confirmpwd" placeholder="请再次输入新密码" />
 			<u-gap height="180"></u-gap>
 		</view>
 		<u-row>
@@ -20,21 +21,72 @@
 </template>
 
 <script>
+	import {changePwdSendData} from "../../api/api.js"
 	export default {
 		data() {
 			return {
-				imageSrc: "/static/user/userImage.png"
+				userid:'',
+				imageSrc: '',
+				oldpwd:'',
+				newpwd:'',
+				confirmpwd:''
 			}
 		},
+		onLoad: function(option)  {
+			this.imageSrc = JSON.parse(decodeURIComponent(option.pic));
+			this.userid = sessionStorage.getItem("userid");
+		},
 		methods: {
+			showFalseToast() {
+							this.$refs.uToast.show({
+								title: '修改失败',
+								type: 'false',
+							})
+			},
+			showSuccessToast() {
+							this.$refs.uToast.show({
+								title: '修改成功',
+								type: 'success'
+							})
+			},
+			showWarningToast() {
+							this.$refs.uToast.show({
+								title: '两次输入的新密码不一致',
+								type: 'error'
+							})
+			},
 			confirm(){
-				uni.navigateTo({
-					url:"./user"
+				if (this.confirmpwd!=this.newpwd){
+					this.showWarningToast();
+					this.oldpwd = '';
+					this.newpwd =  '';
+					this.confirmpwd = '';
+				}
+				else{
+					this.submit();
+				}
+			},
+			submit(){
+				let data={
+					userid:this.userid,
+					oldpwd:this.oldpwd,
+					newpwd:this.newpwd,
+				}
+				changePwdSendData(data)
+				.then((response) => {
+					this.showSuccessToast()
+					uni.navigateTo({
+						url:"user"
+					})
 				})
+				.catch((error) => {
+				  console.log(error);
+				  this.showFalseToast()
+				 })
 			},
 			cancel(){
 				uni.navigateTo({
-					url:"./user"
+					url:"user"
 				})
 			}
 

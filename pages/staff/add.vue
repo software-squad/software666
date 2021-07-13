@@ -1,22 +1,22 @@
 <template>
 	<view class="form-box">
-		<u-form :model="form" ref="uForm" label-position="top" :required=true>
+		<u-form :model="form" ref="uForm" label-position="top" >
 
-			<u-form-item label="账户名" prop="loginname">
+			<u-form-item label="账户名" prop="loginname" required>
 				<u-input v-model="form.loginname" placeholder='请输入账户名' />
 			</u-form-item>
 
-			<u-form-item label="密码" prop="password">
+			<u-form-item label="密码" prop="password" required>
 				<u-input v-model="form.password" placeholder='请输入密码' type="password" />
 			</u-form-item>
 
-			<u-form-item label="权限" prop="status">
+			<u-form-item label="权限" prop="status" required>
 				<u-select v-model="statusShow" mode="single-column" :list="statusList" @confirm="statusConfirm">
 				</u-select>
-				<u-input v-model="form.status" type="select" @click="statusShow = true" placeholder='请选择性别' />
+				<u-input v-model="statusLabel" type="select" @click="statusShow = true" placeholder='请选择性别' />
 			</u-form-item>
 
-			<u-form-item label="姓名" prop="username">
+			<u-form-item label="姓名" prop="username" required>
 				<u-input v-model="form.username" placeholder='请输入姓名' />
 			</u-form-item>
 
@@ -24,7 +24,7 @@
 				<u-input v-model="form.cardid" placeholder='请输入身份证号码' />
 			</u-form-item>
 
-			<u-form-item label="性别" prop="sex">
+			<u-form-item label="性别" prop="sex" required>
 				<u-select v-model="sexSelShow" mode="single-column" :list="sexList" @confirm="sexConfirm"></u-select>
 				<u-input v-model="form.sex" type="select" @click="sexSelShow = true" placeholder='请选择性别' />
 			</u-form-item>
@@ -40,7 +40,7 @@
 				<u-input v-model="form.birthday" type="select" @click="calSelShow = true" placeholder='请选择出生日期' />
 			</u-form-item>
 
-			<u-form-item label="职位" prop="position">
+			<u-form-item label="职位" prop="position" required>
 				<u-select v-model="posSelShow" mode="mutil-column-auto" :list="posList" @confirm="posConfirm">
 				</u-select>
 				<u-input v-model="posSelRes" type="select" @click="posSelShow = true" placeholder='请选择职位' />
@@ -55,7 +55,7 @@
 				<u-input v-model='form.email' type='text' placeholder='请输入邮箱' />
 			</u-form-item>
 
-			<u-form-item label="电话号码" prop='tel'>
+			<u-form-item label="电话号码" prop='tel' required>
 				<u-input v-model='form.tel' type='digit' placeholder='请输入电话号码' />
 			</u-form-item>
 
@@ -80,11 +80,11 @@
 
 			<u-button class="form-button" type="primary" @click="formSubmit">提交</u-button>
 		</u-form>
+		<u-toast ref="uToast" />
 	</view>
 </template>
 
 <script>
-	import request from '@../../api/request.js'
 	export default {
 		name: 'staffForm',
 		data() {
@@ -144,46 +144,30 @@
 					},
 				],
 				form: {
-					username: '', // Not Null
+					userid: 0,
+					password: '',
+					status: '',
+					loginname: '',
+					faceurl: '',
+					facepath: '',
+					deptid: '',
+					jobid: '',
+					username: '',
 					cardid: '',
-					sex: '', // Not Null
-					deptname: '', // Not Null
-					deptid:'',
-					jobname: '', // Not Null
-					jobid:'',
-					education: '',
-					email: '',
-					tel: '', // Not Null
-					party: '',
-					qqnum: '',
 					address: '',
 					postcode: '',
+					tel: '',
+					qqnum: '',
+					email: '',
+					sex: '',
+					party: '',
 					birthday: '',
-					status: '',
-					// '民族',
-					// '所学专业',
-					// '爱好',
-					// '备注'
+					education: '',
+					// createdate: '',
+					deptname: '',
+					jobname: '',
+					remark: '',
 				},
-				labelForm: [
-					'姓名', // Not Null
-					'身份证号码',
-					'性别', // Not Null
-					'部门', // Not Null
-					'职位', // Not Null
-					'学历',
-					'邮箱',
-					'手机', // Not Null
-					'政治面貌',
-					'QQ号码',
-					'联系地址',
-					'邮政编码',
-					'出生日期',
-					// '民族',
-					// '所学专业',
-					// '爱好',
-					// '备注'
-				],
 				rules: {
 					username: [{
 						required: true,
@@ -237,13 +221,13 @@
 						message: "QQ号码格式不正确",
 						trigger: ['change', 'blur']
 					}, ],
-	
+
 					postcode: [{
 						type: 'number',
 						message: "邮编格式不正确",
 						trigger: ['change', 'blur']
 					}, ]
-	
+
 				},
 				// 文字提示
 				errorType: ['message'],
@@ -253,7 +237,7 @@
 				// errorType: ['message', 'border-bottom'],
 			}
 		},
-	
+
 		methods: {
 			formSubmit() {
 				this.$refs.uForm.validate(valid => {
@@ -261,19 +245,22 @@
 					console.log(this.form)
 					if (valid) {
 						this.form.address = this.rangeAddress + this.detailAddress
-						request({
-							url: "/api/staff/editSubmit",
+						this.$request.request({
+							url: "/api/staff/add",
 							data: {
-								staff: this.form,
+								...this.form,
 							},
 							method: 'POST'
 						}).then(res => {
-							console.log('修改成功')
+							this.$refs.uToast.show({
+								title: '提交成功',
+								type: 'success'
+							})
+							uni.navigateBack()
 						})
 					} else {
-						console.log('验证失败');
+						console.log('验证失败')
 					}
-					
 				});
 			},
 			statusConfirm(e) {
@@ -305,7 +292,6 @@
 				console.log(e)
 				this.form.birthday = e.result
 			}
-	
 		},
 		// 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
 		onReady() {
@@ -313,17 +299,11 @@
 			this.$refs.uForm.setRules(this.rules);
 		},
 		onLoad() {
-			uni.request({
-				url:'/api/staff/index',
-				// url:'http://192.168.0.106:8082/api/staff/index',
-				method:"GET",
-				header: {
-					'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjYwNjQyMDMuNDI1Mjg3NywibmFtZSI6InN1cGVybWFuIn0.cvNLYSAhGBP3RLQkV4359GhRGoUgwMwCBTOH1q5v77w' //自定义请求头信息
-				},
-				success: (res)=>{
-					console.log(res)
-					this.posList = res.data.data
-				}
+			this.$request.request({
+				url: '/api/staff/index',
+				method: "GET",
+			}).then(res => {
+				this.posList = res.data.data
 			})
 		}
 	}

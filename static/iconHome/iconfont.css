@@ -1,9 +1,8 @@
 @font-face {
   font-family: "custom-icon"; /* Project id 2664248 */
-  src: url('D:/CodeFiles/App/software666/view/static/iconHome/iconfont.woff2?t=1625879810914') format('woff2'),
-  url('D:/CodeFiles/App/software666/view/static/iconHome/iconfont.woff?t=1625879810914') format('woff'),
-  url('D:/CodeFiles/App/software666/view/static/iconHome/iconfont.ttf?t=1625879810914') format('truetype');
-
+  src: url('iconfont.woff2?t=1625880405481') format('woff2'),
+       url('iconfont.woff?t=1625880405481') format('woff'),
+       url('iconfont.ttf?t=1625880405481') format('truetype');
 }
 
 .custom-icon {

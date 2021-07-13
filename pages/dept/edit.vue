@@ -1,16 +1,24 @@
  <template>
  	<view>
+ 		<u-toast ref="uToast" />
  		<u-gap height="40"></u-gap>
  		<view class="deptOne">
- 			<text>部门名字</text>
- 			<u-input type="text" :border="true" placeholder="请输入部门名字"/>
+ 			<image :src="imageSrc" ></image>
+ 			<u-gap height="60"></u-gap>
+ 			<text class="title">部门名字:</text>
  			<u-gap height="30"></u-gap>
- 			<text>部门描述</text>
- 			<u-gap height="10"></u-gap>
- 			<u-input type="textarea" height="700" :border="true" placeholder="请输入部门描述"/>
+			<u-input  v-model="item.deptname" type="text" :border="true" />
+ 			<u-gap height="60"></u-gap>
+ 			<text class="title">部门描述:</text>
+ 			<u-gap height="30"></u-gap>
+			<u-input  v-model="item.remark" type="text" :border="true" />
  			<u-gap height="80"></u-gap>
- 			<u-col span="400">
+			<text class="title">部门照片:</text>
+			<u-input  v-model="item.depturl" type="text" :border="true" />
+			<u-gap height="80"></u-gap>
+			<u-col span="400">
  				<u-row gutter="20">
+					<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="confirm" @cancel="cancel"></u-modal>
  					<button @click="submit" >提交</button>
  				</u-row>
  			</u-col>
@@ -19,20 +27,29 @@
  </template>
  
  <script>
+	import {deptEditSendData} from "../../api/api.js"
  	export default {
  		data() {
  			return {
- 				value: '',
- 				deptName:'',
- 				deptDctipt:''
+ 				deptid:'',
+ 				deptname:'',
+ 				remark:'',
+ 				depturl:'',
+ 				item:'',
+ 				imageSrc:'',
+ 				show: false,
+ 				content: '确认提交？'
  			}
  		},
  		onLoad: function(option) {
  			console.log(option)
- 			const item = JSON.parse(decodeURIComponent(option.item));
- 			console.log("edit");
- 			console.log(item.name);
- 			console.log(item.dcrpt);		            
+ 			this.item = JSON.parse(decodeURIComponent(option.item))
+			this.imageSrc = this.item.depturl
+			this.value = this.item.deptname
+ 			console.log("edit")
+ 			console.log(this.item.deptname)
+ 			console.log(this.item.remark)
+		
  		},
  		methods: {
  			showSuccessToast() {
@@ -48,21 +65,31 @@
  				})
  			},
  			submit(){
- 				let data = {
- 							
- 				}
- 				SendData(data)
- 					.then((response) => {
- 						this.showDelSuccessToast();
- 						uni.switchTab({
- 							url: '/pages/dept/show'
- 						})
- 					})
- 					.catch((error) => {
- 						console.log(error);
- 						this.showDelFalseToast();
- 					})		
- 			}
+ 				this.show = true
+ 			},
+			confirm(){
+				let data = {
+					deptid:this.item.deptid,
+					deptname:this.item.deptname,
+					remark:this.item.remark,
+					depturl:this.item.depturl
+				}
+				deptEditSendData(data)
+					.then((response) => {
+						this.showSuccessToast()
+						uni.navigateTo({
+							url: '/pages/dept/show'
+						})
+					})
+					.catch((error) => {
+						console.log(error)
+						this.showFalseToast()
+					})		
+			},
+			cancel(){
+				this.show = false
+			}
+			
  			
  			
  		}
@@ -72,7 +99,11 @@
  <style>
  	.deptOne{
  		margin: 0 50rpx;
- 	}
+ 	},
+	.title{
+		font-size: larger;
+		font-weight: bold;
+	}
  
  </style>
  
