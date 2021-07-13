@@ -247,6 +247,7 @@
 							this.$refs.uToast.show({
 								title: '提交成功',
 								type: 'success',
+								// TODO 时限逻辑，否则回猛的跳转
 							})
 							uni.navigateBack()
 						})
