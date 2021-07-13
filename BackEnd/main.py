@@ -33,21 +33,21 @@ app.include_router(notice.router, prefix="/api/notice")
 app.include_router(document.router, prefix="/api/file")
 
 
-# @app.middleware('http')
-# async def add_process_time_header(request: Request, call_next):
-#     url = str(request.url)
-#     try:
-#         last = url[url.rindex('/') + 1:]
-#         if last != 'login' and last != 'docs' and last != 'openapi.json':
-#             if 'token' not in request.headers.keys() or \
-#                jwt_decode.jwtEncode(request.headers['token']) is None:
-#                 return response_code.response(status.HTTP_401_UNAUTHORIZED,
-#                                               'not allowed')
-#     except Exception:
-#         return response_code.response(status.HTTP_401_UNAUTHORIZED,
-#                                       'not allowed')
-#     response = await call_next(request)
-#     return response
+@app.middleware('http')
+async def add_process_time_header(request: Request, call_next):
+    url = str(request.url)
+    try:
+        last = url[url.rindex('/') + 1:]
+        if last != 'login' and last != 'docs' and last != 'openapi.json':
+            if 'token' not in request.headers.keys() or \
+               jwt_decode.jwtEncode(request.headers['token']) is None:
+                return response_code.response(status.HTTP_401_UNAUTHORIZED,
+                                              'not allowed')
+    except Exception:
+        return response_code.response(status.HTTP_401_UNAUTHORIZED,
+                                      'not allowed')
+    response = await call_next(request)
+    return response
 
 
 if __name__ == '__main__':

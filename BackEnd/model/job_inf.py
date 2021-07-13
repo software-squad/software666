@@ -5,7 +5,7 @@ class JobInf(BaseModel):
     jobid: int = None
     jobname: str
     remark: str
-    deptname: str
+    deptname: str = None
     deptid: int = None
 
 
