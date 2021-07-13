@@ -64,7 +64,7 @@ def searchByDeptAndJob(staff):
 
 def searchByUsername(username):
     # 通过用户名查询员工
-    status_code, result = staffDao.select('USERNAME', username)
+    status_code, result = staffDao.selectLike('USERNAME', username)
     code = msg_code.SEARCH_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.SEARCH_FAILURE

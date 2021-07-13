@@ -58,7 +58,6 @@ async def editStaffByUserid(userid: int):
 @router.post("/editSubmit", tags=["staff"])
 async def editStaffSubmit(staff: staff_inf.StaffInf):
     # 编辑员工信息，提交环节
-    print(staff.loginname)
     status_code, msg_code = staffService.editStaffSubmit(staff)
     return response_code.response(status_code, msg_code)
 

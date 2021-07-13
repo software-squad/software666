@@ -164,7 +164,7 @@ def addOneJob(jobname, remark, deptid):
     info = cursor.fetchall()
 
     if str(info) == "()":
-        sql = "INSERT INTO JOBS(JOBNAME, REMARK,DEPTID) \
+        sql = "INSERT INTO JOBS(JOBNAME,REMARK,DEPTID) \
                 VALUES('%s','%s','%s')" % (jobname, remark, deptid)
         try:
             cursor.execute(sql)

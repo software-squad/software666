@@ -39,6 +39,7 @@ def validateUserByAccount(user):
 
 
 def validateUserByFace(faceByte, faceImage, loginname):
+    # 通过刷脸登录
     status_code, result = loginDao.select("loginname", loginname)  # 根据登录名获取对应的用户信息
     token = 0
     code = msg_code.ENTER_SUCCESS

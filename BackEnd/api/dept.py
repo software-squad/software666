@@ -18,7 +18,7 @@ async def showAllDepartments():
 
 
 @router.post("/add", tags=["department"])
-async def addDepartment(dept: dept_inf.AddDeptInf):
+async def addDepartment(dept: dept_inf.DeptInf):
     # 增添部门
     status_code, msg_code = deptService.addDepartment(dept)
     return response_code.response(status_code, msg_code)
@@ -32,7 +32,7 @@ async def editDepartment(dept: dept_inf.DeptInf):
 
 
 @router.post("/del", tags=["department"])
-async def delDepartment(dept: dept_inf.DelDeptInf):
+async def delDepartment(dept: dept_inf.DeptInf):
     # 删除部门
     status_code, msg_code = deptService.delDepartment(dept)
     return response_code.response(status_code, msg_code)

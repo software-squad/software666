@@ -5,6 +5,9 @@ from dao import noticeDao
 def showNotices():
     print("====展示多个公告信息====")
     info, res = noticeDao.selAllNotices()
+    for item in info:
+        item['createdate'] = str(item['createdate'])
+        item['editdate'] = str(item['editdate'])
     return info, res
 
 

@@ -7,7 +7,7 @@ datalist = "NOTICES"
 
 def getNews():
     db, cursor = database.connectToDataBase()
-    sql = "SELECT * FROM %s ORDER BY NOTICEID DESC LIMIT 2" % (datalist)
+    sql = "SELECT * FROM %s ORDER BY EDITDATE DESC LIMIT 2" % (datalist)
     status_code = status.HTTP_200_OK
     try:
         cursor.execute(sql)

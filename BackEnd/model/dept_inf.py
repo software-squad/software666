@@ -2,13 +2,7 @@ from pydantic import BaseModel
 
 
 class DeptInf(BaseModel):
-    deptid: int
-    deptname: str
-    depturl: str
-    remark: str
-
-
-class AddDeptInf(BaseModel):
+    deptid: int = None
     deptname: str
     depturl: str
     remark: str

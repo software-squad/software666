@@ -20,6 +20,21 @@ def select(index, value):
     return status_code, results
 
 
+def selectLike(index, value):
+    db, cursor = database.connectToDataBase()
+    sql = "SELECT * FROM %s WHERE %s LIKE '%%%s%%'" % (datalist, index, value)
+    status_code = status.HTTP_200_OK
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+    except pymysql.Error:
+        results = None
+        status_code = status.HTTP_400_BAD_REQUEST
+        db.rollback()
+    db.close()
+    return status_code, results
+
+
 def selectBy2(index1, value1, index2, value2):
     db, cursor = database.connectToDataBase()
     sql = "SELECT * FROM %s WHERE %s = '%s' AND %s = '%s'" % \

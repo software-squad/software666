@@ -81,7 +81,7 @@ async def delJob(job: job_inf.DelJobInf):
 
 
 @router.post("/add", tags=["job"])
-async def addJob(job: job_inf.AddJobInf):
+async def addJob(job: job_inf.JobInf):
     # 增添职位
     # result=0  新增成功
     # result=1  新增失败

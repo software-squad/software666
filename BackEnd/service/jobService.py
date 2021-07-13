@@ -1,4 +1,4 @@
-from dao import jobDao
+from dao import deptDao, jobDao
 
 
 def showJobs():
@@ -36,6 +36,7 @@ def delJob(job):
 
 def addJob(job):
     print("====增加单个职位信息====")
-    res = jobDao.addOneJob(job.jobname, job.remark, job.deptid)
+    status_code, result = deptDao.select('DEPTNAME', job.deptname)
+    res = jobDao.addOneJob(job.jobname, job.remark, result[0]['deptid'])
     # 返回是否能成功增加
     return res

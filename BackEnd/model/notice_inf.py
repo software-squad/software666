@@ -5,7 +5,6 @@ class NoticeInf(BaseModel):
     noticeid: int
     title: str
     content: str
-    createdate: str
     userid: int
     username: str
 
@@ -13,6 +12,5 @@ class NoticeInf(BaseModel):
 class AddNoticeInf(BaseModel):
     title: str
     content: str
-    createdate: str
     userid: int
     username: str
