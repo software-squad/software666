@@ -7,6 +7,7 @@ from service import documentService
 from model import document_inf
 
 from starlette.responses import FileResponse
+import os
 
 # 构建api路由
 router = APIRouter()
@@ -15,6 +16,7 @@ router = APIRouter()
 @router.get("/showmany", tags=["document"])
 async def showFiles():
     # 展示大量文件
+    print(os.path.relpath('C:/Users/15067/Desktop/CSI_all_are_post/api'))
     status_code, files, msg_code = documentService.showFiles()
     return response_code.response(status_code, msg_code, files)
 

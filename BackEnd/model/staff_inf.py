@@ -7,7 +7,6 @@ class StaffInf(BaseModel):
     status: int = None
     loginname: str = None
     faceurl: str
-    facepath: str
     deptid: int
     jobid: int
     username: str

@@ -17,9 +17,8 @@ def showFiles():
 
 def editFile(file):
     # 修改文件
-    edit_index = ['TITLE', 'FILENAME', 'REMARK', 'USERNAME', 'FILEPATH']
-    edit_value = [file.title, file.filename, file.remark, file.username,
-                  file.filepath]
+    edit_index = ['TITLE', 'REMARK', 'USERID', 'USERNAME']
+    edit_value = [file.title, file.remark, file.userid, file.username]
     status_code = documentDao.edit('FILEID', file.fileid, edit_index,
                                    edit_value)
     if status_code == status.HTTP_400_BAD_REQUEST:

@@ -41,8 +41,6 @@ def edit(index, value, edit_index: list, edit_value: list):
         for key, val in zip(edit_index[1:], edit_value[1:]):
             sql += ", %s = '%s'" % (key, val)
     sql += " WHERE %s = '%s'" % (index, value)
-    # sql = "UPDATE %s SET %s = '%s' WHERE %s = '%s'" % \
-    #       (datalist, edit_index, edit_value, index, value)
     status_code = status.HTTP_200_OK
     try:
         cursor.execute(sql)
@@ -56,9 +54,9 @@ def edit(index, value, edit_index: list, edit_value: list):
 
 def insert(fileMsg, file):
     db, cursor = database.connectToDataBase()
-    sql = """INSERT INTO %s (TITLE, FILENAME, REMARK, USERNAME, FILEPATH)
-             VALUES ('%s','%s','%s','%s','%s');""" % (
-             datalist, fileMsg['title'], file.filename, fileMsg['remark'],
+    sql = """INSERT INTO %s (TITLE, FILENAME, REMARK, USERID, USERNAME, FILEPATH)
+             VALUES ('%s','%s','%s',%d,'%s','%s');""" % (
+             datalist, fileMsg['title'], file.filename, fileMsg['remark'], fileMsg['userid'],
              fileMsg['username'], 'C:/file/')
     status_code = status.HTTP_200_OK
     try:

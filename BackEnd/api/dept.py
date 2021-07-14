@@ -13,7 +13,7 @@ router = APIRouter()
 @router.get("/showAll", tags=["department"])
 async def showDepartments():
     # 展示所有部门
-    status_code, depts, msg_code = deptService.showAllDepartments()
+    status_code, depts, msg_code = deptService.showDepartments()
     return response_code.response(status_code, msg_code, depts)
 
 
