@@ -1,10 +1,10 @@
 from fastapi import status
-from dao import deptDao, staffDao
+from dao import deptDao, jobDao, staffDao
 from util import msg_code
 
 
-def showAllDepartments():
-    # 展示所有部门
+def showDepartments():
+    """展示所有部门"""
     status_code, result = deptDao.getAll()
     code = msg_code.SEARCH_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -13,7 +13,7 @@ def showAllDepartments():
 
 
 def addDepartment(dept):
-    # 添加部门
+    """添加部门"""
     status_code, result = deptDao.select('DEPTNAME', dept.deptname)
     code = msg_code.ADD_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -28,7 +28,7 @@ def addDepartment(dept):
 
 
 def editDepartment(dept):
-    # 编辑部门
+    """编辑部门"""
     status_code, result = deptDao.select('DEPTNAME', dept.deptname)
     code = msg_code.UPD_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -37,7 +37,7 @@ def editDepartment(dept):
         code = msg_code.DATA_REPEATED
     else:
         status_code = staffDao.edit('DEPTID', dept.deptid,
-                                    'DEPTNAME', [dept.deptname])
+                                    ['DEPTNAME'], [dept.deptname])
         if status_code == status.HTTP_400_BAD_REQUEST:
             code = msg_code.UPD_FAILURE
         else:
@@ -51,13 +51,19 @@ def editDepartment(dept):
 
 
 def delDepartment(dept):
-    # 删除部门
-    status_code = staffDao.delete('DEPTID', dept.deptid)
+    """删除部门"""
+    edit_index = ['DEPTID', 'DEPTNAME', 'JOBID', 'JOBNAME']
+    edit_value = [1, '待定', 1, '待定']
+    status_code = staffDao.edit('DEPTID', dept.deptid, edit_index, edit_value)
     code = msg_code.DEL_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.DEL_FAILURE
     else:
-        status_code = deptDao.delete('DEPTID', dept.deptid)
+        status_code = jobDao.delete('DEPTID', dept.deptid)
         if status_code == status.HTTP_400_BAD_REQUEST:
             code = msg_code.DEL_FAILURE
+        else:
+            status_code = deptDao.delete('DEPTID', dept.deptid)
+            if status_code == status.HTTP_400_BAD_REQUEST:
+                code = msg_code.DEL_FAILURE
     return status_code, code

@@ -54,12 +54,12 @@ def selectBy2(index1, value1, index2, value2):
 def insert(item):
     db, cursor = database.connectToDataBase()
     sql = """INSERT INTO %s VALUES(DEFAULT,'%s','%s','%s','%s','%s','%s','%s','%s','%s',
-             '%s','%s','%s','%s','%s','%s','%s',DEFAULT,'%s','%s','%s','%s','%s')""" %\
+             '%s','%s','%s','%s','%s','%s','%s',DEFAULT,'%s',DEFAULT,'%s','%s','%s')""" % \
           (datalist, item.username, item.cardid, item.sex, item.jobid,
            item.education, item.email, item.deptid, item.tel, item.party,
            item.qqnum, item.address, item.postcode, item.birthday,
            item.loginname, item.password, item.status, item.faceurl,
-           item.facepath, item.deptname, item.jobname, item.remark)
+           item.deptname, item.jobname, item.remark)
     status_code = status.HTTP_200_OK
     try:
         cursor.execute(sql)
@@ -88,17 +88,16 @@ def delete(index, value):
 def edit(index, value, edit_index: list, edit_value: list):
     db, cursor = database.connectToDataBase()
     sql = "UPDATE %s SET %s = '%s'" % (datalist, edit_index[0], edit_value[0])
-    if len(value) > 1:
+    if len(edit_index) > 1:
         for key, val in zip(edit_index[1:], edit_value[1:]):
             sql += ", %s = '%s'" % (key, val)
     sql += " WHERE %s = '%s'" % (index, value)
-    # sql = "UPDATE %s SET %s = '%s' WHERE %s = '%s'" % \
-    #       (datalist, edit_index, edit_value, index, value)
     status_code = status.HTTP_200_OK
     try:
         cursor.execute(sql)
         db.commit()
-    except pymysql.Error:
+    except pymysql.Error as e:
+        print(e)
         status_code = status.HTTP_400_BAD_REQUEST
         db.rollback()
     db.close()

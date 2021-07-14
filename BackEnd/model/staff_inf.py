@@ -2,12 +2,11 @@ from pydantic import BaseModel
 
 
 class StaffInf(BaseModel):
-    userid: int
+    userid: int = None
     password: str = None
     status: int = None
     loginname: str = None
     faceurl: str
-    facepath: str
     deptid: int
     jobid: int
     username: str

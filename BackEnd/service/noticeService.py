@@ -4,7 +4,7 @@ from util import msg_code
 
 
 def showNotices():
-    # 展示公告
+    """展示公告"""
     status_code, result = noticeDao.getAll()
     code = msg_code.SEARCH_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -17,7 +17,7 @@ def showNotices():
 
 
 def editNotice(notice):
-    # 编辑公告
+    """编辑公告"""
     status_code, result = noticeDao.select('TITLE', notice.title)
     code = msg_code.UPD_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -36,7 +36,7 @@ def editNotice(notice):
 
 
 def delNotice(notice):
-    # 删除公告
+    """删除公告"""
     status_code = noticeDao.delete('NOTICEID', notice.noticeid)
     code = msg_code.DEL_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -45,7 +45,7 @@ def delNotice(notice):
 
 
 def addNotice(notice):
-    # 增加公告
+    """增加公告"""
     status_code, result = noticeDao.select('TITLE', notice.title)
     code = msg_code.ADD_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:

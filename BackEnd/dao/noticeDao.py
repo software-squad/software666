@@ -68,12 +68,10 @@ def delete(index, value):
 def edit(index, value, edit_index: list, edit_value: list):
     db, cursor = database.connectToDataBase()
     sql = "UPDATE %s SET %s = '%s'" % (datalist, edit_index[0], edit_value[0])
-    if len(value) > 1:
+    if len(edit_index) > 1:
         for key, val in zip(edit_index[1:], edit_value[1:]):
             sql += ", %s = '%s'" % (key, val)
     sql += " WHERE %s = '%s'" % (index, value)
-    # sql = "UPDATE %s SET %s = '%s' WHERE %s = '%s'" % \
-    #       (datalist, edit_index, edit_value, index, value)
     status_code = status.HTTP_200_OK
     try:
         cursor.execute(sql)
