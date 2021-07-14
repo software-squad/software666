@@ -291,7 +291,9 @@
 		onReady() {
 			this.$refs.uForm.setRules(this.rules);
 		},
-		onLoad: function(item) {
+		onLoad: function(parm) {
+			
+			console.log('跳转用户编辑页面',parm)
 			this.$request.request({
 				url: '/api/staff/index',
 				// url:'http://192.168.0.106:8082/api/staff/index',
@@ -302,7 +304,7 @@
 			this.$request.request({
 				url: "/api/staff/editByUserid",
 				data: {
-					userid: item.userid,
+					userid: parm.item,
 				},
 				method: 'GET',
 			}).then(res => {

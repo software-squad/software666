@@ -73,8 +73,8 @@
  			},
  			confirmExit() {
  				sessionStorage.clear()
-				console.log(sessionStorage.getItem("token"))
- 				uni.navigateTo({
+				console.log('现有的token',sessionStorage.getItem("token"))
+ 				uni.redirectTo({
  					url: "../login/login"
  				})
  			},

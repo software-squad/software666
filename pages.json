@@ -306,7 +306,43 @@
 			}
 
 		}
-	],
+	    ,{
+            "path" : "pages/staff/user_index",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "员工中心",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/staff/user_search",
+            "style" :                                                                                    
+            {
+                // "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/staff/user_show",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "搜索结果",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/file/user_show",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "下载中心",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white", //状态栏字体颜色
 		"navigationBarTitleText": "CSI员工之家",

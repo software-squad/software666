@@ -12,9 +12,8 @@
 
 		<!-- 搜索建议列表 -->
 		<view class="sugg-list" v-if="this.kw.length !== 0">
-			<u-swipe-action :index="index" :key="item.userid" v-for="(item,index) in searchResults" :show="item.show"
-				:options="options" btn-width="180" @click="click" @open="open(index)"
-				@content-click="gotoOne(item.userid)" >
+			<view :index="index" :key="item.userid" v-for="(item,index) in searchResults" 
+				@click="gotoOne(item.userid)" style="background-color: #FFFFFF;">
 				<view class="u-body-item">
 					<image :src="item.faceurl" mode="aspectFill" class="avatar-item"></image>
 
@@ -41,7 +40,7 @@
 						</u-row>
 					</view>
 				</view>
-			</u-swipe-action>
+			</view>
 		</view>
 
 		<!-- 搜索历史 -->
@@ -94,11 +93,6 @@
 					}
 				],
 			};
-		},
-		onNavigationBarButtonTap: function(e) {
-			uni.navigateTo({
-				url: '/pages/staff/add'
-			})
 		},
 		onLoad() {
 			console.log("员工搜索中")
@@ -180,61 +174,12 @@
 				this.getSearchList()
 			},
 
-			click(index, option) {
-				if (option == 1) {
-					this.delShow = true
-					this.delContent = "确认删除" + this.searchResults[index].username + "？"
-					this.delIndex = index
-					this.delId = this.searchResults[index].userid
-				} else {
-					this.navToEdit(index)
-				}
-			},
-			open(index) {
-				// 先将正在被操作的swipeAction标记为打开状态，否则由于props的特性限制，
-				// 原本为'false'，再次设置为'false'会无效
-				console.log('打开中')
-				console.log(index)
-				console.log(this.searchResults[index])
-				this.searchResults[index].show = true;
-				this.searchResults.map((val, idx) => {
-					if (index != idx) this.searchResults[idx].show = false;
-				})
-				console.log(this.searchResults)
-			},
 			gotoOne(userid) {
 				console.log("即将跳转到个人信息页面")
 				uni.navigateTo({
 					url: '../staff/one?userid=' + userid
 				})
 			},
-			navToEdit(index) {
-				uni.navigateTo({
-					url: '/pages/staff/edit?item=' + this.searchResults[index].userid,
-				})
-			},
-			confirmDel() {
-				let index = this.delIndex
-				this.$request.request({
-					url: '/api/staff/del',
-					data: {
-						userid: this.delId,
-					},
-					method: 'GET',
-				}).then(res => {
-					this.searchResults.splice(index, 1);
-				})
-
-				this.delShow = false
-				this.$refs.uToast.show({
-					title: '删除成功',
-					type: 'success',
-				})
-			},
-			cancel() {
-				this.delShow = false;
-				this.searchResults[this.delIndex].show = false;
-			}
 		},
 		computed: {
 			histories() {

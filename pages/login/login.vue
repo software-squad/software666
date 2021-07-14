@@ -33,7 +33,7 @@
 				remember: false,
 				userid: '',
 				status: '',
-				token:''
+				token: ''
 			}
 		},
 
@@ -52,8 +52,8 @@
 					type: 'success',
 				})
 				uni.setStorage({
-					key:"userid",
-					data:this.userid
+					key: "userid",
+					data: this.userid
 				})
 				sessionStorage.setItem("userid", this.userid)
 				sessionStorage.setItem("token", this.token)
@@ -76,10 +76,17 @@
 					// status: this.status,
 					// remember: this.remember,
 				}
-				loginSendData(data)
+				// TODO 部分逻辑修改
+				// loginSendData(data)
+				this.$request.request({
+						url: '/api/login',
+						method: "POST",
+						data: data,
+					})
 					.then((response) => {
 						this.userid = response.data.data.userid;
 						this.token = response.data.data.token;
+						sessionStorage.setItem("username", response.data.data.username)
 						this.showSuccessToast();
 						uni.switchTab({
 							url: '/pages/menu/menu'

@@ -3,10 +3,7 @@ const request = (config) => {
 	// config.url = '127.0.0.1/api' + config.url;  // => 已经进行跨域处理
 	// console.log('封装请求中')
 	if (!config.url.indexOf('login') >= 0) { // 非登录请求
-		// console.log('设置请求头')
-		// console.log(uni.getStorageSync('token'))
-		// console.log('请求头已找到')
-		// console.log(config)
+		console.log('请求token',sessionStorage.getItem('token'))
 		config.header = {
 			'token': sessionStorage.getItem('token')
 		}
@@ -25,7 +22,7 @@ const request = (config) => {
 	}
 	// console.log(JSON.stringify(config.data));
 	let promise = new Promise(function(resolve, reject) {
-		console.log('异步请求中', config)
+		console.log('请求数据', config)
 		uni.request({
 			...config,
 			// 请求成功
@@ -70,26 +67,26 @@ const showError = (res) => {
 					duration: 4000
 				});
 				break
-			// case 403:
-			// 	uni.showModal({
-			// 		title: '登录已过期',
-			// 		content: '很抱歉，登录已过期，请重新登录',
-			// 		confirmText: '重新登录',
-			// 		success: function(res) {
-			// 			if (res.confirm) {
-			// 				// TODO 记得解除注释
-			// 				// 注销token
-			// 				// sessionStorage.setItem("token", '')
-			// 				//去我的页面登录
-			// 				uni.redirectTo({
-			// 					url: '/pages/login'
-			// 				})
-			// 			} else if (res.cancel) {
-			// 				console.log('用户点击取消');
-			// 			}
-			// 		}
-			// 	})
-			// 	break
+			case 403:
+				uni.showModal({
+					title: '登录已过期',
+					content: '很抱歉，登录已过期，请重新登录',
+					confirmText: '重新登录',
+					success: function(res) {
+						if (res.confirm) {
+							// TODO 记得解除注释
+							// 注销token
+							// sessionStorage.setItem("token", '')
+							//去我的页面登录
+							uni.redirectTo({
+								url: '/pages/login'
+							})
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				})
+				break
 			case 404:
 				uni.showToast({
 					title: '很抱歉，资源未找到!',
@@ -177,7 +174,7 @@ const showError = (res) => {
 				break
 			case 10012:
 				uni.showToast({
-					title: '密码错误',
+					title: '用户名或密码错误',
 					icon: 'none',
 					duration: 4000
 				});

@@ -1,4 +1,5 @@
 import service from "../api/request.js"
+import request from "../api/easy_request.js"
 
 export function menuSendData(data) {
 	return service.request({
@@ -63,7 +64,8 @@ export function changePwdSendData(data) {
 }
 
 export function deptShowSendData(data) {
-	return service.request({
+	// TODO 这里为啥不行
+	return request.request({
 		method: 'GET',
 		url: '/api/dept/showAll',
 		data: data

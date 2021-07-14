@@ -55,6 +55,7 @@
 					title: "",
 					remark: '',
 					username: "",
+					userid:"",
 				},
 				tempFilePath: '',
 				tempFile: null,
@@ -137,6 +138,7 @@
 			uni.setNavigationBarTitle({
 				title: '文件上传'
 			})
+			this.item.userid = sessionStorage.getItem('userid')
 		}
 	}
 </script>

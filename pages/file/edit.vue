@@ -2,7 +2,7 @@
 	<view>
 		<u-field v-model="item.title" label="标题" placeholder="取个标题吧" label-align="center">
 		</u-field>
-		
+
 		<u-field type="textarea" v-model="item.remark" label="描述" placeholder="说点什么吧" label-align="center"></u-field>
 		<!-- <u-gap height="15" bg-color="#f9f9f9"></u-gap> -->
 		<!-- <view>
@@ -17,7 +17,7 @@
 		<view class="sub_com">
 			<u-button class="sub_bott" @click="submit" type="primary">提交</u-button>
 		</view>
-		<u-toast ref="uToast"/>
+		<u-toast ref="uToast" />
 
 	</view>
 </template>
@@ -46,14 +46,15 @@
 					"border": false, // 是否显示边框
 					"dividline": true // 是否显示分隔线
 				},
-				
+
 				item: {
-					title: "",
-					filename: "",
-					remark: '',
-					createdate: "",
-					username: "",
-					filepath: ""
+					"fileid": 0,
+					"title": "",
+					"filename": "",
+					"remark": "",
+					"userid": 0,
+					"username": "",
+					"filepath": ""
 				},
 				tempFilePath: '',
 				tempFile: null,
@@ -61,18 +62,22 @@
 		},
 		methods: {
 			submit() {
-				this.$request.request(data)
+				this.$request.request({
+						url: '/api/file/edit',
+						method: 'POST',
+						data: this.item
+					})
 					.then((response) => {
 						console.log('服务器请求结果', res)
 						this.$refs.uToast.show({
 							title: '上传成功',
 							type: 'success',
-							duration:2000,
+							duration: 4000,
 							// back :true,
 							// url: '/pages/file/show'
 						})
 						uni.redirectTo({
-							url:'/pages/file/show'
+							url: '/pages/file/show'
 						})
 					})
 					.catch((error) => {
@@ -85,13 +90,19 @@
 			}
 
 		},
-		
+
 		onLoad: function(option) {
 			console.log('带参跳转结果', option)
 			if (option) {
-				this.item = JSON.parse(decodeURIComponent(option.item));
-				this.fileLink = baseURL+this.item.fileid
-			}else{
+				let parm = JSON.parse(decodeURIComponent(option.item));
+				this.item.fileid = parm.fileid
+				this.item.title = parm.title
+				this.item.filename = parm.filename
+				this.item.remark = parm.remark
+				this.item.filepath = parm.filepath
+				this.item.userid = sessionStorage.getItem('userid')
+				this.item.username = sessionStorage.getItem('username')
+			} else {
 				this.$u.toast('点击为空')
 			}
 		},
