@@ -4,7 +4,7 @@ from util import msg_code
 
 
 def showJobs():
-    # 展示工作
+    """展示工作"""
     status_code, result = jobDao.getAll()
     code = msg_code.SEARCH_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -13,7 +13,7 @@ def showJobs():
 
 
 def searchJob(jobname):
-    # 查询工作
+    """查询工作"""
     status_code, result = jobDao.selectLike('JOBNAME', jobname)
     code = msg_code.SEARCH_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -22,7 +22,7 @@ def searchJob(jobname):
 
 
 def editJob(job):
-    # 编辑工作
+    """编辑工作"""
     status_code, result = deptDao.select('DEPTNAME', job.deptname)
     code = msg_code.UPD_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -55,7 +55,7 @@ def editJob(job):
 
 
 def delJob(job):
-    # 删除工作
+    """删除工作"""
     edit_index = ['JOBID', 'JOBNAME']
     edit_value = [1, '待定']
     status_code = staffDao.edit('JOBID', job.jobid, edit_index, edit_value)
@@ -70,7 +70,7 @@ def delJob(job):
 
 
 def addJob(job):
-    # 增添工作
+    """增添工作"""
     status_code, result = deptDao.select('DEPTNAME', job.deptname)
     code = msg_code.ADD_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:

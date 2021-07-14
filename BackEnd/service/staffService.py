@@ -4,8 +4,8 @@ from util import msg_code, pwd_encode
 
 
 def getDept():
-    # 获取部门
-    status_code, result = deptDao.getAll()
+    """获取部门信息"""
+    status_code, result = deptDao.getAll()  # 获取所有部门信息
     code = msg_code.SEARCH_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.SEARCH_FAILURE
@@ -26,7 +26,7 @@ def getDept():
 
 
 def searchByDept(deptid):
-    # 通过部门查询工作
+    """通过部门查询工作"""
     status_code, result = jobDao.select('DEPTID', deptid)
     code = msg_code.SEARCH_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -41,7 +41,7 @@ def searchByDept(deptid):
 
 
 def searchByDeptAndJob(staff):
-    # 通过部门和工作查询员工
+    """通过部门和工作查询员工"""
     status_code, result = staffDao.selectBy2('DEPTID', staff.deptid,
                                              'JOBID', staff.jobid)
     code = msg_code.SEARCH_SUCCESS
@@ -63,7 +63,7 @@ def searchByDeptAndJob(staff):
 
 
 def searchByUsername(username):
-    # 通过用户名查询员工
+    """通过用户名查询员工"""
     status_code, result = staffDao.selectLike('USERNAME', username)
     code = msg_code.SEARCH_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -84,7 +84,7 @@ def searchByUsername(username):
 
 
 def showOneStaff(userid):
-    # 展示一个员工数据
+    """展示一个员工数据"""
     status_code, result = staffDao.select('USERID', userid)
     code = msg_code.SEARCH_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -100,7 +100,7 @@ def showOneStaff(userid):
 
 
 def addStaff(staff):
-    # 添加员工
+    """添加员工"""
     status_code, result = staffDao.select('LOGINNAME', staff.loginname)
     code = msg_code.ADD_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -116,7 +116,7 @@ def addStaff(staff):
 
 
 def editStaffShow(userid):
-    # 编辑员工信息前，先传递原本信息
+    """编辑员工信息前，先传递原本信息"""
     status_code, result = staffDao.select('USERID', userid)
     code = msg_code.SEARCH_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -130,7 +130,7 @@ def editStaffShow(userid):
 
 
 def editStaffSubmit(staff):
-    # 修改员工信息
+    """修改员工信息"""
     edit_index = ['USERNAME', 'CARDID', 'SEX', 'JOBID', 'EDUCATION', 'EMAIL',
                   'DEPTID', 'TEL', 'PARTY', 'QQNUM', 'ADDRESS', 'POSTCODE',
                   'BIRTHDAY', 'FACEURL', 'DEPTNAME', 'JOBNAME']
@@ -140,13 +140,13 @@ def editStaffSubmit(staff):
                   staff.birthday, staff.faceurl, staff.deptname, staff.jobname]
     status_code = staffDao.edit('USERID', staff.userid, edit_index, edit_value)
     code = msg_code.UPD_SUCCESS
-    if status.HTTP_400_BAD_REQUEST in status_code:
+    if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.UPD_FAILURE
     return status_code, code
 
 
 def delStaff(userid):
-    # 删除员工
+    """删除员工"""
     status_code = staffDao.delete('USERID', userid)
     code = msg_code.DEL_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:

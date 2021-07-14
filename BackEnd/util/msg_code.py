@@ -1,3 +1,5 @@
+# 该文件用于相关消息代码的定义。
+
 ADD_SUCCESS = 10001
 ADD_FAILURE = 10002
 DEL_SUCCESS = 10003

@@ -4,7 +4,7 @@ from util import msg_code
 
 
 def showDepartments():
-    # 展示所有部门
+    """展示所有部门"""
     status_code, result = deptDao.getAll()
     code = msg_code.SEARCH_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -13,7 +13,7 @@ def showDepartments():
 
 
 def addDepartment(dept):
-    # 添加部门
+    """添加部门"""
     status_code, result = deptDao.select('DEPTNAME', dept.deptname)
     code = msg_code.ADD_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -28,7 +28,7 @@ def addDepartment(dept):
 
 
 def editDepartment(dept):
-    # 编辑部门
+    """编辑部门"""
     status_code, result = deptDao.select('DEPTNAME', dept.deptname)
     code = msg_code.UPD_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
@@ -51,7 +51,7 @@ def editDepartment(dept):
 
 
 def delDepartment(dept):
-    # 删除部门
+    """删除部门"""
     edit_index = ['DEPTID', 'DEPTNAME', 'JOBID', 'JOBNAME']
     edit_value = [1, '待定', 1, '待定']
     status_code = staffDao.edit('DEPTID', dept.deptid, edit_index, edit_value)

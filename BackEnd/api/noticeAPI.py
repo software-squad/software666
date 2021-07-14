@@ -12,7 +12,7 @@ router = APIRouter()
 
 @router.get("/showmany", tags=["notice"])
 async def showNotices():
-    # 展示所有公告
+    """展示所有公告"""
     status_code, jobs, msg_code = noticeService.showNotices()
     return response_code.response(status_code, msg_code, jobs)
 

@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class DocumentInf(BaseModel):
+class FileInf(BaseModel):
     fileid: int
     title: str
     filename: str = None

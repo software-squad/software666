@@ -2,7 +2,7 @@ from fastapi import status
 from util import database
 import pymysql
 
-datalist = "DOCUMENTS"
+datalist = "FILES"
 
 
 def getAll():
@@ -56,8 +56,8 @@ def insert(fileMsg, file):
     db, cursor = database.connectToDataBase()
     sql = """INSERT INTO %s (TITLE, FILENAME, REMARK, USERID, USERNAME, FILEPATH)
              VALUES ('%s','%s','%s',%d,'%s','%s');""" % (
-             datalist, fileMsg['title'], file.filename, fileMsg['remark'], fileMsg['userid'],
-             fileMsg['username'], 'C:/file/')
+             datalist, fileMsg['title'], file.filename, fileMsg['remark'],
+             fileMsg['userid'], fileMsg['username'], 'C:/file/')
     status_code = status.HTTP_200_OK
     try:
         cursor.execute(sql)

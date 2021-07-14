@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 
 class StaffInf(BaseModel):
-    userid: int
+    userid: int = None
     password: str = None
     status: int = None
     loginname: str = None
