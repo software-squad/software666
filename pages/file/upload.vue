@@ -138,7 +138,15 @@
 			uni.setNavigationBarTitle({
 				title: '文件上传'
 			})
+			// #ifdef H5
 			this.item.userid = sessionStorage.getItem('userid')
+			this.item.username = sessionStorage.getItem('username')
+			// #endif
+			// #ifndef H5
+			this.item.userid = uni.getStorageSync('userid')
+			this.item.username = uni.getStorageSync('username')
+			// #endif
+			
 		}
 	}
 </script>

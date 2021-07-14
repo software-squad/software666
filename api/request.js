@@ -21,7 +21,15 @@ service.interceptors.request.use(
         //业务需求
         //向请求头添加参数： config.headers['userId']='xxx'
         //为请求头对象，添加token验证的Authorization字段
-        config.headers.token = sessionStorage.getItem("token");
+		
+		// #ifdef H5
+			let token = sessionStorage.getItem('token')
+		// #endif
+		// #ifndef H5
+			let token = uni.getStorageSync('token')
+		// #endif
+		
+        config.headers.token = token;
 		// console.log(config.headers.token);
         return config;
     },

@@ -14,7 +14,10 @@
 </template>
 
 <script>
-	const baseURL = 'http://192.168.0.125:8082/api/file/download?fileid='
+	// const baseURL = 'http://192.168.0.125:8082/api/file/download?fileid='
+	import util from "../../api/util.js"
+	const url = util.baseUrl+'api/file/download?fileid='
+	
 	export default {
 		data() {
 			return {
@@ -33,9 +36,14 @@
 
 		onLoad: function(option) {
 			console.log('带参跳转结果', option)
+			
 			if (option) {
 				this.item = JSON.parse(decodeURIComponent(option.item));
-				this.fileLink = baseURL+this.item.fileid
+				console.log('基础url：',url)
+				this.fileLink = url+this.item.fileid
+				uni.setNavigationBarTitle({
+					title:this.item.title
+				})
 			}else{
 				this.$u.toast('点击为空')
 			}

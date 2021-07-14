@@ -3,7 +3,8 @@
 		<u-toast ref="uToast" />
 		<text class="title">CSI员工之家</text>
 		<u-gap height="200"></u-gap>
-		<u-input @change="change" :border="true" v-model="loginname" placeholder="请输入用户名" />
+		<!-- FIX 去掉之前的input change -->
+		<u-input :border="true" v-model="loginname" placeholder="请输入用户名" />
 		<u-gap height="10"></u-gap>
 		<u-input type="password" :border="true" v-model="password" placeholder="请输入密码" />
 
@@ -33,7 +34,8 @@
 				remember: false,
 				userid: '',
 				status: '',
-				token: ''
+				token: '',
+				username:''
 			}
 		},
 
@@ -51,30 +53,30 @@
 					title: '登录成功',
 					type: 'success',
 				})
-				uni.setStorage({
-					key: "userid",
-					data: this.userid
-				})
+				
+				uni.setStorageSync("userid",this.userid)
+				uni.setStorageSync("token",this.token)
+				uni.setStorageSync("username", this.username)
+				// #ifdef H5
 				sessionStorage.setItem("userid", this.userid)
 				sessionStorage.setItem("token", this.token)
-				console.log(sessionStorage.getItem("userid"))
-				console.log(sessionStorage.getItem("token"))
-				// console.log(this.loginname)
+				sessionStorage.setItem("username", this.username)
+				// #endif
+				
 				//将登录成功的状态存入缓存
 				if (this.remember) {
 					//如果选择记住密码，将账号和密码存缓存
 					//window.sessionStorage.setItem("user", obj),
+					uni.setStorageSync('password',this.password)
+					// #ifdef H5
 					sessionStorage.setItem("password", this.password);
-					console.log(sessionStorage.getItem("password"))
+					// #endif
 				}
 			},
 			submit() {
 				let data = {
 					loginname: this.loginname,
 					password: this.password,
-					// userid: this.userid,
-					// status: this.status,
-					// remember: this.remember,
 				}
 				// TODO 部分逻辑修改
 				// loginSendData(data)
@@ -86,7 +88,7 @@
 					.then((response) => {
 						this.userid = response.data.data.userid;
 						this.token = response.data.data.token;
-						sessionStorage.setItem("username", response.data.data.username)
+						this.username = response.data.data.username
 						this.showSuccessToast();
 						uni.switchTab({
 							url: '/pages/menu/menu'

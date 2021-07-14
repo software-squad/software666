@@ -67,18 +67,19 @@
 						method: 'POST',
 						data: this.item
 					})
-					.then((response) => {
+					.then((res) => {
 						console.log('服务器请求结果', res)
 						this.$refs.uToast.show({
 							title: '上传成功',
 							type: 'success',
-							duration: 4000,
+							duration: 5000,
 							// back :true,
 							// url: '/pages/file/show'
 						})
-						uni.redirectTo({
+						setTimeout(uni.redirectTo({
 							url: '/pages/file/show'
-						})
+						}), 3000 )
+						
 					})
 					.catch((error) => {
 						console.log(error);
@@ -100,8 +101,19 @@
 				this.item.filename = parm.filename
 				this.item.remark = parm.remark
 				this.item.filepath = parm.filepath
-				this.item.userid = sessionStorage.getItem('userid')
-				this.item.username = sessionStorage.getItem('username')
+				
+				// #ifdef H5
+					this.item.userid = sessionStorage.getItem('userid')
+					this.item.username = sessionStorage.getItem('username')
+				// #endif
+				// #ifndef H5
+					this.item.userid = uni.getStorageSync('userid')
+					this.item.username = uni.getStorageSync('userid')
+				// #endif
+				
+				uni.setNavigationBarTitle({
+					title:this.item.title
+				})
 			} else {
 				this.$u.toast('点击为空')
 			}

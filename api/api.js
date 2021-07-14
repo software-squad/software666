@@ -55,7 +55,7 @@ export function noticeAddSendData(data) {
 }
 
 export function changePwdSendData(data) {
-	return service.request({
+	return request.request({
 		method: 'POST',
 		url: '/api/user/changepwd',
 		//url: 'https://www.fastmock.site/mock/c8376d6981ddc3969681a61793cc783d/api/user/changepwd',
@@ -73,7 +73,7 @@ export function deptShowSendData(data) {
 }
 
 export function deptOneDelSendData(data) {
-	return service.request({
+	return request.request({
 		method: 'POST',
 		url: '/api/dept/del',
 		data: data
@@ -81,7 +81,7 @@ export function deptOneDelSendData(data) {
 }
 
 export function deptEditSendData(data) {
-	return service.request({
+	return request.request({
 		method: 'POST',
 		url: '/api/dept/edit',
 		data: data
@@ -89,7 +89,7 @@ export function deptEditSendData(data) {
 }
 
 export function deptAddSendData(data) {
-	return service.request({
+	return request.request({
 		method: 'POST',
 		url: '/api/dept/add',
 		data: data
@@ -137,8 +137,8 @@ export function jobAddShowSendData(data) {
 }
 
 export function userSendData(data) {
-	return service.request({
-		method: 'POST',
+	return request.request({
+		method: 'GET',
 		url: '/api/staff/oneByUserid',
 		data: data
 	})

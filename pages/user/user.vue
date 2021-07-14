@@ -42,8 +42,12 @@
  			}
  		},
  		onLoad(){
+			// #ifdef H5
 			this.userid = sessionStorage.getItem('userid')
-			console.log(sessionStorage.getItem('userid'))
+			// #endif
+			// #ifndef H5
+			this.userid = uni.getStorageSync('userid')
+			// #endif
 			let data = {
 				userid:this.userid
 			}
@@ -72,8 +76,12 @@
  				this.show = true;
  			},
  			confirmExit() {
+ 				// #ifdef H5
  				sessionStorage.clear()
-				console.log('现有的token',sessionStorage.getItem("token"))
+ 				// #endif
+				// #ifndef H5
+				uni.clearStorage();
+				// #endif
  				uni.redirectTo({
  					url: "../login/login"
  				})

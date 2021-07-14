@@ -77,7 +77,7 @@
 				deptEditSendData(data)
 					.then((response) => {
 						this.showSuccessToast()
-						uni.navigateTo({
+						uni.redirectTo({
 							url: '/pages/dept/show'
 						})
 					})

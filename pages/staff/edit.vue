@@ -293,7 +293,7 @@
 		},
 		onLoad: function(parm) {
 			
-			console.log('跳转用户编辑页面',parm)
+			console.log('跳转用户编辑页面',parm.userid)
 			this.$request.request({
 				url: '/api/staff/index',
 				// url:'http://192.168.0.106:8082/api/staff/index',
@@ -304,7 +304,7 @@
 			this.$request.request({
 				url: "/api/staff/editByUserid",
 				data: {
-					userid: parm.item,
+					userid: parm.userid,
 				},
 				method: 'GET',
 			}).then(res => {

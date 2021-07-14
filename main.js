@@ -6,7 +6,6 @@ Vue.use(uView);
 
 import store from './store'
 
-
 import request from './api/easy_request.js'
 Vue.prototype.$request = request//赋值到vue里面
 

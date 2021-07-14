@@ -1,11 +1,29 @@
+import util from "./util.js"
+
 const request = (config) => {
 	// 处理 apiUrl  
-	// config.url = '127.0.0.1/api' + config.url;  // => 已经进行跨域处理
+	config.url = util.easyRequestUrl + config.url;  // => 已经进行跨域处理
 	// console.log('封装请求中')
 	if (!config.url.indexOf('login') >= 0) { // 非登录请求
-		console.log('请求token',sessionStorage.getItem('token'))
+		let token=""
+		// // #ifdef H5
+		// 	token = sessionStorage.getItem('token')
+		// // #endif
+		// // #ifndef H5
+		// 	token = uni.getStorageSync('token')
+		// // #endif
+		// console.log('请求token',token)
+		// FIXME 根据token测试
+		if(token == ""){
+			console.log('重定向测试',token)
+			uni.redirectTo({
+				url: '/pages/login/login',
+			})
+			return;
+		}
+		
 		config.header = {
-			'token': sessionStorage.getItem('token')
+			'token': token
 		}
 		// console.log('请求头已设置')
 		// config.header.content-type = 'application/x-www-form-urlencoded'
@@ -30,13 +48,17 @@ const request = (config) => {
 				console.log('服务器响应结果', response)
 				showError(response)
 				if (response.statusCode == 200) {
+					console.log('1')
 					resolve(response);
 				} else {
+					// FIXME
+					console.log('2')
 					reject(response)
 				}
 			},
 			// 请求失败
 			fail: (error) => {
+				console.log('3')
 				console.log("服务器请求失败", error)
 				reject(error);
 			},
@@ -76,7 +98,12 @@ const showError = (res) => {
 						if (res.confirm) {
 							// TODO 记得解除注释
 							// 注销token
-							// sessionStorage.setItem("token", '')
+							// #ifdef H5
+								sessionStorage.setItem("token", '')
+							// #endif
+							// #ifndef H5
+								uni.setStorageSync('token','')
+							// #endif
 							//去我的页面登录
 							uni.redirectTo({
 								url: '/pages/login'
