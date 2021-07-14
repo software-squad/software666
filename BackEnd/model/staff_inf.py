@@ -3,9 +3,9 @@ from pydantic import BaseModel
 
 class StaffInf(BaseModel):
     userid: int
-    password: str
-    status: int
-    loginname: str
+    password: str = None
+    status: int = None
+    loginname: str = None
     faceurl: str
     facepath: str
     deptid: int
@@ -21,7 +21,6 @@ class StaffInf(BaseModel):
     party: str
     birthday: str
     education: str
-    createdate: str
     deptname: str
     jobname: str
     remark: str

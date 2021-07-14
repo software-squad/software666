@@ -133,12 +133,11 @@ def editStaffSubmit(staff):
     # 修改员工信息
     edit_index = ['USERNAME', 'CARDID', 'SEX', 'JOBID', 'EDUCATION', 'EMAIL',
                   'DEPTID', 'TEL', 'PARTY', 'QQNUM', 'ADDRESS', 'POSTCODE',
-                  'BIRTHDAY', 'STATUS', 'FACEURL', 'FACEPATH', 'DEPTNAME',
-                  'JOBNAME']
+                  'BIRTHDAY', 'FACEURL', 'FACEPATH', 'DEPTNAME', 'JOBNAME']
     edit_value = [staff.username, staff.cardid, staff.sex, staff.jobid,
                   staff.education, staff.email, staff.deptid, staff.tel,
                   staff.party, staff.qqnum, staff.address, staff.postcode,
-                  staff.birthday, staff.status, staff.faceurl, staff.facepath,
+                  staff.birthday, staff.faceurl, staff.facepath,
                   staff.deptname, staff.jobname]
     status_code = staffDao.edit('USERID', staff.userid, edit_index, edit_value)
     code = msg_code.UPD_SUCCESS
