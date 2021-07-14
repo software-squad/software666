@@ -84,7 +84,7 @@
 		name: 'staffForm',
 		data() {
 			return {
-				tempFilePath:'/static/头像.svg',
+				tempFilePath:'',
 				statusLabel: '',
 				posSelRes: '',
 				rangeAddress: '',
@@ -320,7 +320,7 @@
 		},
 		onLoad: function(parm) {
 
-			console.log('跳转用户编辑页面', parm.userid)
+			console.log('跳转用户编辑页面', parm.item)
 			this.$request.request({
 				url: '/api/staff/index',
 				// url:'http://192.168.0.106:8082/api/staff/index',
@@ -331,7 +331,7 @@
 			this.$request.request({
 				url: "/api/staff/editByUserid",
 				data: {
-					userid: parm.userid,
+					userid: parm.item,
 				},
 				method: 'GET',
 			}).then(res => {
@@ -344,6 +344,13 @@
 				if(this.form.faceurl){
 					this.tempFilePath = this.form.faceurl
 				}else{
+					if (this.form.sex == '男') {
+						this.tempFilePath = '/static/boy1.svg'
+					} else if (this.form.sex == '女') {
+						this.tempFilePath = '/static/girl1.svg'
+					} else {
+						this.tempFilePath = '/static/头像.svg'
+					}
 					this.form.faceurl = this.tempFilePath
 				}
 			})

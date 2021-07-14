@@ -34,8 +34,8 @@
 		},
 		computed: {},
 		onLoad() {
-			sendThis(this)
 			this.submit()
+			sendThis(this)
 		},
 		onNavigationBarButtonTap: function(e) {
 			uni.navigateTo({
@@ -53,7 +53,7 @@
 			navToOne(index) {
 				this.item = this.List[index]
 				uni.navigateTo({
-					url: 'one?item=' + encodeURIComponent(JSON.stringify(this.item))
+					url: 'user_one?item=' + encodeURIComponent(JSON.stringify(this.item))
 				})
 				console.log(this.item.title);
 				console.log(this.item.content);

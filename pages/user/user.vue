@@ -1,7 +1,8 @@
  <template>
  	<view>
+		<u-toast ref="uToast" />
  		<view class="userimage">
- 			<u-image width="250rpx" height="250rpx" :src="faceurl" shape="circle" style="margin-top: 30rpx;"></u-image>
+ 			<u-image width="250rpx" height="250rpx" :src="faceurl" shape="circle"></u-image>
  		</view>
  		<view class="userinfo">
  			<u-gap height="70"></u-gap>
@@ -22,12 +23,14 @@
  				@cancel="cancel"></u-modal>
  			<u-button type="error" @click="exit">退出登录</u-button>
  		</view>
+		<u-tabbar :list="tabbar0" ></u-tabbar>
  	</view>
  </template>
  
  <script>
- 	import {userSendData} from "../../api/api.js"
+	 import {sendThis} from "../../api/request.js"
  	export default {
+		
  		data() {
  			return {
  				faceurl:'',
@@ -38,20 +41,41 @@
 				sex:'',
 				tel:'',
 				deptname:'',
-				jobname:''
+				jobname:'',
+				tabbar0: [{
+						iconPath: "/static/tab_icons/home.png",
+						selectedIconPath: "/static/tab_icons/homeHL.png",
+						text: '首页',
+						pagePath: "/pages/menu/menu"
+					},
+					{
+						iconPath: "/static/tab_icons/人员.png",
+						selectedIconPath: "/static/tab_icons/人员HL.png",
+						text: '员工中心',
+						pagePath: "/pages/staff/show"
+					},
+					{
+						iconPath: "/static/tab_icons/user.png",
+						selectedIconPath: "/static/tab_icons/userHL.png",
+						text: '我的',
+						pagePath: "/pages/user/user"
+				
+					},
+				],
  			}
  		},
  		onLoad(){
-			// #ifdef H5
+			sendThis(this)
 			this.userid = sessionStorage.getItem('userid')
-			// #endif
-			// #ifndef H5
-			this.userid = uni.getStorageSync('userid')
-			// #endif
+			console.log(sessionStorage.getItem('userid'))
 			let data = {
 				userid:this.userid
 			}
-			userSendData(data)
+			this.$request.request({
+								url: '/api/staff/oneByUserid',
+								method: "GET",
+								data:data,
+							})
 			.then((response) => {
 				this.faceurl=response.data.data.faceurl,
 				this.username=response.data.data.username,
@@ -59,21 +83,18 @@
 				this.tel=response.data.data.tel,
 				this.deptname=response.data.data.deptname,
 				this.jobname=response.data.data.jobname
-				if (!this.faceurl) {
-					if (this.sex == '男') {
-						this.faceurl = '/static/boy1.svg'
-					} else if (this.sex == '女') {
-						this.faceurl = '/static/girl1.svg'
-					} else {
-						this.faceurl = '/static/头像.svg'
-					}
-				}
 			})
 			.catch((error) => {
 				console.log(error);
 			})
  		},
  		methods: {
+			showToast(TITLE,TYPE) {
+							this.$refs.uToast.show({
+								title: TITLE.toString(),
+								type: TYPE.toString(),
+							})
+			},
  
  			changePwd() {
 				console.log('123')
@@ -85,13 +106,9 @@
  				this.show = true;
  			},
  			confirmExit() {
- 				// #ifdef H5
  				sessionStorage.clear()
- 				// #endif
-				// #ifndef H5
-				uni.clearStorage();
-				// #endif
- 				uni.redirectTo({
+				console.log(sessionStorage.getItem("token"))
+ 				uni.navigateTo({
  					url: "../login/login"
  				})
  			},

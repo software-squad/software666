@@ -23,9 +23,17 @@
 </template>
 
 <script>
+	//import sendThis 函数，实现拦截器统一拦截msg码弹窗
+	import {
+		sendThis
+	} from "../../api/request.js"
 	import {
 		loginSendData
 	} from "../../api/api.js"
+	import {
+		MD5
+	} from "../../api/md5.js"
+
 	export default {
 		data() {
 			return {
@@ -35,33 +43,42 @@
 				userid: '',
 				status: '',
 				token: '',
-				username:''
+				username: ''
 			}
 		},
 
 		computed: {},
-		onLoad() {},
+		onLoad() {
+			sendThis(this)
+		},
 		methods: {
+			//showToast方法，实现异常码弹窗
+			showToast(TITLE, TYPE) {
+				this.$refs.uToast.show({
+					title: TITLE.toString(),
+					type: TYPE.toString(),
+				})
+			},
 			showSuccessToast() {
 				this.$refs.uToast.show({
 					title: '登录成功',
 					type: 'success',
 				})
-				
-				uni.setStorageSync("userid",this.userid)
-				uni.setStorageSync("token",this.token)
+
+				uni.setStorageSync("userid", this.userid)
+				uni.setStorageSync("token", this.token)
 				uni.setStorageSync("username", this.username)
 				// #ifdef H5
 				sessionStorage.setItem("userid", this.userid)
 				sessionStorage.setItem("token", this.token)
 				sessionStorage.setItem("username", this.username)
 				// #endif
-				
+
 				//将登录成功的状态存入缓存
 				if (this.remember) {
 					//如果选择记住密码，将账号和密码存缓存
 					//window.sessionStorage.setItem("user", obj),
-					uni.setStorageSync('password',this.password)
+					uni.setStorageSync('password', this.password)
 					// #ifdef H5
 					sessionStorage.setItem("password", this.password);
 					// #endif
@@ -70,31 +87,33 @@
 			submit() {
 				let data = {
 					loginname: this.loginname,
-					password: this.password,
+					//password: this.password,
+					password: MD5(this.password),
+					// userid: this.userid,
+					// status: this.status,
+					// remember: this.remember,
 				}
-				// TODO 部分逻辑修改
-				// loginSendData(data)
-				this.$request.request({
-						url: '/api/login',
-						method: "POST",
-						data: data,
-					})
+				loginSendData(data)
 					.then((response) => {
 						this.userid = response.data.data.userid;
 						this.token = response.data.data.token;
-						this.username = response.data.data.username
+						this.status = response.data.data.status;
+						console.log(this.status)
 						this.showSuccessToast();
-						uni.switchTab({
-							url: '/pages/menu/menu'
-						})
+						if (this.status) {
+							uni.switchTab({
+								url: '/pages/menu/menu'
+							})
+						} else {
+							uni.switchTab({
+								url: '/pages/menu/user_menu'
+							})
+						}
 					})
 					.catch((error) => {
 						console.log(error);
-						this.$refs.uToast.show({
-							title: '用户名或密码错误',
-							type: 'false',
-						})
-						uni.switchTab({
+						this.showFalseToast();
+						uni.redirectTo({
 							url: '/pages/login/login'
 						})
 					})
@@ -103,15 +122,14 @@
 			// change() {
 			// 	let loginname = this.loginname
 			// 	let password = JSON.parse(localStorage.getItem("password"))
-			// 	if (loginname === "admin") {
+			// 	if (remember) {
 			// 		this.password = password
 			// 	}
 			// },
 			// checkboxChange(e) {
 			// 	console.log(e);
-			// },
-		}
-	};
+		},
+	}
 </script>
 
 <style lang="scss" scoped>

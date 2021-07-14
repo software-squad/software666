@@ -1,10 +1,8 @@
 <template>
 	<view>
+		<u-toast ref="uToast" />
 		<view class="search">
-			<!-- TODO 搜索框吸顶 已完成 -->
-			<u-sticky>
 			<u-search placeholder="请输入职位名称" v-model="searchJobName" shape="round" @change="search" :show-action="false"></u-search>
-			</u-sticky>
 		</view>
 		<view :index="index" v-for="(item,index) in jobsShow" @click="navToEdit(item,index)" >
 				<view class="u-body-item" >
@@ -17,6 +15,7 @@
 </template>
 
 <script>
+	import {sendThis} from "../../api/request.js"
 	import {jobShowSendData} from "../../api/api.js"
 	export default {
 		data() {
@@ -29,6 +28,7 @@
 			}
 		},
 		onLoad() {
+			sendThis(this)
 			jobShowSendData()
 			.then((response) => {
 				this.jobs = []
@@ -56,6 +56,12 @@
 		    })
 		},
 		methods: {
+			showToast(TITLE,TYPE) {
+							this.$refs.uToast.show({
+								title: TITLE.toString(),
+								type: TYPE.toString(),
+							})
+			},
 			search(){
 				if(this.searchJobName == ""){
 					this.jobsShow = this.jobs

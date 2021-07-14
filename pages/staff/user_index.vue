@@ -39,6 +39,7 @@
 		</view>
 		
 		<u-toast ref="uToast" />
+		<u-tabbar :list="tabbar1" ></u-tabbar>
 	</view>
 </template>
 <script>
@@ -56,6 +57,27 @@
 				scrollRightTop: 0, // 右边栏目scroll-view的滚动条高度
 				timer: null, // 定时器
 				tabbar: '',
+				//自定义tabbar目录
+				tabbar1: [{
+						iconPath: "/static/tab_icons/home.png",
+						selectedIconPath: "/static/tab_icons/homeHL.png",
+						text: '首页',
+						pagePath: "/pages/menu/user_menu"
+					},
+					{
+						iconPath: "/static/tab_icons/人员.png",
+						selectedIconPath: "/static/tab_icons/人员HL.png",
+						text: '员工中心',
+						pagePath: "/pages/staff/user_index"
+					},
+					{
+						iconPath: "/static/tab_icons/user.png",
+						selectedIconPath: "/static/tab_icons/userHL.png",
+						text: '我的',
+						pagePath: "/pages/user/user"
+				
+					},
+				],
 			}
 		},
 		onLoad() {

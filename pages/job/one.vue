@@ -23,6 +23,7 @@
 </template>
 
 <script>
+	import {sendThis} from "../../api/request.js"
 	import {jobOneDelSendData} from "../../api/api.js"
 	export default {
 		data() {
@@ -37,12 +38,19 @@
 			}
 		},
 		onLoad: function(option) {
+			sendThis(this)
 			this.item = JSON.parse(decodeURIComponent(option.item));
 			// console.log("one");
 			// console.log(this.item.name);
 			// console.log(this.item.remark);
 		},
 		methods: {
+			showToast(TITLE,TYPE) {
+							this.$refs.uToast.show({
+								title: TITLE.toString(),
+								type: TYPE.toString(),
+							})
+			},
 			showDelSuccessToast() {
 				this.$refs.uToast.show({
 					title: '删除成功',

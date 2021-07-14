@@ -21,6 +21,10 @@
 </template>
 
 <script>
+	//import sendThis 函数，实现拦截器统一拦截msg码弹窗
+	import {
+		sendThis
+	} from "../../api/request.js"
 	import {
 		noticeEditSendData
 	} from "../../api/api.js"
@@ -45,6 +49,13 @@
 			console.log(this.item.content); //打印出上个页面传递的参数。
 		},
 		methods: {
+			//showToast方法，实现异常码弹窗
+			showToast(TITLE, TYPE) {
+				this.$refs.uToast.show({
+					title: TITLE.toString(),
+					type: TYPE.toString(),
+				})
+			},
 			open() {
 				this.show = true;
 			},
@@ -82,8 +93,10 @@
 				noticeEditSendData(data)
 					.then((response) => {
 						this.showSuccessToast();
-						uni.navigateTo({
-							url: '/pages/notice/show'
+						uni.navigateBack({
+							delta: 2,
+							url: '/pages/notice/show',
+
 						})
 					})
 					.catch((error) => {

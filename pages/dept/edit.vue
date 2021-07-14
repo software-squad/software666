@@ -75,9 +75,7 @@
 							type: 'success'
 						})
 						// TODO 延迟
-						uni.redirectTo({
-							url: '/pages/dept/show'
-						})
+						uni.navigateBack()
 					})
 					.catch((error) => {
 						this.$refs.uToast.show({

@@ -1,5 +1,6 @@
 <template>
 	<view>
+		<u-toast ref="uToast" />
 		<view :index="index" v-for="(item,index) in dept" @click="navToEdit(item,index)">
 				<view class="u-body-item" >
 					<image :src="item.depturl" mode="aspectFill" class="avatar-item"></image>
@@ -12,6 +13,7 @@
 </template>
 
 <script>
+	import {sendThis} from "../../api/request.js"
 	import {deptShowSendData} from "../../api/api.js"
 	export default {
 		data() {
@@ -22,6 +24,7 @@
 			}
 		},
 		onLoad() {
+			sendThis(this)
 			deptShowSendData()
 			.then((response) => {
 				this.dept = []
@@ -45,6 +48,12 @@
 		    })
 		},
 		methods: {
+			showToast(TITLE,TYPE) {
+							this.$refs.uToast.show({
+								title: TITLE.toString(),
+								type: TYPE.toString(),
+							})
+			},
 			navToEdit(item,index){
 				uni.navigateTo({
 					url: "one?item="+encodeURIComponent(JSON.stringify(item))

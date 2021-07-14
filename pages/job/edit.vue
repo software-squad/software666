@@ -1,5 +1,6 @@
  <template>
  	<view>
+		//u-view 弹窗组件
  		<u-toast ref="uToast" />
  		<u-gap height="40"></u-gap>
  		<view class="jobOne">
@@ -22,6 +23,8 @@
  </template>
  
  <script>
+	 //import sendThis 函数，实现拦截器统一拦截msg码弹窗
+	import {sendThis} from "../../api/request.js"
  	import {jobEditSendData} from "../../api/api.js"
  	export default {
  		data() {
@@ -35,6 +38,7 @@
  			}
  		},
  		onLoad: function(option) {
+			sendThis(this)
  			console.log(option)
  			this.item = JSON.parse(decodeURIComponent(option.item))
  	// 		console.log("edit");
@@ -44,6 +48,13 @@
 	
  		},
  		methods: {
+			//showToast方法，实现异常码弹窗
+			showToast(TITLE,TYPE) {
+							this.$refs.uToast.show({
+								title: TITLE.toString(),
+								type: TYPE.toString(),
+							})
+			},
  			showSuccessToast() {
  				this.$refs.uToast.show({
  					title: '提交成功',

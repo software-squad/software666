@@ -2,7 +2,7 @@
 	<view>
 		<u-toast ref="uToast" />
 		<view class="userimage">
-			<u-image width="250rpx" height="250rpx" :src="imageSrc" shape="circle" style="margin-top: 30rpx;"></u-image>
+			<u-image width="250rpx" height="250rpx" :src="imageSrc" shape="circle"></u-image>
 		</view>
 		<u-gap height="200"></u-gap>
 		<view class="password">
@@ -22,6 +22,7 @@
 
 <script>
 	import {changePwdSendData} from "../../api/api.js"
+	import {sendThis} from "../../api/request.js"
 	export default {
 		data() {
 			return {
@@ -33,22 +34,29 @@
 			}
 		},
 		onLoad: function(option)  {
+			sendThis(this)
 			this.imageSrc = JSON.parse(decodeURIComponent(option.pic));
 			this.userid = sessionStorage.getItem("userid");
 		},
 		methods: {
-			showFalseToast() {
+			showToast(TITLE,TYPE) {
 							this.$refs.uToast.show({
-								title: '修改失败',
-								type: 'false',
+								title: TITLE.toString(),
+								type: TYPE.toString(),
 							})
 			},
-			showSuccessToast() {
-							this.$refs.uToast.show({
-								title: '修改成功',
-								type: 'success'
-							})
-			},
+			// showFalseToast() {
+			// 				this.$refs.uToast.show({
+			// 					title: '修改失败',
+			// 					type: 'error',
+			// 				})
+			// },
+			// showSuccessToast() {
+			// 				this.$refs.uToast.show({
+			// 					title: '修改成功',
+			// 					type: 'success'
+			// 				})
+			// },
 			showWarningToast() {
 							this.$refs.uToast.show({
 								title: '两次输入的新密码不一致',
@@ -74,14 +82,15 @@
 				}
 				changePwdSendData(data)
 				.then((response) => {
-					this.showSuccessToast()
+					// this.showToast()
+					// this.showSuccessToast()
 					uni.navigateTo({
 						url:"user"
 					})
 				})
 				.catch((error) => {
 				  console.log(error);
-				  this.showFalseToast()
+				  // this.showFalseToast()
 				 })
 			},
 			cancel(){

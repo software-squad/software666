@@ -4,11 +4,11 @@
 		<u-gap height="40"></u-gap>
 		<text>公告标题</text>
 		<u-gap height="10"></u-gap>
-		<u-input type="text" :border="true" placeholder="请输入文档标题"  v-model="title"/>
+		<u-input type="text" :border="true" placeholder="请输入文档标题" v-model="title" />
 		<u-gap height="30"></u-gap>
 		<text>公告内容</text>
 		<u-gap height="10"></u-gap>
-		<u-input type="textarea" height="700" :border="true" placeholder="请输入文档描述" v-model="content"/>
+		<u-input type="textarea" height="700" :border="true" placeholder="请输入文档描述" v-model="content" />
 		<u-gap height="80"></u-gap>
 		<u-col span="400">
 			<u-row gutter="20">
@@ -21,6 +21,10 @@
 </template>
 
 <script>
+	//import sendThis 函数，实现拦截器统一拦截msg码弹窗
+	import {
+		sendThis
+	} from "../../api/request.js"
 	import {
 		noticeAddSendData
 	} from "../../api/api.js"
@@ -40,6 +44,13 @@
 		},
 		onLoad() {},
 		methods: {
+			//showToast方法，实现异常码弹窗
+			showToast(TITLE, TYPE) {
+				this.$refs.uToast.show({
+					title: TITLE.toString(),
+					type: TYPE.toString(),
+				})
+			},
 			open() {
 				this.show = true;
 			},
@@ -79,7 +90,7 @@
 				noticeAddSendData(data)
 					.then((response) => {
 						this.showSuccessToast();
-						uni.navigateTo({
+						uni.navigateBack({
 							url: '/pages/notice/show'
 						})
 					})

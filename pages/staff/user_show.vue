@@ -1,7 +1,7 @@
 <template>
 	<view class="page-inner">
 		<view :index="index" :key="item.userid" v-for="(item,index) in searchResults"
-			 click="gotoOne(item.userid)"
+			 @click="gotoOne(item.userid)"
 			 class="u-card-wrap">
 			<view class="u-body-item">
 				<image :src="item.faceurl" mode="aspectFill" class="avatar-item"></image>

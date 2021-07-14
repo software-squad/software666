@@ -3,8 +3,8 @@
 		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		 // 首页放在第一位，避免uni.navigateBack(OBJECT)返回错误
-		 {
+		// 首页放在第一位，避免uni.navigateBack(OBJECT)返回错误
+		{
 			"path": "pages/menu/menu",
 			"style": {
 				"navigationBarTitleText": "首页",
@@ -27,6 +27,14 @@
 				// 		]
 				// 	}
 				// } 
+			}
+		},
+		{
+			"path": "pages/menu/user_menu",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": false,
+				"backgroundColor": "#376CBD"
 			}
 
 		},
@@ -67,8 +75,6 @@
 					}
 				}
 			}
-
-
 		}, {
 			"path": "pages/job/show",
 			"style": {
@@ -86,22 +92,35 @@
 				}
 			}
 		}, {
+			"path": "pages/job/user_show",
+			"style": {
+				"navigationBarTitleText": "职位信息",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
 			"path": "pages/job/edit",
 			"style": {
 				"navigationBarTitleText": "职位编辑",
 				"enablePullDownRefresh": false
 			}
 
-		},{
-		    "path" : "pages/job/oneAdd",
-		    "style" :                                                                                    
-		    {
-		        "navigationBarTitleText": "新增职位",
-		        "enablePullDownRefresh": false
-		    }
-		    
+		}, {
+			"path": "pages/job/oneAdd",
+			"style": {
+				"navigationBarTitleText": "新增职位",
+				"enablePullDownRefresh": false
+			}
+
 		}, {
 			"path": "pages/job/one",
+			"style": {
+				"navigationBarTitleText": "职位信息",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/job/user_one",
 			"style": {
 				"navigationBarTitleText": "职位信息",
 				"enablePullDownRefresh": false
@@ -159,6 +178,12 @@
 				}
 			}
 		}, {
+			"path": "pages/notice/user_show",
+			"style": {
+				"navigationBarTitleText": "公告",
+				"enablePullDownRefresh": false
+			}
+		}, {
 			"path": "pages/notice/edit",
 			"style": {
 				"navigationBarTitleText": "公告编辑",
@@ -172,44 +197,58 @@
 				"enablePullDownRefresh": false
 			}
 		}, {
+			"path": "pages/notice/user_one",
+			"style": {
+				"navigationBarTitleText": "公告标题",
+				"enablePullDownRefresh": false
+			}
+		}, {
 			"path": "pages/notice/add",
 			"style": {
 				"navigationBarTitleText": "发布公告",
 				"enablePullDownRefresh": false
 			}
 		}, {
-            "path" : "pages/dept/show",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "部门展示",
-                "enablePullDownRefresh": false,
+			"path": "pages/dept/show",
+			"style": {
+				"navigationBarTitleText": "部门展示",
+				"enablePullDownRefresh": false,
 				"app-plus": {
-								"titleNView": {
-									"buttons": [{
-											"text": "\ue716",
-											"fontSrc": "/static/iconfont.ttf",
-											"fontSize": "22px",
-											"float": "right"
-										}
-									]
-								}
-							}            
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue716",
+							"fontSrc": "/static/iconfont.ttf",
+							"fontSize": "22px",
+							"float": "right"
+						}]
+					}
+				}
 			}
 		}, {
-			"path": "pages/dept/one",
+			"path": "pages/dept/user_show",
 			"style": {
 				"navigationBarTitleText": "部门名称",
 				"enablePullDownRefresh": false
 			}
-		},{
-            "path" : "pages/dept/oneAdd",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "新建部门",
-                "enablePullDownRefresh": false
-            }
-            
-        }, {
+		}, {
+			"path": "pages/dept/one",
+			"style": {
+				"navigationBarTitleText": "部门展示",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/dept/user_one",
+			"style": {
+				"navigationBarTitleText": "部门展示",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/dept/oneAdd",
+			"style": {
+				"navigationBarTitleText": "新建部门",
+				"enablePullDownRefresh": false
+			}
+		}, {
 			"path": "pages/dept/edit",
 			"style": {
 				"navigationBarTitleText": "部门编辑",
@@ -250,7 +289,7 @@
 				"enablePullDownRefresh": false
 			}
 
-		}, {
+		} ,{
 			"path": "pages/user/changepwd",
 			"style": {
 				"navigationBarTitleText": "修改密码",
@@ -305,44 +344,36 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "pages/staff/user_index",
+			"style": {
+				"navigationBarTitleText": "员工中心",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/staff/user_search",
+			"style": {
+				// "navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/staff/user_show",
+			"style": {
+				"navigationBarTitleText": "搜索结果",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/file/user_show",
+			"style": {
+				"navigationBarTitleText": "下载中心",
+				"enablePullDownRefresh": false
+			}
+
 		}
-	    ,{
-            "path" : "pages/staff/user_index",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "员工中心",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/staff/user_search",
-            "style" :                                                                                    
-            {
-                // "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/staff/user_show",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "搜索结果",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/file/user_show",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "下载中心",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white", //状态栏字体颜色
 		"navigationBarTitleText": "CSI员工之家",
@@ -388,11 +419,29 @@
 				"selectedIconPath": "static/tab_icons/人员HL.png"
 			},
 			{
+				"pagePath": "pages/staff/user_index",
+				"text": "员工中心",
+				"iconPath": "static/tab_icons/人员.png",
+				"selectedIconPath": "static/tab_icons/人员HL.png"
+			},
+			{
 				"pagePath": "pages/user/user",
 				"text": "个人中心",
 				"iconPath": "static/tab_icons/user.png",
 				"selectedIconPath": "static/tab_icons/userHL.png"
+			},
+			{
+				"pagePath": "pages/menu/user_menu",
+				"text": "员工中心",
+				"iconPath": "static/tab_icons/人员.png",
+				"selectedIconPath": "static/tab_icons/人员HL.png"
 			}
+			// {
+			// 	"pagePath": "pages/user/user_user",
+			// 	"text": "员工中心",
+			// 	"iconPath": "static/tab_icons/人员.png",
+			// 	"selectedIconPath": "static/tab_icons/人员HL.png"
+			// }
 		]
 	},
 	"condition": { //模式配置，仅开发期间生效

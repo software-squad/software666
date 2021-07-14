@@ -25,6 +25,7 @@
  </template>
  
  <script>
+	 import {sendThis} from "../../api/request.js"
 	import {deptAddSendData} from "../../api/api.js"
  	export default {
  		data() {
@@ -37,7 +38,16 @@
 				content: '确认提交？'
  			}
  		},
+		onLoad(){
+			sendThis(this)
+		},
  		methods: {
+			showToast(TITLE,TYPE) {
+							this.$refs.uToast.show({
+								title: TITLE.toString(),
+								type: TYPE.toString(),
+							})
+			},
  			showSuccessToast() {
  				this.$refs.uToast.show({
  					title: '提交成功',
