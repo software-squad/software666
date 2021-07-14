@@ -1,6 +1,10 @@
 <template>
 	<view class="form-box">
-		<u-form :model="form" ref="uForm" label-position="top" :required=true>
+		<!-- label-position="top" -->
+		<view class="u-flex-col u-p-30 u-col-center" @click='changeHead'>
+			<u-image width='150rpx' height='150rpx' :src="tempFilePath" shape="circle"></u-image>
+		</view>
+		<u-form :model="form" ref="uForm"  label-width="160rpx">
 
 			<u-form-item label="姓名" prop="username" required>
 				<u-input v-model="form.username" placeholder='请输入姓名' />
@@ -80,6 +84,7 @@
 		name: 'staffForm',
 		data() {
 			return {
+				tempFilePath:'/static/头像.svg',
 				statusLabel: '',
 				posSelRes: '',
 				rangeAddress: '',
@@ -231,6 +236,28 @@
 		},
 
 		methods: {
+			changeHead() {
+				uni.chooseImage({
+					count: 1,
+					success: (res) => {
+						this.tempFilePath = res.tempFilePaths[0]
+						uniCloud.uploadFile({
+							filePath: this.tempFilePath,
+							cloudPath: res.tempFiles[0].name,
+							success: (e) => {
+								console.log('云存储上传成功', e)
+								this.form.faceurl = e.fileID
+							},
+							fail() {
+								this.$refs.uToast.show({
+									title: '图片上传失败',
+									type: 'error',
+								})
+							},
+						});
+					}
+				});
+			},
 			formSubmit() {
 				this.$refs.uForm.validate(valid => {
 					console.log("正在提交")
@@ -292,8 +319,8 @@
 			this.$refs.uForm.setRules(this.rules);
 		},
 		onLoad: function(parm) {
-			
-			console.log('跳转用户编辑页面',parm.userid)
+
+			console.log('跳转用户编辑页面', parm.userid)
 			this.$request.request({
 				url: '/api/staff/index',
 				// url:'http://192.168.0.106:8082/api/staff/index',
@@ -314,6 +341,11 @@
 				console.log(this.form)
 				this.posSelRes = form.deptname + " " + form.jobname
 				this.rangeAddress = form.address
+				if(this.form.faceurl){
+					this.tempFilePath = this.form.faceurl
+				}else{
+					this.form.faceurl = this.tempFilePath
+				}
 			})
 		}
 	}

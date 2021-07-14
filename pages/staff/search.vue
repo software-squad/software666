@@ -5,7 +5,7 @@
 		<view class="u-search-box">
 			<u-sticky>
 				<u-search v-model='kw' :show-action="true" action-text="搜索" :animation="true"
-					placeholder='请输入员工姓名，不支持模糊搜索' @search='getSearchList' @custom='getSearchList' @change="change">
+					placeholder='请输入员工姓名' @search='getSearchList' @custom='getSearchList' @change="change">
 				</u-search>
 			</u-sticky>
 		</view>
@@ -188,6 +188,7 @@
 					this.delId = this.searchResults[index].userid
 				} else {
 					this.navToEdit(index)
+					this.searchResults[index].show = false
 				}
 			},
 			open(index) {

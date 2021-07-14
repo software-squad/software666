@@ -2,7 +2,7 @@ import service from "../api/request.js"
 import request from "../api/easy_request.js"
 
 export function menuSendData(data) {
-	return service.request({
+	return request.request({
 		method: 'GET',
 		url: '/api/menu/showNews',
 		data: data
@@ -10,7 +10,7 @@ export function menuSendData(data) {
 }
 
 export function loginSendData(data) {
-	return service.request({
+	return request.request({
 		method: 'POST',
 		url: '/api/login',
 		//url:'https://www.fastmock.site/mock/c8376d6981ddc3969681a61793cc783d/api/login',
@@ -19,7 +19,7 @@ export function loginSendData(data) {
 }
 
 export function noticeShowGetData(data) {
-	return service.request({
+	return request.request({
 		method: 'GET',
 		url: '/api/notice/showmany',
 		//url:'https://www.fastmock.site/mock/c8376d6981ddc3969681a61793cc783d/api/notice/showmany',
@@ -28,7 +28,7 @@ export function noticeShowGetData(data) {
 }
 
 export function noticeEditSendData(data) {
-	return service.request({
+	return request.request({
 		method: 'POST',
 		url: '/api/notice/edit',
 		//url: 'https://www.fastmock.site/mock/c8376d6981ddc3969681a61793cc783d/api/notice/edit',
@@ -37,7 +37,7 @@ export function noticeEditSendData(data) {
 }
 
 export function noticeDeletSendData(data) {
-	return service.request({
+	return request.request({
 		method: 'POST',
 		url: '/api/notice/del',
 		//url: 'https://www.fastmock.site/mock/c8376d6981ddc3969681a61793cc783d/api/notice/del',
@@ -46,7 +46,7 @@ export function noticeDeletSendData(data) {
 }
 
 export function noticeAddSendData(data) {
-	return service.request({
+	return request.request({
 		method: 'POST',
 		url: '/api/notice/add',
 		//url: 'https://www.fastmock.site/mock/c8376d6981ddc3969681a61793cc783d/api/notice/add',
@@ -97,7 +97,7 @@ export function deptAddSendData(data) {
 }
 
 export function jobShowSendData(data) {
-	return service.request({
+	return request.request({
 		method: 'GET',
 		url: '/api/job/show',
 		data: data
@@ -105,7 +105,7 @@ export function jobShowSendData(data) {
 }
 
 export function jobOneDelSendData(data) {
-	return service.request({
+	return request.request({
 		method: 'POST',
 		url: '/api/job/del',
 		data: data
@@ -113,7 +113,7 @@ export function jobOneDelSendData(data) {
 }
 
 export function jobEditSendData(data) {
-	return service.request({
+	return request.request({
 		method: 'POST',
 		url: '/api/job/edit',
 		data: data
@@ -121,7 +121,7 @@ export function jobEditSendData(data) {
 }
 
 export function jobAddSendData(data) {
-	return service.request({
+	return request.request({
 		method: 'POST',
 		url: '/api/job/add',
 		data: data
@@ -129,7 +129,7 @@ export function jobAddSendData(data) {
 }
 
 export function jobAddShowSendData(data) {
-	return service.request({
+	return request.request({
 		method: 'GET',
 		url: '/api/job/deptshow',
 		data: data

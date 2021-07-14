@@ -1,6 +1,9 @@
 <template>
 	<view class="form-box">
-		<u-form :model="form" ref="uForm" label-position="top" >
+		<view class="u-flex-col u-p-30 u-col-center" @click='changeHead'>
+			<u-image width='150rpx' height='150rpx' :src="tempFilePath" shape="circle"></u-image>
+		</view>
+		<u-form :model="form" ref="uForm" label-width="160rpx">
 
 			<u-form-item label="账户名" prop="loginname" required>
 				<u-input v-model="form.loginname" placeholder='请输入账户名' />
@@ -13,7 +16,7 @@
 			<u-form-item label="权限" prop="status" required>
 				<u-select v-model="statusShow" mode="single-column" :list="statusList" @confirm="statusConfirm">
 				</u-select>
-				<u-input v-model="statusLabel" type="select" @click="statusShow = true" placeholder='请选择性别' />
+				<u-input v-model="statusLabel" type="select" @click="statusShow = true" placeholder='请选择权限' />
 			</u-form-item>
 
 			<u-form-item label="姓名" prop="username" required>
@@ -78,6 +81,10 @@
 				<u-input v-model='form.postcode' type='text' placeholder='请输入邮政编码' />
 			</u-form-item>
 
+			<u-form-item label="备注信息" prop='remark'>
+				<u-input v-model='form.remark' type='text' placeholder='' />
+			</u-form-item>
+
 			<u-button class="form-button" type="primary" @click="formSubmit">提交</u-button>
 		</u-form>
 		<u-toast ref="uToast" />
@@ -89,6 +96,7 @@
 		name: 'staffForm',
 		data() {
 			return {
+				tempFilePath: '/static/头像.svg',
 				statusLabel: '',
 				posSelRes: '',
 				rangeAddress: '',
@@ -149,7 +157,7 @@
 					status: '',
 					loginname: '',
 					faceurl: '',
-					facepath: '',
+					facepath: '/static/头像.svg',
 					deptid: '',
 					jobid: '',
 					username: '',
@@ -239,6 +247,28 @@
 		},
 
 		methods: {
+			changeHead() {
+				uni.chooseImage({
+					count: 1,
+					success: (res) => {
+						this.tempFilePath = res.tempFilePaths[0]
+						uniCloud.uploadFile({
+							filePath: this.tempFilePath,
+							cloudPath: res.tempFiles[0].name,
+							success: (e) => {
+								console.log('云存储上传成功', e)
+								this.form.faceurl = e.fileID
+							},
+							fail() {
+								this.$refs.uToast.show({
+									title: '图片上传失败',
+									type: 'error',
+								})
+							},
+						});
+					}
+				});
+			},
 			formSubmit() {
 				this.$refs.uForm.validate(valid => {
 					console.log("正在提交")
@@ -257,7 +287,7 @@
 								type: 'success',
 								// TODO 时限逻辑，否则回猛的跳转
 							})
-							uni.navigateBack()
+							// uni.navigateBack()
 						})
 					} else {
 						console.log('验证失败')
@@ -296,7 +326,6 @@
 		},
 		// 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
 		onReady() {
-			console.log('onready')
 			this.$refs.uForm.setRules(this.rules);
 		},
 		onLoad() {

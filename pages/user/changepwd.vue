@@ -2,7 +2,7 @@
 	<view>
 		<u-toast ref="uToast" />
 		<view class="userimage">
-			<u-image width="250rpx" height="250rpx" :src="imageSrc" shape="circle"></u-image>
+			<u-image width="250rpx" height="250rpx" :src="imageSrc" shape="circle" style="margin-top: 30rpx;"></u-image>
 		</view>
 		<u-gap height="200"></u-gap>
 		<view class="password">

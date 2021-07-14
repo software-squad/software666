@@ -13,7 +13,7 @@
 					:valueStyle='valueStyle' :title-style="titleStyle" :arrow='false' v-show="user[key]?true:false">
 				</u-cell-item>
 			</u-cell-group>
-
+			
 			<!-- 动态实现方法二 -->
 			<!-- 先定一个数组，然后把这两条数据关联起来，组成对象，然后根据空值，加个是否显示的条件。然后便利数组 -->
 
@@ -46,6 +46,7 @@
 					party: '政治面貌',
 					address: '联系地址',
 					postcode: '邮政编码',
+					remark:'描述',
 					// loginname:'账户名', 
 					// password:'密码', 
 					// status:'权限', 

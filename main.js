@@ -4,8 +4,6 @@ import uView from "uview-ui";
 // import md5Libs from "uview-ui/libs/function/md5.js"
 Vue.use(uView);
 
-import store from './store'
-
 import request from './api/easy_request.js'
 Vue.prototype.$request = request//赋值到vue里面
 

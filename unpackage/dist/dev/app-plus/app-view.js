@@ -13843,22 +13843,11 @@ var render = function() {
             { staticClass: _vm._$g(14, "sc"), attrs: { _i: 14 } },
             [_vm._v("部门照片:")]
           ),
-          _c("u-input", {
-            attrs: { _i: 15 },
-            model: {
-              value: _vm._$g(15, "v-model"),
-              callback: function() {},
-              expression: "item.depturl"
-            }
-          }),
           _c("uni-file-picker", {
-            ref: "files",
-            attrs: { _i: 16 },
+            ref: "imagePick",
+            attrs: { _i: 15 },
             on: {
               select: function($event) {
-                return _vm.$handleViewEvent($event)
-              },
-              progress: function($event) {
                 return _vm.$handleViewEvent($event)
               },
               success: function($event) {
@@ -13866,25 +13855,28 @@ var render = function() {
               },
               fail: function($event) {
                 return _vm.$handleViewEvent($event)
+              },
+              progress: function($event) {
+                return _vm.$handleViewEvent($event)
               }
             },
             model: {
-              value: _vm._$g(16, "v-model"),
+              value: _vm._$g(15, "v-model"),
               callback: function() {},
               expression: "imageValue"
             }
           }),
-          _c("u-gap", { attrs: { _i: 17 } }),
+          _c("u-gap", { attrs: { _i: 16 } }),
           _c(
             "u-col",
-            { attrs: { _i: 18 } },
+            { attrs: { _i: 17 } },
             [
               _c(
                 "u-row",
-                { attrs: { _i: 19 } },
+                { attrs: { _i: 18 } },
                 [
                   _c("u-modal", {
-                    attrs: { _i: 20 },
+                    attrs: { _i: 19 },
                     on: {
                       confirm: function($event) {
                         return _vm.$handleViewEvent($event)
@@ -13894,7 +13886,7 @@ var render = function() {
                       }
                     },
                     model: {
-                      value: _vm._$g(20, "v-model"),
+                      value: _vm._$g(19, "v-model"),
                       callback: function() {},
                       expression: "show"
                     }
@@ -13902,7 +13894,7 @@ var render = function() {
                   _c(
                     "v-uni-button",
                     {
-                      attrs: { _i: 21 },
+                      attrs: { _i: 20 },
                       on: {
                         click: function($event) {
                           return _vm.$handleViewEvent($event)
@@ -14012,7 +14004,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ./node_modules/css-loader/dist/runtime/api.js */ 19);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.deptOne{\n \t\tmargin: 0 50rpx;\n}.title{\n\t\tfont-size: larger;\n\t\tfont-weight: bold;\n}\n \n ", ""]);
+exports.push([module.i, "\n.deptOne {\n\tmargin: 0 50rpx;\n}\n.title {\n\tfont-size: larger;\n\tfont-weight: bold;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -17229,7 +17221,12 @@ var render = function() {
       _c(
         "v-uni-view",
         { staticClass: _vm._$g(2, "sc"), attrs: { _i: 2 } },
-        [_c("u-image", { attrs: { _i: 3 } })],
+        [
+          _c("u-image", {
+            staticStyle: { "margin-top": "30rpx" },
+            attrs: { _i: 3 }
+          })
+        ],
         1
       ),
       _c("u-gap", { attrs: { _i: 4 } }),

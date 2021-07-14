@@ -72,9 +72,7 @@
 				deptOneDelSendData(data)
 					.then((response) => {
 						this.showDelSuccessToast();
-						uni.navigateTo({
-							url: '/pages/dept/show'
-						})
+						uni.navigateBack()
 					})
 					.catch((error) => {
 						console.log(error);

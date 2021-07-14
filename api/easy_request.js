@@ -60,18 +60,19 @@ const request = (config) => {
 				console.log('服务器响应结果', response)
 				showError(response)
 				if (response.statusCode == 200) {
-					console.log('1')
 					resolve(response);
 				} else {
-					// FIXME
-					console.log('2')
 					reject(response)
 				}
 			},
 			// 请求失败
 			fail: (error) => {
-				console.log('3')
 				console.log("服务器请求失败", error)
+				uni.showToast({
+					title: '服务器请求失败',
+					icon: 'none',
+					duration: 4000
+				});
 				reject(error);
 			},
 			//请求完成
@@ -218,7 +219,7 @@ const showError = (res) => {
 					duration: 4000
 				});
 				break
-			case 10002:
+			case 10013:
 				uni.showToast({
 					title: '账户名已存在',
 					icon: 'none',

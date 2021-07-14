@@ -62,9 +62,7 @@
 				deptAddSendData(data)
 					.then((response) => {
 						this.showSuccessToast();
-						uni.redirectTo({
-							url: '/pages/dept/show'
-						})
+						uni.navigateBack()
 					})
 					.catch((error) => {
 						console.log(error);

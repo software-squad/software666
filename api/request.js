@@ -3,7 +3,7 @@ import axios from "axios";
 //创建axios，赋给变量service
 const BASEURL = process.env.NODE_ENV === "production" ? "" : "/";
 const service = axios.create({
-    baseURL: 'http://4097n16y34.zicp.vip/', //http://localhost:8080/devApi =='http://www.web-jshtml.cn/productapi'
+    baseURL: 'http://4097n16y34.zicp.vip:80', //http://localhost:8080/devApi =='http://www.web-jshtml.cn/productapi'
     timeout: 15000, //超时时间，最好设大一点，不然请求接口时间如果超过超时时间就会无法返回
     headers: {
         "X-Custom-Header": "foobar",
