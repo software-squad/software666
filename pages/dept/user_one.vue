@@ -3,17 +3,16 @@
 		<u-toast ref="uToast" />
 		<u-gap height="40"></u-gap>
 		<view class="deptOne">
-			<image :src="imageSrc"></image>
-			<u-gap height="60"></u-gap>
-			<text class="title">部门名字:</text>
+			<image :src="imageSrc" mode="aspectFill"></image>
+			<!-- <text class="title">部门名字:</text> -->
+			<text class="name">{{item.deptname}}</text>
 			<u-gap height="30"></u-gap>
-			<text>{{item.deptname}}</text>
-			<u-gap height="60"></u-gap>
-			<text class="title">部门描述:</text>
+			<u-line color="#bbb" />
+			<u-gap height="20"></u-gap>
+			<text class="title">部门描述</text>
 			<u-gap height="30"></u-gap>
-			<text>{{item.remark}}</text>
-			<u-gap height="80"></u-gap>
-
+			<text style="font-size: larger; height: 200;">{{item.remark}}</text>
+			<u-gap height="40" ></u-gap>
 		</view>
 	</view>
 </template>

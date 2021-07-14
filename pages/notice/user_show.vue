@@ -1,16 +1,27 @@
 <template>
-	<view>
+	<view class="whole">
 		<u-toast ref="uToast" />
 		<view :index="index" v-for="(item,index) in List" @click="navToOne(index)">
 			<view class="u-body-item">
 				<!-- <image :src="item.faceurl" mode="aspectFill" class="avatar-item"></image> -->
-				<view class="info-item" style="font-weight: bold;">公告标题：{{item.title}}</view>
-				<view class="info-item" style="float: left;">公告内容：{{item.content}}</view>
-				<u-tag :text="item.createdate" type="primary" />
+				<u-row class="info-item-row">
+					<u-col span="12">
+						<view class="info-item" style="font-weight: bold;">{{item.title}}</view>
+					</u-col>
+				</u-row>
+				<u-gap height="10"></u-gap>
+				<u-row>
+					<u-col span="12">
+						<view class="remark-item" style="float: left;">内容：{{item.content}}</view>
+					</u-col>
+				</u-row>
+				<u-gap height="10"></u-gap>
+				<u-tag :text="item.createdate" type="info" mode="plain" shape="circle"/>
 			</view>
 		</view>
 	</view>
 </template>
+
 
 <script>
 	//import sendThis 函数，实现拦截器统一拦截msg码弹窗
@@ -94,6 +105,14 @@
 </script>
 
 <style>
+	.whole {
+		background-color: #f5f5f5;
+		height: calc(100vh);
+		/* 	#ifdef H5*/
+		height: calc(100vh - var(--window-top));
+		/* #endif */
+	}
+
 	.u-card-wrap {
 		background-color: $u-bg-color;
 		padding: 1px;
@@ -103,9 +122,10 @@
 		font-size: 32rpx;
 		color: #333;
 		padding: 20rpx 20rpx;
-		margin: 30rpx 20rpx;
-		border-style: solid;
-		/* TODO */
+		margin-top: -10rpx;
+		margin-bottom: 16rpx;
+		background-color: #ffffff;
+		/* TODO*/
 		overflow: hidden;
 	}
 
@@ -126,6 +146,13 @@
 		padding-left: 10rpx;
 		/* border-style: solid;  /* TODO */
 	}
-
+	.remark-item{
+		font-size: 35rpx;
+		color: #a8a7ab;
+		float: left;
+		text-align: justify;
+		padding-left: 10rpx;
+		/* padding-left: -60rpx; */
+	}
 	.avatar-item {}
 </style>

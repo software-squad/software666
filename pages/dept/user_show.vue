@@ -1,14 +1,26 @@
 <template>
 	<view>
 		<u-toast ref="uToast" />
-		<view :index="index" v-for="(item,index) in dept" @click="navToEdit(item,index)">
-			<view class="u-body-item">
-				<image :src="item.depturl" mode="aspectFill" class="avatar-item"></image>
-				<view class="info-item" style="font-weight: bold;">{{item.deptname}}</view>
-				<view class="info-item">部门简介:{{item.remark}}</view>
-			</view>
-			</navigator>
-		</view>
+		<view class="whole">
+					<view :index="index" v-for="(item,index) in dept" @click="navToEdit(item,index)">
+						<view class="u-body-item">
+							<image :src="item.depturl" mode="aspectFill" class="avatar-item"></image>
+							<u-row class="info-item-row">
+								<u-col span="12">
+									<view class="info-item">{{item.deptname}}</view>
+								</u-col>
+							</u-row>
+							<u-row>
+								<u-col span="12">
+									<view class="remark-item">简介:{{item.remark}}</view>
+								</u-col>
+							</u-row>
+							<u-gap height="10"></u-gap>
+							
+						</view>
+						</navigator>
+					</view>
+				</view>
 	</view>
 </template>
 
@@ -72,7 +84,18 @@
 	}
 </script>
 
+
 <style>
+	.whole {
+		background-color: #f5f5f5;
+		height: calc(100vh);
+		weight: calc(100vw);
+		/* #ifdef H5 */
+		height: calc(100vh - var(--window-top));
+		/* #endif */
+		/* margin: 0 50rpx; */
+	}
+
 	.u-card-wrap {
 		background-color: $u-bg-color;
 		padding: 1rpx;
@@ -81,12 +104,13 @@
 
 	.u-body-item {
 		font-size: 32rpx;
-		color: #333;
 		padding: 20rpx 20rpx;
-		margin: 30rpx 20rpx;
-		border-style: solid;
+		margin-bottom: 16rpx;
+		/* border-style: solid; */
 		/* TODO */
 		overflow: hidden;
+		background-color: #ffffff;
+		/* margin: 0rpx 30rpx 0rpx 30rpx; */
 	}
 
 	.u-body-item image {
@@ -101,12 +125,24 @@
 
 	.info-item {
 		font-size: large;
+		font-style: normal;
 		float: left;
+		font-weight:500;
 		text-align: left;
-
 		padding-left: 10rpx;
 		/* border-style: solid;  /* TODO */
 	}
-
+	.remark-item{
+		font-size: large;
+		color: #a8a7ab;
+		float: left;
+		text-align: justify;
+		padding-left: 10rpx;
+		/* padding-left: -60rpx; */
+	}
 	.avatar-item {}
+	.info-item-row{
+		margin-bottom: 5rpx;
+	}
+	
 </style>

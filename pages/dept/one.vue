@@ -3,21 +3,23 @@
 		<u-toast ref="uToast" />
 		<u-gap height="40"></u-gap>
 		<view class="deptOne">
-			<image :src="imageSrc" ></image>
-			<u-gap height="60"></u-gap>
-			<text class="title">部门名字:</text>
+			<image :src="imageSrc" mode="aspectFill"></image>
+			<!-- <text class="title">部门名字:</text> -->
+			<text class="name">{{item.deptname}}</text>
 			<u-gap height="30"></u-gap>
-			<text>{{item.deptname}}</text>
-			<u-gap height="60"></u-gap>
-			<text class="title">部门描述:</text>
+			<u-line color="#bbb" />
+			<u-gap height="20"></u-gap>
+			<text class="title">部门描述</text>
 			<u-gap height="30"></u-gap>
-			<text>{{item.remark}}</text>
-			<u-gap height="80"></u-gap>
-			<u-col span="400">
-				<u-row gutter="20">
-					<button @click="navToEdit" >编辑</button>
+			<text style="font-size: larger; height: 200;">{{item.remark}}</text>
+			<u-gap height="40" ></u-gap>
+			<u-line color="#bbb" />
+			<u-gap height="30" ></u-gap>
+			<u-col span="40">
+				<u-row gutter="100" justify="space-around">
+					<button @click="navToEdit" class="custom-style">编辑</button>
 					<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="confirmExit" @cancel="cancel"></u-modal>
-					<button @click="del" type="error">删除</button>
+					<button @click="del" type="error" class="custom-style">删除</button>
 				</u-row>
 			</u-col>
 		</view>
@@ -110,9 +112,22 @@
 <style>
 	.deptOne{
 		margin: 0 50rpx;
-	},
+	}
+	.name{
+		text-align: center;
+		margin-left: 285rpx;
+		font-size: larger;
+		font-weight: 550;
+	}
 	.title{
 		font-size: larger;
 		font-weight: bold;
+		margin-left: 260rpx;
+	}
+	.custom-style{
+		color: #241c32;
+		font-weight: 520;
+		width: 150rpx;
+		height: 90rpx;
 	}
 </style>

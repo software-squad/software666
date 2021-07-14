@@ -3,17 +3,17 @@
 
 		<!-- 搜索框 -->
 		<view class="u-search-box">
-			<u-sticky>
-				<u-search v-model='kw' :show-action="true" action-text="搜索" :animation="true"
-					placeholder='请输入员工姓名，不支持模糊搜索' @search='getSearchList' @custom='getSearchList' @change="change">
+			<u-sticky bg-color="#fafafa">
+				<u-search v-model='kw' :show-action="true" action-text="搜索" :animation="true" height="80"
+					placeholder='请输入员工姓名' @search='getSearchList' @custom='getSearchList' @change="change">
 				</u-search>
 			</u-sticky>
 		</view>
 
 		<!-- 搜索建议列表 -->
 		<view class="sugg-list" v-if="this.kw.length !== 0">
-			<view :index="index" :key="item.userid" v-for="(item,index) in searchResults" 
-				@click="gotoOne(item.userid)" style="background-color: #FFFFFF;">
+			<view :index="index" :key="item.userid" v-for="(item,index) in searchResults" @click="gotoOne(item.userid)"
+				style="background-color: #FFFFFF;">
 				<view class="u-body-item">
 					<image :src="item.faceurl" mode="aspectFill" class="avatar-item"></image>
 

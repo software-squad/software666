@@ -1,25 +1,29 @@
 <template>
 	<view>
-		<u-toast ref="uToast" />
-		<view class="jobOne">
-			<u-gap height="60"></u-gap>
-			<text class="title">职位名字:</text>
-			<u-gap height="30"></u-gap>
-			<text>{{item.jobname}}</text>
-			<u-gap height="60"></u-gap>
-			<text class="title">职位描述:</text>
-			<u-gap height="30"></u-gap>
-			<text>{{item.remark}}</text>
-			<u-gap height="80"></u-gap>
-			<u-col span="400">
-				<u-row gutter="20">
-						<button @click="navToEdit" >编辑</button>
-						<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="confirm" @cancel="cancel"></u-modal>
-						<button @click="del" type="error">删除</button>
-					</u-row>
-				</u-col>
+			<u-toast ref="uToast" />
+			<view class="jobOne">
+				<u-gap height="15"></u-gap>
+				<text class="title">职位名字</text>
+				<u-gap height="30"></u-gap>
+				<text>{{item.jobname}}</text>
+				<u-gap height="40"></u-gap>
+				<u-line color="#bbb" />
+				<u-gap height="15"></u-gap>
+				<text class="title">职位描述</text>
+				<u-gap height="30"></u-gap>
+				<text>{{item.remark}}</text>
+				<u-gap height="40"></u-gap>
+				<u-line color="#bbb" />
+				<u-gap height="40"></u-gap>
+				<u-col span="400">
+					<u-row gutter="20">
+							<u-button @click="navToEdit"  shape="circle" class="custom-style">编辑</u-button>
+							<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="confirm" @cancel="cancel"></u-modal>
+							<u-button @click="del" type="error" shape="circle" class="custom1-style" >删除</u-button>
+						</u-row>
+					</u-col>
+			</view>
 		</view>
-	</view>
 </template>
 
 <script>
@@ -106,6 +110,20 @@
 	.title{
 		font-size: larger;
 		font-weight: bold;
+		margin-left: 260rpx;
 	}
-
+	.custom-style{
+		color: #241c32;
+		font-weight: bold;
+		/* background-color: #a8a7ab; ; */
+		width: 150rpx;
+		height: 90rpx;
+	}
+	.custom1-style{
+		color: #241c32;
+		font-weight: bold;
+		background-color: #e6e6e6; 
+		width: 150rpx;
+		height: 90rpx;
+	}
 </style>

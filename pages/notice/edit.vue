@@ -1,13 +1,13 @@
 <template>
-	<view>
+	<view class="noticeEdit">
 		<u-toast ref="uToast" />
 		<u-gap height="40"></u-gap>
-		<text>公告标题</text>
-		<u-gap height="10"></u-gap>
+		<text class="title">公告标题</text>
+		<u-gap height="20"></u-gap>
 		<u-input type="text" :border="true" placeholder="请输入公告标题" v-model="item.title" />
 		<u-gap height="30"></u-gap>
-		<text>公告内容</text>
-		<u-gap height="10"></u-gap>
+		<text class="title">公告内容</text>
+		<u-gap height="20"></u-gap>
 		<u-input type="textarea" :border="true" placeholder="请输入公告内容" v-model="item.content" />
 		<u-gap height="80"></u-gap>
 		<u-col span="400">
@@ -110,5 +110,11 @@
 </script>
 
 <style>
-
+.noticeEdit{
+	margin: 0 50rpx;
+}
+.title{
+ 		font-size: larger;
+ 		font-weight: bold;
+ 	}
 </style>

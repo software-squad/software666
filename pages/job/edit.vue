@@ -1,6 +1,6 @@
  <template>
  	<view>
-		//u-view 弹窗组件
+		<!-- //u-view 弹窗组件 -->
  		<u-toast ref="uToast" />
  		<u-gap height="40"></u-gap>
  		<view class="jobOne">
@@ -15,7 +15,7 @@
  			<u-col span="400">
  				<u-row gutter="20">
  					<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="confirm" @cancel="cancel"></u-modal>
- 					<button @click="submit" >提交</button>
+ 					<button @click="submit" type="primary">提交</button>
  				</u-row>
  			</u-col>
  		</view>

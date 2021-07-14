@@ -19,20 +19,21 @@ const request = (config) => {
 		// #endif
 		console.log('请求token',token)
 		// console.log('请求userid',userid)
+		
 		// FIXME 根据token测试
-		if(!token){
-			console.log('重定向',token)
-			// 添加重定向提示
-			uni.showToast({
-				title: '您尚未登录',
-				icon: 'none',
-				duration: 4000
-			});
-			uni.redirectTo({
-				url: '/pages/login/login',
-			})
-			return;
-		}
+		// if(!token){
+		// 	console.log('重定向',token)
+		// 	// 添加重定向提示
+		// 	uni.showToast({
+		// 		title: '您尚未登录',
+		// 		icon: 'none',
+		// 		duration: 4000
+		// 	});
+		// 	uni.redirectTo({
+		// 		url: '/pages/login/login',
+		// 	})
+		// 	return;
+		// }
 		
 		config.header = {
 			'token': token

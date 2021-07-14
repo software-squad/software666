@@ -1,29 +1,29 @@
 <template>
 	<view>
-
-		<u-field v-model="item.title" label="标题" placeholder="取个标题吧" label-align="center">
-		</u-field>
-		
-		<u-field type="textarea" v-model="item.remark" label="描述" placeholder="说点什么吧" label-align="center"></u-field>
-		<u-gap height="15" bg-color="#f9f9f9"></u-gap>
-
-		<!-- 方案一，弹窗限制文件类型 -->
-		<!-- <view>
-			<u-action-sheet :list="list" v-model="show" @click="click"></u-action-sheet>
-			<u-button @click="show = true">选择文件</u-button>
-		</view> -->
-
-		<!-- 方案二，使用封装好的库 -->
-		<uni-file-picker fileMediatype="all" :list-styles="listStyle" limit="1" :autoUpload="false" @select="select"
-			@progress="progress" @success="success" @fail="fail" ref='files' />
-		<u-gap height="15" bg-color="#f9f9f9"></u-gap>
-
-		<view class="sub_com">
-			<u-button class="sub_bott" @click="submit" type="primary">上传</u-button>
+	
+			<u-field v-model="item.title" label="标题" placeholder="取个标题吧" label-align="center">
+			</u-field>
+			
+			<u-field type="textarea" v-model="item.remark" label="描述" placeholder="说点什么吧" label-align="center"></u-field>
+			<u-gap height="10" bg-color="#f9f9f9"></u-gap>
+			<u-gap height="5"></u-gap>
+			<!-- 方案一，弹窗限制文件类型 -->
+			<!-- <view>
+				<u-action-sheet :list="list" v-model="show" @click="click"></u-action-sheet>
+				<u-button @click="show = true">选择文件</u-button>
+			</view> -->
+	
+			<!-- 方案二，使用封装好的库 -->
+			<uni-file-picker fileMediatype="all" :list-styles="listStyle" limit="1" :autoUpload="false" @select="select"
+				@progress="progress" @success="success" @fail="fail" ref='files' />
+			<u-gap height="15" bg-color="#f9f9f9"></u-gap>
+	
+			<view class="sub_com">
+				<u-button class="sub_bott" @click="submit" type="primary" >上传</u-button>
+			</view>
+			
+			<u-toast ref="uToast"/>
 		</view>
-		
-		<u-toast ref="uToast"/>
-	</view>
 </template>
 
 <script>
@@ -164,7 +164,8 @@
 	}
 
 	.sub_bott {
-		width: 100%;
+		width: 80%;
+		margin-bottom: 50rpx;
 		/* background-color:#fed404;
   color:#343537; */
 	}

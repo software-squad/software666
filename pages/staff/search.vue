@@ -3,11 +3,11 @@
 
 		<!-- 搜索框 -->
 		<view class="u-search-box">
-			<u-sticky>
-				<u-search v-model='kw' :show-action="true" action-text="搜索" :animation="true"
-					placeholder='请输入员工姓名' @search='getSearchList' @custom='getSearchList' @change="change">
-				</u-search>
-			</u-sticky>
+			<u-sticky bg-color="#fafafa">
+							<u-search v-model='kw' :show-action="true" action-text="搜索" :animation="true" height="80"
+								placeholder='请输入员工姓名' @search='getSearchList' @custom='getSearchList' @change="change">
+							</u-search>
+						</u-sticky>
 		</view>
 
 		<!-- 搜索建议列表 -->

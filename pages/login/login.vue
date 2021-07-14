@@ -1,16 +1,21 @@
 <template>
 	<view>
-		<u-toast ref="uToast" />
-		<text class="title">CSI员工之家</text>
+			<u-toast ref="uToast" />
+			<view class="login-title-item">
+				<text class="title">CSI员工之家</text>
+			</view>
+			<view class="welcome">
+				<text>Welcome to House</text>
+			</view>
 		<u-gap height="200"></u-gap>
+		<view class="nameInput">
 		<!-- FIX 去掉之前的input change -->
 		<u-input :border="true" v-model="loginname" placeholder="请输入用户名" />
 		<u-gap height="10"></u-gap>
-		<u-input type="password" :border="true" v-model="password" placeholder="请输入密码" />
-
-		<u-gap height="80"></u-gap>
-
-		<u-checkbox v-model="remember">记住密码</u-checkbox>
+					<u-input type="password" :border="true" v-model="password" placeholder="请输入密码" />
+				</view>
+				<u-gap height="50"></u-gap>
+				<u-checkbox v-model="remember" style="margin-left: 40rpx;">记住密码</u-checkbox>
 		<u-gap height="80"></u-gap>
 
 		<u-col span="400">
@@ -138,18 +143,31 @@
 		margin-bottom: 10rpx;
 		padding-bottom: 6rpx
 	}
-
+	.welcome{
+		font-size:50rpx ;
+		font-style:oblique ;
+		margin: 20rpx 20rpx -60rpx 150rpx;
+	}
+	.nameInput{
+		margin: 0rpx 30rpx 10rpx 30rpx;
+	}
 	.title {
 		font-size: 70rpx;
 		position: absolute;
 		right: 0px;
 		width: 300px;
 		padding: 10px;
+		margin: 0 auto;
 	}
 
 	.remember {
 		margin-left: -50%;
 		margin-top: 50%;
 		color: #adadad;
+	}
+	.login-title-item{
+		// border-style: solid;
+		margin: 100rpx 0rpx 30rpx 30rpx;
+		height: 150rpx;
 	}
 </style>

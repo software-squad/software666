@@ -1,18 +1,32 @@
 <template>
-	<view>
-		<u-toast ref="uToast" />
-		<view class="search">
-			<u-search placeholder="请输入职位名称" v-model="searchJobName" shape="round" @change="search" :show-action="false">
-			</u-search>
-		</view>
-		<view :index="index" v-for="(item,index) in jobsShow" @click="navToEdit(item,index)">
-			<view class="u-body-item">
-				<view class="info-item" style="font-weight: bold;">职位名称:{{item.jobname}}</view>
-				<view class="info-item">职位描述:{{item.remark}}</view>
+	<view class="whole">
+			<view class="search">
+				<!-- TODO 搜索框吸顶 已完成 -->
+				<u-sticky bg-color="#f5f5f5">
+					<u-search placeholder="请输入职位名称" v-model="searchJobName" shape="round" @change="search"
+						bg-color="#ffffff" border-color='#fdfcfa' :show-action="false"></u-search>
+				</u-sticky>
 			</view>
-			</navigator>
+			<u-gap height="20" bg-color="#f5f5f5"></u-gap>
+			<view :index="index" v-for="(item,index) in jobsShow" @click="navToEdit(item,index)">
+				<view class="u-body-item">
+					<!-- <image :src="item.faceurl" mode="aspectFill" class="avatar-item"></image> -->
+					<u-row class="info-item-row">
+						<u-col span="12">
+							<view class="info-item" style="font-weight: bold;">{{item.jobname}}</view>
+						</u-col>
+					</u-row>
+					<u-row>
+						<u-col span="12">
+							<view class="remark-item">详情:{{item.remark}}</view>
+						</u-col>
+					</u-row>
+				</view>
+				<u-gap height="10" bg-color="#f5f5f5"></u-gap>
+				</navigator>
+			</view>
 		</view>
-	</view>
+	</template>
 </template>
 
 <script>
@@ -93,11 +107,20 @@
 	}
 </script>
 
+
 <style>
-	.search {
+	.whole {
+		background-color: #f5f5f5;
+		height: calc(100vh);
+		/* 	#ifdef H5*/
+		height: calc(100vh - var(--window-top));
+		/* #endif */
+	}
+
+	/* 	.search{
 		margin: 0 50rpx;
 		margin-top: 30rpx;
-	}
+	} */
 
 	.u-card-wrap {
 		background-color: $u-bg-color;
@@ -109,9 +132,10 @@
 		font-size: 32rpx;
 		color: #333;
 		padding: 20rpx 20rpx;
-		margin: 30rpx 20rpx;
-		border-style: solid;
-		/* TODO */
+		margin-top: -10rpx;
+		margin-bottom: 16rpx;
+		background-color: #ffffff;
+		/* TODO*/
 		overflow: hidden;
 	}
 
@@ -142,15 +166,28 @@
 		color: $u-tips-color;
 		margin-left: 10rpx;
 	}
-
+	.info-item-row{
+		margin-bottom: 5rpx;
+	}
 	.info-item {
 		font-size: large;
+		font-style: normal;
 		float: left;
+		font-weight:500;
 		text-align: left;
-
 		padding-left: 10rpx;
 		/* border-style: solid;  /* TODO */
 	}
-
+	.remark-item{
+		font-size: 35rpx;
+		/* color: #a8a7ab; */
+		color: #4d669e;
+		float: left;
+		text-align: justify;
+		padding-left: 10rpx;
+		/* padding-left: -60rpx; */
+	}
 	.avatar-item {}
 </style>
+
+

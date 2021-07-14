@@ -375,9 +375,10 @@
 		}
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "white", //状态栏字体颜色
+		"navigationBarTextStyle": "black", //状态栏字体颜色
 		"navigationBarTitleText": "CSI员工之家",
-		"navigationBarBackgroundColor": "#376CBD",
+		// "navigationBarBackgroundColor": "#376CBD",
+		"navigationBarBackgroundColor": "#fafafa",
 		"backgroundColor": "#ffffff",
 		"app-plus": {
 			"titleNView": true
@@ -406,33 +407,35 @@
 	// },
 	"tabBar": {
 		"selectedColor": "#52a500",
+		"backgroundColor": "#fafafa",
+		"borderStyle": "black",
 		"list": [{
 				"pagePath": "pages/menu/menu",
-				"text": "首页",
+				"text": "",
 				"iconPath": "static/tab_icons/home.png",
 				"selectedIconPath": "static/tab_icons/homeHL.png"
 			},
 			{
 				"pagePath": "pages/staff/index",
-				"text": "员工中心",
+				"text": "",
 				"iconPath": "static/tab_icons/人员.png",
 				"selectedIconPath": "static/tab_icons/人员HL.png"
 			},
 			{
 				"pagePath": "pages/staff/user_index",
-				"text": "员工中心",
+				"text": "",
 				"iconPath": "static/tab_icons/人员.png",
 				"selectedIconPath": "static/tab_icons/人员HL.png"
 			},
 			{
 				"pagePath": "pages/user/user",
-				"text": "个人中心",
+				"text": "",
 				"iconPath": "static/tab_icons/user.png",
 				"selectedIconPath": "static/tab_icons/userHL.png"
 			},
 			{
 				"pagePath": "pages/menu/user_menu",
-				"text": "员工中心",
+				"text": "",
 				"iconPath": "static/tab_icons/人员.png",
 				"selectedIconPath": "static/tab_icons/人员HL.png"
 			}

@@ -352,5 +352,6 @@
 
 	.form-box {
 		margin: 20rpx;
+		/* margin: 0 50rpx; */
 	}
 </style>

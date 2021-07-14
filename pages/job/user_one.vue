@@ -1,19 +1,22 @@
 <template>
 	<view>
-		<u-toast ref="uToast" />
-		<view class="jobOne">
-			<u-gap height="60"></u-gap>
-			<text class="title">职位名字:</text>
-			<u-gap height="30"></u-gap>
-			<text>{{item.jobname}}</text>
-			<u-gap height="60"></u-gap>
-			<text class="title">职位描述:</text>
-			<u-gap height="30"></u-gap>
-			<text>{{item.remark}}</text>
-			<u-gap height="80"></u-gap>
-
+			<u-toast ref="uToast" />
+			<view class="jobOne">
+				<u-gap height="15"></u-gap>
+				<text class="title">职位名字</text>
+				<u-gap height="30"></u-gap>
+				<text>{{item.jobname}}</text>
+				<u-gap height="40"></u-gap>
+				<u-line color="#bbb" />
+				<u-gap height="15"></u-gap>
+				<text class="title">职位描述</text>
+				<u-gap height="30"></u-gap>
+				<text>{{item.remark}}</text>
+				<u-gap height="40"></u-gap>
+				<u-line color="#bbb" />
+				<u-gap height="40"></u-gap>
+			</view>
 		</view>
-	</view>
 </template>
 
 <script>
@@ -100,13 +103,27 @@
 </script>
 
 <style>
-	.jobOne {
+	.jobOne{
 		margin: 0 50rpx;
-	}
-
-	,
-	.title {
+	},
+	.title{
 		font-size: larger;
 		font-weight: bold;
+		margin-left: 260rpx;
+	}
+	.custom-style{
+		color: #241c32;
+		font-weight: bold;
+		/* background-color: #a8a7ab; ; */
+		width: 150rpx;
+		height: 90rpx;
+	}
+	.custom1-style{
+		color: #241c32;
+		font-weight: bold;
+		background-color: #e6e6e6; 
+		width: 150rpx;
+		height: 90rpx;
 	}
 </style>
+
