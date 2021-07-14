@@ -94,13 +94,13 @@
 							url: '/pages/menu/menu'
 						})
 					})
-					.catch((error) => {
-						console.log(error);
-						this.showFalseToast();
-						uni.switchTab({
-							url: '/pages/login/login'
-						})
-					})
+					// .catch((error) => {
+					// 	console.log(error);
+					// 	this.showFalseToast();
+					// 	uni.switchTab({
+					// 		url: '/pages/login/login'
+					// 	})
+					// })
 			},
 			//监听账号输入操作,如果输入账号，自动输入密码
 			// change() {

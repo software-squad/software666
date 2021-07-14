@@ -2,20 +2,22 @@ import util from "./util.js"
 
 const request = (config) => {
 	// 处理 apiUrl  
-	config.url = util.easyRequestUrl + config.url;  // => 已经进行跨域处理
-	// console.log('封装请求中')
-	if (!config.url.indexOf('login') >= 0) { // 非登录请求
+	// config.url = util.easyRequestUrl + config.url;  // => 已经进行跨域处理
+	console.log('封装请求中',config.url)
+	// console.log('判断中',config.url.indexOf('login'))
+	if (config.url.indexOf('login') < 0) { // 非登录请求
+		console.log('非登录请求')
 		let token=""
-		// // #ifdef H5
-		// 	token = sessionStorage.getItem('token')
-		// // #endif
-		// // #ifndef H5
-		// 	token = uni.getStorageSync('token')
-		// // #endif
-		// console.log('请求token',token)
+		// #ifdef H5
+			token = sessionStorage.getItem('token')
+		// #endif
+		// #ifndef H5
+			token = uni.getStorageSync('token')
+		// #endif
+		console.log('请求token',token)
 		// FIXME 根据token测试
 		if(token == ""){
-			console.log('重定向测试',token)
+			console.log('重定向',token)
 			uni.redirectTo({
 				url: '/pages/login/login',
 			})

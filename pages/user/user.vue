@@ -1,7 +1,7 @@
  <template>
  	<view>
  		<view class="userimage">
- 			<u-image width="250rpx" height="250rpx" :src="faceurl" shape="circle"></u-image>
+ 			<u-image width="250rpx" height="250rpx" :src="faceurl" shape="circle" style="margin-top: 30rpx;"></u-image>
  		</view>
  		<view class="userinfo">
  			<u-gap height="70"></u-gap>
@@ -59,6 +59,15 @@
 				this.tel=response.data.data.tel,
 				this.deptname=response.data.data.deptname,
 				this.jobname=response.data.data.jobname
+				if (!this.faceurl) {
+					if (this.sex == '男') {
+						this.faceurl = '/static/boy1.svg'
+					} else if (this.sex == '女') {
+						this.faceurl = '/static/girl1.svg'
+					} else {
+						this.faceurl = '/static/头像.svg'
+					}
+				}
 			})
 			.catch((error) => {
 				console.log(error);

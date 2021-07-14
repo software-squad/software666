@@ -16916,7 +16916,12 @@ var render = function() {
       _c(
         "v-uni-view",
         { staticClass: _vm._$g(1, "sc"), attrs: { _i: 1 } },
-        [_c("u-image", { attrs: { _i: 2 } })],
+        [
+          _c("u-image", {
+            staticStyle: { "margin-top": "30rpx" },
+            attrs: { _i: 2 }
+          })
+        ],
         1
       ),
       _c(
