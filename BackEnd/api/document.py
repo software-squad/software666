@@ -39,7 +39,7 @@ async def uploadFile(file: UploadFile = File(...), fileMsg: str = Form(...)):
     fileMsgJson = '{%s}' % (fileMsg)
     fileMsg = eval(fileMsgJson)
     contents = await file.read()
-    with open("./file/%s" % (file.filename), 'wb') as f:
+    with open("C:/file/%s" % (file.filename), 'wb') as f:
         f.write(contents)
     status_code, msg_code = documentService.uploadFile(fileMsg, file)
     return response_code.response(status_code, msg_code)

@@ -26,7 +26,9 @@ def validateUserByAccount(user):
         result = result[0]
         token_dict = {
             'iat': time.time(),  # 时间戳
-            'name': result['loginname']  # loginname
+            'exp': time.time()+24*60*60,  # 销毁时间，24小时后
+            'name': result['loginname'],  # payload中加入loginname
+            'userid': result['userid']  # payload中加入userid
         }
         token = jwt.encode(token_dict,  # payload 有效载体
                            secret,  # 进行加密签名的密钥
@@ -61,7 +63,9 @@ def validateUserByFace(faceByte, faceImage, loginname):
             result = result[0]
             token_dict = {
                 'iat': time.time(),  # 时间戳
-                'name': result['loginname']  # loginname
+                'exp': time.time()+24*60*60,  # 销毁时间，24小时后
+                'name': result['loginname'],  # payload中加入loginname
+                'userid': result['userid']  # payload中加入userid
             }
             token = jwt.encode(token_dict,  # payload 有效载体
                                secret,  # 进行加密签名的密钥

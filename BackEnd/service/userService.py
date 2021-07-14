@@ -10,8 +10,8 @@ def changePassword(user):
        result[0]['password'] != pwd_encode.MD5(user.oldpwd):
         return status_code, msg_code.UPD_FAILURE
     else:
-        userDao.edit('USERID', user.userid, 'PASSWORD',
-                     pwd_encode.MD5(user.newpwd))
+        userDao.edit('USERID', user.userid, ['PASSWORD'],
+                     [pwd_encode.MD5(user.newpwd)])
         return status_code, msg_code.UPD_SUCCESS
 
 
@@ -20,7 +20,7 @@ def faceRegister(contentsByte, image: UploadFile, userid: int):
     imagePath = face_recognition.uploadFile2ImageStr64(contentsByte,
                                                        image,
                                                        userid)
-    status_code = userDao.edit('userid', userid, 'facepath', imagePath)
+    status_code = userDao.edit('userid', userid, ['facepath'], [imagePath])
     # with open("./faceImage/%d%s"%(userid,image.filename), 'wb') as f:
     #     f.write(contentsByte)
     code = msg_code.UPD_SUCCESS

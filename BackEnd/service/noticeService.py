@@ -19,26 +19,19 @@ def showNotices():
 def editNotice(notice):
     # 编辑公告
     status_code, result = noticeDao.select('TITLE', notice.title)
+    code = msg_code.UPD_SUCCESS
     if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.UPD_FAILURE
     elif result and result[0]['noticeid'] != notice.noticeid:
         code = msg_code.DATA_REPEATED
     else:
-        status_code = []
-        status_code.append(noticeDao.edit('NOTICEID', notice.noticeid,
-                                          'TITLE', notice.title))
-        status_code.append(noticeDao.edit('NOTICEID', notice.noticeid,
-                                          'CONTENT', notice.content))
-        status_code.append(noticeDao.edit('NOTICEID', notice.noticeid,
-                                          'USERID', notice.userid))
-        status_code.append(noticeDao.edit('NOTICEID', notice.noticeid,
-                                          'USERNAME', notice.username))
-        if status.HTTP_400_BAD_REQUEST in status_code:
-            status_code = status.HTTP_400_BAD_REQUEST
+        edit_index = ['TITLE', 'CONTENT', 'USERID', 'USERNAME']
+        edit_value = [notice.title, notice.content, notice.userid,
+                      notice.username]
+        status_code = noticeDao.edit('NOTICEID', notice.noticeid,
+                                     edit_index, edit_value)
+        if status_code == status.HTTP_400_BAD_REQUEST:
             code = msg_code.UPD_FAILURE
-        else:
-            status_code = status.HTTP_200_OK
-            code = msg_code.UPD_SUCCESS
     return status_code, code
 
 

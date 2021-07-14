@@ -11,7 +11,7 @@ class StaffInf(BaseModel):
     deptid: int
     jobid: int
     username: str
-    cardid: int
+    cardid: str
     address: str
     postcode: str
     tel: str

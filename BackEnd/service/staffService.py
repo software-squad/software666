@@ -131,49 +131,19 @@ def editStaffShow(userid):
 
 def editStaffSubmit(staff):
     # 修改员工信息
-    status_code = []
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'USERNAME', staff.username))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'CARDID', staff.cardid))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'SEX', staff.sex))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'JOBID', staff.jobid))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'EDUCATION', staff.education))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'EMAIL', staff.email))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'DEPTID', staff.deptid))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'TEL', staff.tel))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'PARTY', staff.party))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'QQNUM', staff.qqnum))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'ADDRESS', staff.address))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'POSTCODE', staff.postcode))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'BIRTHDAY', staff.birthday))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'STATUS', staff.status))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'FACEURL', staff.faceurl))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'FACEPATH', staff.facepath))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'DEPTNAME', staff.deptname))
-    status_code.append(staffDao.edit('USERID', staff.userid,
-                                     'JOBNAME', staff.jobname))
+    edit_index = ['USERNAME', 'CARDID', 'SEX', 'JOBID', 'EDUCATION', 'EMAIL',
+                  'DEPTID', 'TEL', 'PARTY', 'QQNUM', 'ADDRESS', 'POSTCODE',
+                  'BIRTHDAY', 'STATUS', 'FACEURL', 'FACEPATH', 'DEPTNAME',
+                  'JOBNAME']
+    edit_value = [staff.username, staff.cardid, staff.sex, staff.jobid,
+                  staff.education, staff.email, staff.deptid, staff.tel,
+                  staff.party, staff.qqnum, staff.address, staff.postcode,
+                  staff.birthday, staff.status, staff.faceurl, staff.facepath,
+                  staff.deptname, staff.jobname]
+    status_code = staffDao.edit('USERID', staff.userid, edit_index, edit_value)
+    code = msg_code.UPD_SUCCESS
     if status.HTTP_400_BAD_REQUEST in status_code:
-        status_code = status.HTTP_400_BAD_REQUEST
         code = msg_code.UPD_FAILURE
-    else:
-        status_code = status.HTTP_200_OK
-        code = msg_code.UPD_SUCCESS
     return status_code, code
 
 
