@@ -8,16 +8,26 @@ const request = (config) => {
 	if (config.url.indexOf('login') < 0) { // 非登录请求
 		console.log('非登录请求')
 		let token=""
+		// let userid = -1
 		// #ifdef H5
 			token = sessionStorage.getItem('token')
+			// userid = sessionStorage.getItem('userid')
 		// #endif
 		// #ifndef H5
 			token = uni.getStorageSync('token')
+			// userid  = uni.getStorageSync('userid')
 		// #endif
 		console.log('请求token',token)
+		// console.log('请求userid',userid)
 		// FIXME 根据token测试
-		if(token == ""){
+		if(!token){
 			console.log('重定向',token)
+			// 添加重定向提示
+			uni.showToast({
+				title: '您尚未登录',
+				icon: 'none',
+				duration: 4000
+			});
 			uni.redirectTo({
 				url: '/pages/login/login',
 			})
@@ -108,7 +118,7 @@ const showError = (res) => {
 							// #endif
 							//去我的页面登录
 							uni.redirectTo({
-								url: '/pages/login'
+								url: '/pages/login/login'
 							})
 						} else if (res.cancel) {
 							console.log('用户点击取消');

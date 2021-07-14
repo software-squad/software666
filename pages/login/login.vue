@@ -42,12 +42,6 @@
 		computed: {},
 		onLoad() {},
 		methods: {
-			showFalseToast() {
-				this.$refs.uToast.show({
-					title: '用户名或密码错误',
-					type: 'false',
-				})
-			},
 			showSuccessToast() {
 				this.$refs.uToast.show({
 					title: '登录成功',
@@ -94,13 +88,16 @@
 							url: '/pages/menu/menu'
 						})
 					})
-					// .catch((error) => {
-					// 	console.log(error);
-					// 	this.showFalseToast();
-					// 	uni.switchTab({
-					// 		url: '/pages/login/login'
-					// 	})
-					// })
+					.catch((error) => {
+						console.log(error);
+						this.$refs.uToast.show({
+							title: '用户名或密码错误',
+							type: 'false',
+						})
+						uni.switchTab({
+							url: '/pages/login/login'
+						})
+					})
 			},
 			//监听账号输入操作,如果输入账号，自动输入密码
 			// change() {

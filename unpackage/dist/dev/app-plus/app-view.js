@@ -13769,6 +13769,8 @@ try {
     uToast: __webpack_require__(/*! @/uview-ui/components/u-toast/u-toast.vue */ 73).default,
     uGap: __webpack_require__(/*! @/uview-ui/components/u-gap/u-gap.vue */ 81).default,
     uInput: __webpack_require__(/*! @/uview-ui/components/u-input/u-input.vue */ 89).default,
+    uniFilePicker: __webpack_require__(/*! @/components/uni-file-picker/uni-file-picker.vue */ 307)
+      .default,
     uCol: __webpack_require__(/*! @/uview-ui/components/u-col/u-col.vue */ 105).default,
     uRow: __webpack_require__(/*! @/uview-ui/components/u-row/u-row.vue */ 49).default,
     uModal: __webpack_require__(/*! @/uview-ui/components/u-modal/u-modal.vue */ 166).default
@@ -13849,17 +13851,40 @@ var render = function() {
               expression: "item.depturl"
             }
           }),
-          _c("u-gap", { attrs: { _i: 16 } }),
+          _c("uni-file-picker", {
+            ref: "files",
+            attrs: { _i: 16 },
+            on: {
+              select: function($event) {
+                return _vm.$handleViewEvent($event)
+              },
+              progress: function($event) {
+                return _vm.$handleViewEvent($event)
+              },
+              success: function($event) {
+                return _vm.$handleViewEvent($event)
+              },
+              fail: function($event) {
+                return _vm.$handleViewEvent($event)
+              }
+            },
+            model: {
+              value: _vm._$g(16, "v-model"),
+              callback: function() {},
+              expression: "imageValue"
+            }
+          }),
+          _c("u-gap", { attrs: { _i: 17 } }),
           _c(
             "u-col",
-            { attrs: { _i: 17 } },
+            { attrs: { _i: 18 } },
             [
               _c(
                 "u-row",
-                { attrs: { _i: 18 } },
+                { attrs: { _i: 19 } },
                 [
                   _c("u-modal", {
-                    attrs: { _i: 19 },
+                    attrs: { _i: 20 },
                     on: {
                       confirm: function($event) {
                         return _vm.$handleViewEvent($event)
@@ -13869,7 +13894,7 @@ var render = function() {
                       }
                     },
                     model: {
-                      value: _vm._$g(19, "v-model"),
+                      value: _vm._$g(20, "v-model"),
                       callback: function() {},
                       expression: "show"
                     }
@@ -13877,7 +13902,7 @@ var render = function() {
                   _c(
                     "v-uni-button",
                     {
-                      attrs: { _i: 20 },
+                      attrs: { _i: 21 },
                       on: {
                         click: function($event) {
                           return _vm.$handleViewEvent($event)

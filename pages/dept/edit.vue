@@ -13,8 +13,13 @@
  			<u-gap height="30"></u-gap>
 			<u-input  v-model="item.remark" type="text" :border="true" />
  			<u-gap height="80"></u-gap>
+			 
 			<text class="title">部门照片:</text>
+			
 			<u-input  v-model="item.depturl" type="text" :border="true" />
+			<uni-file-picker v-model="imageValue" fileMediatype="image" limit="1" ref="files" @select="select"
+				@progress="progress" @success="success" @fail="fail" />
+			
 			<u-gap height="80"></u-gap>
 			<u-col span="400">
  				<u-row gutter="20">
