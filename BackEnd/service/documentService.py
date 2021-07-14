@@ -17,23 +17,13 @@ def showFiles():
 
 def editFile(file):
     # 修改文件
-    status_code = []
-    status_code.append(documentDao.edit('FILEID', file.fileid,
-                                        'TITLE', file.title))
-    status_code.append(documentDao.edit('FILEID', file.fileid,
-                                        'FILENAME', file.filename))
-    status_code.append(documentDao.edit('FILEID', file.fileid,
-                                        'REMARK', file.remark))
-    status_code.append(documentDao.edit('FILEID', file.fileid,
-                                        'USERNAME', file.username))
-    status_code.append(documentDao.edit('FILEID', file.fileid,
-                                        'FILEPATH', file.filepath))
-    if status.HTTP_400_BAD_REQUEST in status_code:
-        status_code = status.HTTP_400_BAD_REQUEST
+    edit_index = ['TITLE', 'FILENAME', 'REMARK', 'USERNAME', 'FILEPATH']
+    edit_value = [file.title, file.filename, file.remark, file.username,
+                  file.filepath]
+    status_code = documentDao.edit('FILEID', file.fileid, edit_index,
+                                   edit_value)
+    if status_code == status.HTTP_400_BAD_REQUEST:
         code = msg_code.UPD_FAILURE
-    else:
-        status_code = status.HTTP_200_OK
-        code = msg_code.UPD_SUCCESS
     return status_code, code
 
 
