@@ -37,6 +37,7 @@ def validateUserByAccount(user):
         new_result['token'] = token
         new_result['userid'] = result['userid']
         new_result['status'] = result['status']
+        new_result['username'] = result['username']
     return status_code, new_result, code
 
 
@@ -74,4 +75,5 @@ def validateUserByFace(faceByte, faceImage, loginname):
             new_result['token'] = token
             new_result['userid'] = result['userid']
             new_result['status'] = result['status']
+            new_result['username'] = result['username']
     return status_code, new_result, code
