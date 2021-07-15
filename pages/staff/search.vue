@@ -158,6 +158,7 @@
 						}
 					}
 				})
+				// this.saveSearchHistory()
 			},
 
 			// 存储搜索历史

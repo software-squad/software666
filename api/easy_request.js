@@ -7,13 +7,8 @@ const request = (config) => {
 	if (config.url.indexOf('login') < 0) { // 非登录请求
 		console.log('非登录请求，token验证中')
 		let token = ""
-		/* // #ifdef H5
-		// 	token = sessionStorage.getItem('token')
-		// #endif
-		*/
-		/// #ifndef H5
+		// token = sessionStorage.getItem('token')
 		token = uni.getStorageSync('token')
-		/// #endif
 		console.log('请求token', token)
 
 		// FIXME 根据token测试
@@ -30,11 +25,11 @@ const request = (config) => {
 			})
 			return;
 		}
-		
+
 		// 请求头设置
 		config.header = {
 			'token': token,
-			'userid':uni.getStorageSync('userid')
+			'userid': uni.getStorageSync('userid')
 			// 'userid':sessionStorage.getItem('userid')
 			// 'content-type':'application/x-www-form-urlencoded'
 		}
@@ -102,29 +97,30 @@ const showError = (res) => {
 				});
 				break
 			case 403:
-				uni.showModal({
-					title: '登录已过期',
-					content: '很抱歉，登录已过期，请重新登录',
-					confirmText: '重新登录',
-					success: function(res) {
-						if (res.confirm) {
-							// TODO 记得解除注释
-							// 注销token
-							// #ifdef H5
-							sessionStorage.setItem("token", '')
-							// #endif
-							// #ifndef H5
-							uni.setStorageSync('token', '')
-							// #endif
-							//去我的页面登录
-							uni.redirectTo({
-								url: '/pages/login/login'
-							})
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-						}
-					}
-				})
+				uni.showToast({
+					title: '您没有操作权限',
+					icon: 'none',
+					duration: 4000
+				});
+				// uni.showModal({
+				// 	title: '登录已过期',
+				// 	content: '很抱歉，登录已过期，请重新登录',
+				// 	confirmText: '重新登录',
+				// 	success: function(res) {
+				// 		if (res.confirm) {
+				// 			// TODO 记得解除注释
+				// 			// 注销token
+				// 			// sessionStorage.setItem("token", '')
+				// 			uni.setStorageSync('token', '')
+				// 			//去我的页面登录
+				// 			uni.redirectTo({
+				// 				url: '/pages/login/login'
+				// 			})
+				// 		} else if (res.cancel) {
+				// 			console.log('用户点击取消');
+				// 		}
+				// 	}
+				// })
 				break
 			case 404:
 				uni.showToast({

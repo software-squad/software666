@@ -10,8 +10,8 @@ export function menuSendData(data) {
 }
 
 export function loginSendData(data) {
-	// return service.request({
-		return request.request({
+	return service.request({
+		// return request.request({
 		method: 'POST',
 		url: '/api/login',
 		//url:'https://www.fastmock.site/mock/c8376d6981ddc3969681a61793cc783d/api/login',
@@ -133,7 +133,7 @@ export function jobAddSendData(data) {
 export function userSendData(data) {
 	return service.request({
 		method: 'POST',
-		url: '/api/staff/oneByUserid',
+		url: '/api/staff/searchByUserid',
 		data: data
 	})
 }
@@ -151,7 +151,7 @@ export function fileEdit(data) {
 
 export function fileShowMany() {
 	return request.request({
-		url: '/api/file/showmany',
+		url: '/api/file/showFiles',
 		method: 'GET',
 	})
 }
@@ -167,7 +167,7 @@ export function staffOneByUseridSendData(data) {
 	console.log(data)
 	return request.request({
 		method: 'GET',
-		url: '/api/staff/oneByUserid',
+		url: '/api/staff/searchByUserid',
 		data: data
 	})
 }
@@ -183,7 +183,7 @@ export function staffDelData(data) {
 export function staffShowUserByDeptAndJob(data) {
 	return request.request({
 		method: 'POST',
-		url: "/api/staff/showUserByDeptAndJob",
+		url: "/api/staff/searchByDeptAndJob",
 		data: data
 	})
 }
@@ -197,7 +197,7 @@ export function staffIndex() {
 
 export function staffEditByUserid(data) {
 	return request.request({
-		url: "/api/staff/editByUserid",
+		url: "/api/staff/searchByUserid",
 		data: data,
 		method: 'GET',
 	})
@@ -206,7 +206,7 @@ export function staffEditByUserid(data) {
 
 export function staffEditSubmit(data) {
 	return request.request({
-		url: "/api/staff/editSubmit",
+		url: "/api/staff/edit",
 		data: data,
 		method: 'POST'
 	})
@@ -222,7 +222,7 @@ export function staffAdd(data) {
 
 export function staffShowUserByUsername(data) {
 	return request.request({
-		url: '/api/staff/showUserByUsername',
+		url: '/api/staff/searchByUsername',
 		data: data,
 		method: 'GET',
 	})

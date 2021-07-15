@@ -19,7 +19,7 @@
 					<text class="u-line-1">{{item.label}}</text>
 				</view>
 			</scroll-view>
-			
+
 			<!-- 职业栏 -->
 			<scroll-view :scroll-top="scrollRightTop" scroll-y="true" scroll-with-animation="true" class="right-box"
 				@scroll="rightScroll">
@@ -33,22 +33,22 @@
 						</view>
 					</view>
 				</view>
-				
+
 				<!-- 新增用户 -->
 				<u-icon class="icon-circle-plus-fill" size="100" name="plus-circle-fill" @click="navToAdd"></u-icon>
 			</scroll-view>
 		</view>
-		
-		<u-tabbar :list="tabBerList" :mid-button="midBtn" active-color="#5098FF" inactive-color="#909399"
-			:border-top=false bg-color="#F8F8F8"></u-tabbar>
-		
+
 		<!-- 消息提示 -->
 		<u-toast ref="uToast" />
-		
+		<u-tabbar :list="tabBerList" :mid-button="midBtn" active-color="#5098FF" inactive-color="#909399"
+			:border-top=false bg-color="#F8F8F8"></u-tabbar>
 	</view>
 </template>
 <script>
-	import mapGetters from 'vuex'
+	import {
+		mapGetters
+	} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -61,7 +61,9 @@
 				arr: [],
 				scrollRightTop: 0, // 右边栏目scroll-view的滚动条高度
 				timer: null, // 定时器
-				tabbar: '',  // 垂直侧边栏展示的内容
+				tabbar: '', // 垂直侧边栏展示的内容
+				// tabBerList: '',
+
 			}
 		},
 		computed: {
@@ -70,43 +72,44 @@
 				'midBtn'
 			])
 		},
-		
 		// 页面初始化，获取部门和职位列表
 		onLoad() {
+			// DEBUG
+			console.log('初始化index页面')
 			let _this = this
 			this.$api.staffIndex().then(res => {
 				_this.tabbar = res.data.data
 				console.log("数据加载成功")
 			})
 		},
-		
+
 		onReady() {
 			this.getMenuItemTop()
 		},
-		
+
 		methods: {
-			
+
 			// 新增用户
 			navToAdd() {
 				uni.navigateTo({
 					url: '/pages/staff/add'
 				})
 			},
-			
+
 			// 点击搜索事件
 			navToSearchByUsername() {
 				uni.navigateTo({
 					url: './search',
 				})
 			},
-			
+
 			// 点击职业
 			navToSearchByDeptAndJob(dept, job) {
 				uni.navigateTo({
 					url: '/pages/staff/show?deptid=' + dept.value + "&jobid=" + job.value + "&jobname=" + job.label
 				})
 			},
-			
+
 			// 点击左边的栏目切换
 			async swichMenu(index) {
 				if (this.arr.length == 0) {
@@ -120,7 +123,7 @@
 					this.leftMenuStatus(index);
 				})
 			},
-			
+
 			// 获取一个目标元素的高度
 			getElRect(elClass, dataVal) {
 				new Promise((resolve, reject) => {
@@ -140,7 +143,7 @@
 					}).exec();
 				})
 			},
-			
+
 			// 观测元素相交状态
 			async observer() {
 				this.tabbar.map((val, index) => {
@@ -157,7 +160,7 @@
 					})
 				})
 			},
-			
+
 			// 设置左边菜单的滚动状态
 			async leftMenuStatus(index) {
 				this.current = index;
@@ -169,7 +172,7 @@
 				// 将菜单活动item垂直居中
 				this.scrollTop = index * this.menuItemHeight + this.menuItemHeight / 2 - this.menuHeight / 2;
 			},
-			
+
 			// 获取右边菜单每个item到顶部的距离
 			getMenuItemTop() {
 				new Promise(resolve => {
@@ -190,7 +193,7 @@
 					}).exec()
 				})
 			},
-			
+
 			// 右边菜单滚动
 			async rightScroll(e) {
 				this.oldScrollTop = e.detail.scrollTop;
@@ -216,7 +219,9 @@
 					}
 				}, 10)
 			},
-		}
+		},
+
+
 	}
 </script>
 
