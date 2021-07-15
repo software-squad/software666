@@ -9,6 +9,7 @@
 		</view>
 
 		<view class="u-menu-wrap">
+			<!-- 部门栏 -->
 			<scroll-view scroll-y scroll-with-animation="true" class="u-tab-view menu-scroll-view"
 				:scroll-top="scrollTop" :scroll-into-view="itemId">
 				<view v-for="(item,index) in tabbar" :key="index" class="u-tab-item"
@@ -16,15 +17,11 @@
 					<text class="u-line-1">{{item.label}}</text>
 				</view>
 			</scroll-view>
-
+			<!-- 职位栏 -->
 			<scroll-view :scroll-top="scrollRightTop" scroll-y="true" scroll-with-animation="true" class="right-box"
 				@scroll="rightScroll">
 				<view class="page-view">
 					<view class="class-item" :id="'item'+current">
-						<!-- 展示部门名称 -->
-						<!-- <view class="item-title">
-						<text>{{tabbar[current].label}}</text>
-					</view> -->
 						<view class="item-container">
 							<view class="thumb-box" v-for="(it,id) in tabbar[current].children" :key="id"
 								@click="navToSearchByDeptAndJob(tabbar[current],it)">
@@ -33,16 +30,17 @@
 						</view>
 					</view>
 				</view>
-				
 			</scroll-view>
-		
 		</view>
-		
+		<!-- 导航栏 -->
+		<u-tabbar :list="tabBerList" :mid-button="midBtn" active-color="#5098FF" inactive-color="#909399"
+			:border-top=false bg-color="#F8F8F8"></u-tabbar>
+		<!-- 消息提示 -->
 		<u-toast ref="uToast" />
-		<u-tabbar :list="tabbar1" ></u-tabbar>
 	</view>
 </template>
 <script>
+	import mapGetters from 'vuex'
 	export default {
 		data() {
 			return {
@@ -52,60 +50,48 @@
 				menuHeight: 0, // 左边菜单的高度
 				menuItemHeight: 0, // 左边菜单item的高度
 				itemId: '', // 栏目右边scroll-view用于滚动的id
-				menuItemPos: [],
 				arr: [],
 				scrollRightTop: 0, // 右边栏目scroll-view的滚动条高度
 				timer: null, // 定时器
-				tabbar: '',
-				//自定义tabbar目录
-				tabbar1: [{
-						iconPath: "/static/tab_icons/home.png",
-						selectedIconPath: "/static/tab_icons/homeHL.png",
-						text: '首页',
-						pagePath: "/pages/menu/user_menu"
-					},
-					{
-						iconPath: "/static/tab_icons/人员.png",
-						selectedIconPath: "/static/tab_icons/人员HL.png",
-						text: '员工中心',
-						pagePath: "/pages/staff/user_index"
-					},
-					{
-						iconPath: "/static/tab_icons/user.png",
-						selectedIconPath: "/static/tab_icons/userHL.png",
-						text: '我的',
-						pagePath: "/pages/user/user"
-				
-					},
-				],
+				tabbar: '',  // 垂直侧边栏展示的内容
 			}
 		},
+		computed: {
+			...mapGetters([
+				'tabBerList',
+				'midBtn'
+			])
+		},
+		
+		// 页面初始化，获取部门和职位列表
 		onLoad() {
-			console.log("加载中")
 			let _this = this
-			this.$request.request({
-				url: '/api/staff/index',
-				method: "GET",
-			}).then(res => {
+			this.$api.staffIndex().then(res => {
 				_this.tabbar = res.data.data
 				console.log("数据加载成功")
 			})
 		},
-		// onReady() {
-		// 	this.getMenuItemTop()
-		// },
+		
+		onReady() {
+			this.getMenuItemTop()
+		},
+		
 		methods: {
+			
 			// 点击搜索事件
 			navToSearchByUsername() {
 				uni.navigateTo({
-					url: './user_search',
+					url: './search',
 				})
 			},
+			
+			// 点击职业
 			navToSearchByDeptAndJob(dept, job) {
 				uni.navigateTo({
-					url: '/pages/staff/user_show?deptid=' + dept.value + "&jobid=" + job.value + "&jobname=" + job.label
+					url: '/pages/staff/show?deptid=' + dept.value + "&jobid=" + job.value + "&jobname=" + job.label
 				})
 			},
+			
 			// 点击左边的栏目切换
 			async swichMenu(index) {
 				if (this.arr.length == 0) {
@@ -119,6 +105,7 @@
 					this.leftMenuStatus(index);
 				})
 			},
+			
 			// 获取一个目标元素的高度
 			getElRect(elClass, dataVal) {
 				new Promise((resolve, reject) => {
@@ -138,6 +125,7 @@
 					}).exec();
 				})
 			},
+			
 			// 观测元素相交状态
 			async observer() {
 				this.tabbar.map((val, index) => {
@@ -154,6 +142,7 @@
 					})
 				})
 			},
+			
 			// 设置左边菜单的滚动状态
 			async leftMenuStatus(index) {
 				this.current = index;
@@ -165,6 +154,7 @@
 				// 将菜单活动item垂直居中
 				this.scrollTop = index * this.menuItemHeight + this.menuItemHeight / 2 - this.menuHeight / 2;
 			},
+			
 			// 获取右边菜单每个item到顶部的距离
 			getMenuItemTop() {
 				new Promise(resolve => {
@@ -185,6 +175,7 @@
 					}).exec()
 				})
 			},
+			
 			// 右边菜单滚动
 			async rightScroll(e) {
 				this.oldScrollTop = e.detail.scrollTop;
@@ -215,18 +206,19 @@
 </script>
 
 <style lang="scss" scoped>
-	.icon-circle-plus-fill{
-	  color: #42b983;
-	  position: absolute;
-	  bottom: 120rpx;
-	  right: 20rpx;
+	.icon-circle-plus-fill {
+		color: #42b983;
+		position: absolute;
+		bottom: 120rpx;
+		right: 20rpx;
 	}
-	.icon-circle-plus-fill:hover{
-	  // -webkit-box-shadow: #ccc 10px 10px 10px;
-	  // -moz-box-shadow: #ccc 10px 10px 10px;
-	  box-shadow: #ccc 10px 10px 10px;
+
+	.icon-circle-plus-fill:hover {
+		// -webkit-box-shadow: #ccc 10px 10px 10px;
+		// -moz-box-shadow: #ccc 10px 10px 10px;
+		box-shadow: #ccc 10px 10px 10px;
 	}
-	
+
 	.u-wrap {
 		height: calc(100vh);
 		/* #ifdef H5 */
@@ -239,6 +231,7 @@
 
 	.u-search-box {
 		padding: 18rpx 30rpx;
+		background-color: #fafafa;
 	}
 
 	.u-menu-wrap {

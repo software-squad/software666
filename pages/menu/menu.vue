@@ -48,12 +48,16 @@
 						</u-button>
 					</u-row>
 					</view>
-		<u-tabbar :list="tabbar0" ></u-tabbar>
+		<u-tabbar :list="tabBerList" :mid-button="midBtn" active-color="#5098FF" inactive-color="#909399"
+			:border-top=false bg-color="#F8F8F8"></u-tabbar>
 	</view>
 
 </template>
 
 <script>
+	import {
+		mapGetters
+	} from 'vuex'
 	import {
 		sendThis
 	} from "../../api/request.js"
@@ -69,27 +73,13 @@
 						'欢迎登录CSI员工之家！'
 				],
 				notice:[],
-				tabbar0: [{
-						iconPath: "/static/tab_icons/home.png",
-						selectedIconPath: "/static/tab_icons/homeHL.png",
-						text: '',
-						pagePath: "/pages/menu/menu"
-					},
-					{
-						iconPath: "/static/tab_icons/人员.png",
-						selectedIconPath: "/static/tab_icons/人员HL.png",
-						text: '',
-						pagePath: "/pages/staff/index"
-					},
-					{
-						iconPath: "/static/tab_icons/user.png",
-						selectedIconPath: "/static/tab_icons/userHL.png",
-						text: '',
-						pagePath: "/pages/user/user"
-				
-					},
-				],
 			}
+		},
+		computed: {
+			...mapGetters([
+				'tabBerList',
+				'midBtn'
+			])
 		},
 		onLoad() {
 			sendThis(this)

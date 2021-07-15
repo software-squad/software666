@@ -1,10 +1,13 @@
 <template>
 	<view class="form-box">
 		<!-- label-position="top" -->
+
+		<!-- 员工头像 -->
 		<view class="u-flex-col u-p-30 u-col-center" @click='changeHead'>
 			<u-image width='150rpx' height='150rpx' :src="tempFilePath" shape="circle"></u-image>
 		</view>
-		<u-form :model="form" ref="uForm"  label-width="160rpx">
+
+		<u-form :model="form" ref="uForm" label-width="160rpx">
 
 			<u-form-item label="姓名" prop="username" required>
 				<u-input v-model="form.username" placeholder='请输入姓名' />
@@ -69,6 +72,7 @@
 			</u-form-item>
 
 			<u-form-item label="备注信息" prop='remark'>
+				<!-- TODO 美化，添加Field -->
 				<u-input v-model='form.remark' type='text' placeholder='' />
 			</u-form-item>
 
@@ -80,70 +84,39 @@
 </template>
 
 <script>
+	import util from "../../api/util.js"
 	export default {
 		name: 'staffForm',
 		data() {
 			return {
-				tempFilePath:'',
+				// 图像占位符
+				tempFilePath: '',
+
+				// 选择结果占位符显示
 				statusLabel: '',
 				posSelRes: '',
 				rangeAddress: '',
 				detailAddress: '',
+
+				// 选择栏显示或隐藏
 				statusShow: false,
 				sexSelShow: false,
 				posSelShow: false,
 				eduSelShow: false,
 				calSelShow: false,
 				addressSelShow: false,
-				statusList: [{
-					label: '管理员',
-					value: 1
-				}, {
-					label: '普通用户',
-					value: 0
-				}, ],
+
+				// 选择栏的各个选项
+				statusList: util.statusList,
+				sexList: util.sexList,
+				eduList: util.eduList,
 				posList: [],
-				sexList: [{
-						value: '0',
-						label: '保密'
-					}, {
-						value: '1',
-						label: '男'
-					},
-					{
-						value: '2',
-						label: '女'
-					}
-				],
-				eduList: [{
-						value: '0',
-						label: '小学'
-					}, {
-						value: '1',
-						label: '初中'
-					},
-					{
-						value: '2',
-						label: '高中'
-					}, {
-						value: '3',
-						label: '专科'
-					}, {
-						value: '4',
-						label: '本科'
-					}, {
-						value: '5',
-						label: '研究生'
-					}, {
-						value: '6',
-						label: '博士'
-					},
-				],
+
+				// 整个表单信息
 				form: {
 					userid: 0,
 					password: '',
 					status: '',
-					// TODO 登录名去掉
 					loginname: '',
 					faceurl: '',
 					facepath: '',
@@ -165,82 +138,23 @@
 					jobname: '',
 					remark: '',
 				},
-				rules: {
-					username: [{
-						required: true,
-						message: '姓名不能为空',
-						trigger: ['change', 'blur']
-					}, ],
-					cardid: [{
-						type: 'number',
-						message: '身份证号码格式不正确',
-						trigger: ['change', 'blur']
-					}, {
-						len: 18,
-						message: '身份证号码为18位',
-						trigger: ['change', 'blur']
-					}, ],
-					sex: // Not Null
-						[{
-							required: true,
-							message: '性别不能为空',
-							trigger: ['change', 'blur']
-						}, ],
-					// TODO 职位
-					// position: [{
-					// 	required: true,
-					// 	message: '职位不能为空',
-					// 	trigger: ['change', 'blur']
-					// }, ],
-					email: [{
-						type: 'email',
-						message: "邮箱格式不正确",
-						trigger: ['change', 'blur']
-					}, ],
-					tel: // Not Null
-						[{
-							required: true,
-							message: '手机号码不能为空',
-							trigger: ['change', 'blur']
-						}, {
-							// 自定义验证函数，见上说明
-							validator: (rule, value, callback) => {
-								// 上面有说，返回true表示校验通过，返回false表示不通过
-								// this.$u.test.mobile()就是返回true或者false的
-								return this.$u.test.mobile(value);
-							},
-							message: '手机号码格式不正确',
-							// 触发器可以同时用blur和change
-							trigger: ['change', 'blur'],
-						}, ],
-					qqnum: [{
-						type: 'number',
-						message: "QQ号码格式不正确",
-						trigger: ['change', 'blur']
-					}, ],
 
-					postcode: [{
-						type: 'number',
-						message: "邮编格式不正确",
-						trigger: ['change', 'blur']
-					}, ]
-
-				},
-				// 文字提示
-				errorType: ['message'],
-				// 不提示
-				// errorType: ['none'],
-				// 文字和下划线提示
-				// errorType: ['message', 'border-bottom'],
+				// 表单验证
+				rules: util.editRule,
+				// 表单验证错误提示
+				errorType: ['message'], // 文字提示
 			}
 		},
 
 		methods: {
+			// 改变员工头像
 			changeHead() {
+				// 调用系统选择文件
 				uni.chooseImage({
 					count: 1,
 					success: (res) => {
 						this.tempFilePath = res.tempFilePaths[0]
+						// 上传文件到阿里云服务器，并获取图片网址
 						uniCloud.uploadFile({
 							filePath: this.tempFilePath,
 							cloudPath: res.tempFiles[0].name,
@@ -258,102 +172,113 @@
 					}
 				});
 			},
-			formSubmit() {
-				this.$refs.uForm.validate(valid => {
-					console.log("正在提交")
-					console.log(this.form)
-					if (valid) {
-						this.form.address = this.rangeAddress + this.detailAddress
-						this.$request.request({
-							url: "/api/staff/editSubmit",
-							data: {
-								...this.form,
-							},
-							method: 'POST'
-						}).then(res => {
-							this.$refs.uToast.show({
-								title: '提交成功',
-								type: 'success',
-								// TODO 时限逻辑，否则回猛的跳转
-							})
-							uni.navigateBack()
-						})
-					} else {
-						console.log('验证失败');
-					}
 
+
+			// 表单提交
+			formSubmit() {
+				// 职位单独验证，form的验证好像不能看组合的结果验证
+				// console.log('选中的职位', this.posSelRes)
+				if (!this.posSelRes) {
+					uni.showToast({
+						title: '职位不能为空',
+						icon: 'none',
+					})
+					return;
+				}
+				// form验证
+				this.$refs.uForm.validate(valid => {
+					if (valid) {
+						console.log("正在提交表单", this.form)
+						this.form.address = this.rangeAddress + this.detailAddress
+						this.$api.staffEditSubmit(...this.form)
+							.then(res => {
+								// 10005 更新成功
+								if (res.data.msg == 10005) {
+									this.$refs.uToast.show({
+										title: '提交成功',
+										type: 'success',
+									})
+									// 添加时限逻辑。避免猛地返回
+									setTimeout(() => {
+										uni.navigateBack()
+									}, 1000)
+								}
+								// easy_request会有提示框，无需toast
+							})
+					} else {
+						// 会有提示框，无需toast
+						console.log('验证失败')
+					}
 				});
 			},
-			statusConfirm(e) {
-				console.log(e)
-				this.form.status = e[0].value
-				this.statusLabel = e[0].label
-			},
+
+			// ======================================================================
+			// 选择项目确认处理
 			sexConfirm(e) {
-				console.log(e)
+				// console.log('性别选择结果',e)
 				this.form.sex = e[0].label
 			},
 			posConfirm(e) {
+				// console.log('职位选择结果',e)
+				// 多选框，职位分别赋值
 				this.posSelRes = e[0].label + " " + e[1].label
 				this.form.deptname = e[0].label
 				this.form.deptid = e[0].value
 				this.form.jobname = e[1].label
 				this.form.jobid = e[1].value
-				console.log(e)
 			},
 			eduConfirm(e) {
-				console.log(e)
+				// console.log('教育选择结果',e)
 				this.form.education = e[0].label
 			},
 			addressConfirm(e) {
-				console.log(e)
+				// console.log('地址选择结果',e)
+				// 地址组合
 				this.rangeAddress = e.province.label + e.city.label + e.area.label
 			},
 			calChange(e) {
-				console.log(e)
+				// console.log('日历选择结果',e)
 				this.form.birthday = e.result
 			}
 		},
-		// 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
+
+		// 表单规则确认加载
 		onReady() {
+			// 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
 			this.$refs.uForm.setRules(this.rules);
 		},
-		onLoad: function(parm) {
 
-			console.log('跳转用户编辑页面', parm.item)
-			this.$request.request({
-				url: '/api/staff/index',
-				// url:'http://192.168.0.106:8082/api/staff/index',
-				method: "GET",
-			}).then(res => {
-				this.posList = res.data.data
-			})
-			this.$request.request({
-				url: "/api/staff/editByUserid",
-				data: {
-					userid: parm.item,
-				},
-				method: 'GET',
-			}).then(res => {
-				console.log(res)
-				let form = res.data.data
-				this.form = form
-				console.log(this.form)
-				this.posSelRes = form.deptname + " " + form.jobname
-				this.rangeAddress = form.address
-				if(this.form.faceurl){
-					this.tempFilePath = this.form.faceurl
-				}else{
-					if (this.form.sex == '男') {
-						this.tempFilePath = '/static/boy1.svg'
-					} else if (this.form.sex == '女') {
-						this.tempFilePath = '/static/girl1.svg'
+		// 加载获取职位列表，以供选择
+		onLoad: function(parm) {
+			console.log('userid带参跳转结果', parm)
+			// 获取职位列表
+			this.$api.staffIndex()
+				.then(res => {
+					this.posList = res.data.data
+				})
+			this.$api.staffEditByUserid({
+					userid: parm.userid,
+				})
+				.then(res => {
+					let form = res.data.data
+					this.form = form
+					// console.log('表单信息',this.form)
+					this.posSelRes = form.deptname + " " + form.jobname
+					this.rangeAddress = form.address
+					if (this.form.faceurl) {
+						this.tempFilePath = this.form.faceurl
 					} else {
-						this.tempFilePath = '/static/头像.svg'
+						// 默认头像处理
+						if (this.form.sex == '男') {
+							this.tempFilePath = '/static/boy1.svg'
+						} else if (this.form.sex == '女') {
+							this.tempFilePath = '/static/girl1.svg'
+						} else {
+							this.tempFilePath = '/static/头像.svg'
+						}
+						this.form.faceurl = this.tempFilePath
 					}
-					this.form.faceurl = this.tempFilePath
-				}
-			})
+				})
 		}
 	}
 </script>

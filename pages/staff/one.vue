@@ -7,7 +7,9 @@
 			</u-cell-item>
 			<u-gap height="15" bg-color="#f9f9f9"></u-gap>
 
+			<!-- 动态实现用户信息展现，即获取的用户信息属性中没有的将不进行展示 -->
 			<!-- 动态实现方法一 -->
+			<!-- 通过key和中文描述绑定json格式，循环访问 -->
 			<u-cell-group>
 				<u-cell-item v-for="(value,key) in labelDict" :key='key' :title='value' :value='user[key]'
 					:valueStyle='valueStyle' :title-style="titleStyle" :arrow='false' v-show="user[key]?true:false">
@@ -25,13 +27,15 @@
 	export default {
 		data() {
 			return {
+				// cell-item样式
 				valueStyle: {
 					'text-align': 'left'
 				},
 				titleStyle: {
 					'width': '160rpx'
 				},
-
+				
+				// key和label的对应
 				labelDict: {
 					// username: '姓名',
 					sex: '性别',
@@ -46,31 +50,26 @@
 					party: '政治面貌',
 					address: '联系地址',
 					postcode: '邮政编码',
-					remark:'描述',
+					remark:'备注',
 					// loginname:'账户名', 
 					// password:'密码', 
 					// status:'权限', 
-					// '民族',
-					// '所学专业',
-					// '爱好',
-					// '备注'
 				},
 				user: {}
 			}
 		},
+		
+		// 页面加载
 		onLoad(item) {
-			console.log(item)
-			this.$request.request({
-				url: '/api/staff/oneByUserid',
-				method: 'GET',
-				data: {
-					userid: item.userid
-				},
+			console.log('页面跳转数据',item)
+			this.$api.staffOneByUseridSendData({
+				userid:item.userid
 			}).then(res => {
 				this.user = res.data.data
 				uni.setNavigationBarTitle({
 					title: this.user.username
 				})
+				// 默认头像处理
 				if (!this.user.faceurl) {
 					if (this.user.sex == '男') {
 						this.user.faceurl = '/static/boy1.svg'
@@ -82,6 +81,7 @@
 				}
 			})
 		},
+		
 		methods: {}
 	}
 </script>

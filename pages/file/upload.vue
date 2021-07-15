@@ -1,29 +1,29 @@
 <template>
 	<view>
-	
-			<u-field v-model="item.title" label="标题" placeholder="取个标题吧" label-align="center">
-			</u-field>
-			
-			<u-field type="textarea" v-model="item.remark" label="描述" placeholder="说点什么吧" label-align="center"></u-field>
-			<u-gap height="10" bg-color="#f9f9f9"></u-gap>
-			<u-gap height="5"></u-gap>
-			<!-- 方案一，弹窗限制文件类型 -->
-			<!-- <view>
+
+		<u-field v-model="item.title" label="标题" placeholder="取个标题吧" label-align="center">
+		</u-field>
+
+		<u-field type="textarea" v-model="item.remark" label="描述" placeholder="说点什么吧" label-align="center"></u-field>
+		<u-gap height="10" bg-color="#f9f9f9"></u-gap>
+		<u-gap height="5"></u-gap>
+		<!-- 方案一，弹窗限制文件类型 -->
+		<!-- <view>
 				<u-action-sheet :list="list" v-model="show" @click="click"></u-action-sheet>
 				<u-button @click="show = true">选择文件</u-button>
 			</view> -->
-	
-			<!-- 方案二，使用封装好的库 -->
-			<uni-file-picker fileMediatype="all" :list-styles="listStyle" limit="1" :autoUpload="false" @select="select"
-				@progress="progress" @success="success" @fail="fail" ref='files' />
-			<u-gap height="15" bg-color="#f9f9f9"></u-gap>
-	
-			<view class="sub_com">
-				<u-button class="sub_bott" @click="submit" type="primary" >上传</u-button>
-			</view>
-			
-			<u-toast ref="uToast"/>
+
+		<!-- 方案二，使用封装好的库 -->
+		<uni-file-picker fileMediatype="all" :list-styles="listStyle" limit="1" :autoUpload="false" @select="select"
+			@progress="progress" @success="success" @fail="fail" ref='files' />
+		<u-gap height="15" bg-color="#f9f9f9"></u-gap>
+
+		<view class="sub_com">
+			<u-button class="sub_bott" @click="submit" type="primary">上传</u-button>
 		</view>
+
+		<u-toast ref="uToast" />
+	</view>
 </template>
 
 <script>
@@ -51,14 +51,14 @@
 					"dividline": true // 是否显示分隔线
 				},
 
-				item: {
+				item: { // 文件参数信息
 					title: "",
 					remark: '',
 					username: "",
-					userid:"",
+					userid: "",
 				},
-				tempFilePath: '',
-				tempFile: null,
+				tempFilePath: '', // 临时文件地址
+				tempFile: null, // 临时文件
 			}
 		},
 		methods: {
@@ -68,38 +68,48 @@
 			// 	// TODO 调用文件格式
 			// },
 
-			// 方案二，使用uni-file-picker
+			// 方案二，使用uni-file-picker，选择文件中
 			select(e) {
 				console.log('选择文件结果', e)
 				this.tempFilePath = e.tempFilePaths[0]
 				this.tempFile = e.tempFiles[0].file
 			},
 
+			// 文件提交
 			submit() {
-				// TODO 获取用户名字，感觉传当前用户id更加妥当
+				// // #ifdef H5
+				// this.item.userid = sessionStorage.getItem('userid')
+				// this.item.username = sessionStorage.getItem('username')
+				// // #endif
+				this.item.userid = uni.getStorageSync('userid')
+				this.item.username = uni.getStorageSync('username')
+
 				const uploadTask = uni.uploadFile({
+					// 文件提交
 					url: '/api/file/upload',
 					filePath: this.tempFilePath,
+					header: {
+						token: uni.getStorageSync('token')
+					},
 					name: 'file',
 					formData: {
-						fileMsg: JSON.stringify(this.item),
+						filemsg: JSON.stringify(this.item),
 					},
-					// fileMsg: '"title": "main", "remark": "remark", "username": "刘骥"', // 后端需要的其他请求参数
+					// 文件信息示例
+					// filemsg: '"title": "main", "remark": "remark", "username": "刘骥"', // 后端需要的其他请求参数
 					success: (res) => {
-						console.log('服务器请求结果', res)
 						this.$refs.uToast.show({
 							title: '上传成功',
 							type: 'success',
-							duration:2000,
+							duration: 2000,
 							// back :true,
 							// url: '/pages/file/show'
 						})
-						uni.redirectTo({
-							url:'/pages/file/show'
-						})
+						setTimeout(() => {
+							uni.navigateBack()
+						}, 1000)
 					},
 					fail: (err) => {
-						console.log('服务器请求失败', err)
 						this.$refs.uToast.show({
 							title: '上传失败',
 							type: 'false'
@@ -138,15 +148,15 @@
 			uni.setNavigationBarTitle({
 				title: '文件上传'
 			})
-			// #ifdef H5
-			this.item.userid = sessionStorage.getItem('userid')
-			this.item.username = sessionStorage.getItem('username')
-			// #endif
-			// #ifndef H5
+			// // #ifdef H5
+			// this.item.userid = sessionStorage.getItem('userid')
+			// this.item.username = sessionStorage.getItem('username')
+			// // #endif
+			// // #ifndef H5
+			// 获取当前用户信息
 			this.item.userid = uni.getStorageSync('userid')
 			this.item.username = uni.getStorageSync('username')
-			// #endif
-			
+			// // #endif
 		}
 	}
 </script>
