@@ -1,3 +1,4 @@
+//调用封装好的service对象，统一管理请求后端的接口，便于修改和更新
 import service from "../api/request.js"
 
 export function menuSendData(data) {

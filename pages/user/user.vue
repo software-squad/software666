@@ -64,54 +64,69 @@
 				],
  			}
  		},
+		// 页面加载时
  		onLoad(){
+			// 将当前页面的this传到request.js
 			sendThis(this)
+			// 获取前端存储的uerid
 			this.userid = sessionStorage.getItem('userid')
-			console.log(sessionStorage.getItem('userid'))
-			let data = {
-				userid:this.userid
-			}
-			this.$request.request({
-								url: '/api/staff/oneByUserid',
-								method: "GET",
-								data:data,
-							})
-			.then((response) => {
-				this.faceurl=response.data.data.faceurl,
-				this.username=response.data.data.username,
-				this.sex=response.data.data.sex,
-				this.tel=response.data.data.tel,
-				this.deptname=response.data.data.deptname,
-				this.jobname=response.data.data.jobname
-			})
-			.catch((error) => {
-				console.log(error);
-			})
+			// 根据userid获取userinfo
+			this.GetInfo()
+			
  		},
  		methods: {
+			// 根据userid获取userinfo
+			GetInfo(){
+				let data = {
+					userid:this.userid
+				}
+				
+				this.$request.request({
+									url: '/api/staff/oneByUserid',
+									method: "GET",
+									data:data,
+								})
+				.then((response) => {
+					this.faceurl=response.data.data.faceurl,
+					this.username=response.data.data.username,
+					this.sex=response.data.data.sex,
+					this.tel=response.data.data.tel,
+					this.deptname=response.data.data.deptname,
+					this.jobname=response.data.data.jobname
+				})
+				.catch((error) => {
+					console.log(error);
+				})
+			},
+			// 拦截器调用展示msg信息
 			showToast(TITLE,TYPE) {
 							this.$refs.uToast.show({
 								title: TITLE.toString(),
 								type: TYPE.toString(),
 							})
 			},
- 
+			// 带参跳转到修改密码页面
  			changePwd() {
-				console.log('123')
  				uni.navigateTo({
  					url: "../user/changepwd?pic="+encodeURIComponent(JSON.stringify(this.faceurl))
  				})
  			},
+			// 点击离开后弹窗消失
  			exit() {
  				this.show = true;
  			},
+			// 确认离开后跳转到登陆界面，并将token删除
  			confirmExit() {
  				sessionStorage.clear()
-				console.log(sessionStorage.getItem("token"))
+				try {
+				    uni.clearStorageSync();
+				} catch (e) {
+				}
  				uni.navigateTo({
  					url: "../login/login"
  				})
  			},
+			// 点击取消后弹窗消失
  			cancel() {
  				this.show = false;
  			}

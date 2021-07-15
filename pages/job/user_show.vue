@@ -14,6 +14,7 @@
 					<u-row class="info-item-row">
 						<u-col span="12">
 							<view class="info-item" style="font-weight: bold;">{{item.jobname}}</view>
+							<view class="info-item" style="font-weight: lighter;">| {{item.deptname}}</view>
 						</u-col>
 					</u-row>
 					<u-row>
@@ -40,6 +41,7 @@
 	export default {
 		data() {
 			return {
+				
 				searchJobName: '',
 				keyword: '',
 				jobs: [],
@@ -58,6 +60,7 @@
 						let d = {
 							jobid: response.data.data[i].jobid,
 							jobname: response.data.data[i].jobname,
+							deptname:response.data.data[i].deptname,
 							remark: response.data.data[i].remark,
 						}
 						this.jobs.push(d)

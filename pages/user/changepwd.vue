@@ -14,88 +14,81 @@
 			<u-gap height="180"></u-gap>
 		</view>
 		<u-row>
-			<u-button type="primary" @click="confirm" >确认</u-button>
-			<u-button  type="error" @click="cancel" >取消</u-button>
+			<u-button type="primary" @click="confirm">确认</u-button>
+			<u-button type="error" @click="cancel">取消</u-button>
 		</u-row>
 	</view>
 </template>
 
 <script>
-	import {changePwdSendData} from "../../api/api.js"
-	import {sendThis} from "../../api/request.js"
+	import {
+		MD5
+	} from "../../api/md5.js"
+	import {
+		changePwdSendData
+	} from "../../api/api.js"
+	import {
+		sendThis
+	} from "../../api/request.js"
 	export default {
 		data() {
 			return {
-				userid:'',
+				userid: '',
 				imageSrc: '',
-				oldpwd:'',
-				newpwd:'',
-				confirmpwd:''
+				oldpwd: '',
+				newpwd: '',
+				confirmpwd: ''
 			}
 		},
-		onLoad: function(option)  {
+		// 页面加载时
+		onLoad: function(option) {
+			// 将当前页面的this传给request
 			sendThis(this)
-			this.imageSrc = JSON.parse(decodeURIComponent(option.pic));
-			this.userid = sessionStorage.getItem("userid");
+			// 获取带参跳转的图片路径
+			this.imageSrc = JSON.parse(decodeURIComponent(option.pic))
+			// 获取存在前端的userid
+			this.userid = sessionStorage.getItem("userid")
 		},
 		methods: {
-			showToast(TITLE,TYPE) {
-							this.$refs.uToast.show({
-								title: TITLE.toString(),
-								type: TYPE.toString(),
-							})
+			// 拦截器调用显示错误码
+			showToast(TITLE, TYPE) {
+				this.$refs.uToast.show({
+					title: String(TITLE),
+					type: String(TYPE),
+				})
 			},
-			// showFalseToast() {
-			// 				this.$refs.uToast.show({
-			// 					title: '修改失败',
-			// 					type: 'error',
-			// 				})
-			// },
-			// showSuccessToast() {
-			// 				this.$refs.uToast.show({
-			// 					title: '修改成功',
-			// 					type: 'success'
-			// 				})
-			// },
-			showWarningToast() {
-							this.$refs.uToast.show({
-								title: '两次输入的新密码不一致',
-								type: 'error'
-							})
-			},
-			confirm(){
-				if (this.confirmpwd!=this.newpwd){
-					this.showWarningToast();
+			// 先验证两次密码是否一致
+			confirm() {
+				if (this.confirmpwd != this.newpwd) {
+					this.showToast('两次输入的密码不一致','error');
 					this.oldpwd = '';
-					this.newpwd =  '';
+					this.newpwd = '';
 					this.confirmpwd = '';
-				}
-				else{
+				} else {
 					this.submit();
 				}
 			},
-			submit(){
-				let data={
-					userid:this.userid,
-					oldpwd:this.oldpwd,
-					newpwd:this.newpwd,
+			// 若一致，将账号密码发至后端，在回调中将token存入前端
+			submit() {
+				let data = {
+					userid: this.userid,
+					oldpwd: MD5(this.oldpwd),
+					newpwd:  MD5(this.newpwd),
 				}
 				changePwdSendData(data)
-				.then((response) => {
-					// this.showToast()
-					// this.showSuccessToast()
-					uni.navigateTo({
-						url:"user"
+					.then((response) => {
+						uni.navigateTo({
+							url: "user"
+						})
 					})
-				})
-				.catch((error) => {
-				  console.log(error);
-				  // this.showFalseToast()
-				 })
+					.catch((error) => {
+						console.log(error);
+					})
 			},
-			cancel(){
+			// 点击取消回到user页面
+			cancel() {
 				uni.navigateTo({
-					url:"user"
+					url: "user"
 				})
 			}
 

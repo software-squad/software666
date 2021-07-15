@@ -54,7 +54,7 @@
             "proxy" : {
                 "/api" : {
                     // "target" : "http://4097n16y34.zicp.vip:80/", //目标接口域名
-					"target":"http://4097h1o714.zicp.vip:80/",
+					"target":"http://192.168.0.101:8082/",
                     "changeOrigin" : true, //是否跨域
                     "secure" : false // 设置支持https协议的代理
                 }
