@@ -11325,7 +11325,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ./node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* \t.search{\n\t\tbackground-color:  #f5f5f5;\n\t} */\n.whole {\n\t\tbackground-color: #f5f5f5;\n\t\theight: calc(100vh);\n}\n.u-card-wrap {\n\t\tbackground-color: $u-bg-color;\n\t\tpadding: 1px;\n\t\t/* border-style: solid; */\n}\n.u-body-item {\n\t\tfont-size: 32rpx;\n\t\tcolor: #333;\n\t\tpadding: 20rpx 20rpx;\n\t\tmargin-top: -10rpx;\n\t\tmargin-bottom: 16rpx;\n\t\tbackground-color: #ffffff;\n\t\t/* TODO*/ \n\t\toverflow: hidden;\n}\n.u-body-item uni-image {\n\t\twidth: 120rpx;\n\t\t-webkit-box-flex: 0;\n\t\t-webkit-flex: 0 0 120rpx;\n\t\t        flex: 0 0 120rpx;\n\t\theight: 120rpx;\n\t\t-webkit-border-radius: 8rpx;\n\t\t        border-radius: 8rpx;\n\t\tmargin-left: 12rpx;\n\t\t/* border-style: solid; */\n\t\tfloat: left;\n}\n.info-item {\n\t\tfont-size: large;\n\t\tfont-style: normal;\n\t\tfloat: left;\n\t\t/* font-weight:500; */\n\t\ttext-align: left;\n\t\t/* padding-left: 10rpx; */\n\t\t/* border-style: solid;  /* TODO */\n}\n.info-item-row{\n\t\tmargin-bottom: 5rpx;\n}\n.remark-item{\n\t\tfont-size: larger;\n\t\tfont-style:oblique;\n\t\tcolor: #699df3;\n\t\tfloat: left;\n\t\ttext-align: justify;\n\t\tpadding-left: 10rpx;\n\t\t/* padding-left: -60rpx; */\n}\n.avatar-item {}\n.u-card-wrap {\n\t\tbackground-color: #FFFFFF;\n\t\tmargin: 20rpx 0rpx 0rpx 0rpx;\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* \t.search{\n\tbackground-color:  #f5f5f5;\n} */\n.whole {\n\tbackground-color: #f5f5f5;\n\theight: calc(100vh);\n}\n.u-card-wrap {\n\tbackground-color: $u-bg-color;\n\tpadding: 1px;\n\t/* border-style: solid; */\n}\n.u-body-item {\n\tfont-size: 32rpx;\n\tcolor: #333;\n\tpadding: 20rpx 20rpx;\n\tmargin-top: -10rpx;\n\tmargin-bottom: 16rpx;\n\tbackground-color: #ffffff;\n\t/* TODO*/\n\toverflow: hidden;\n}\n.u-body-item uni-image {\n\twidth: 120rpx;\n\t-webkit-box-flex: 0;\n\t-webkit-flex: 0 0 120rpx;\n\t        flex: 0 0 120rpx;\n\theight: 120rpx;\n\t-webkit-border-radius: 8rpx;\n\t        border-radius: 8rpx;\n\tmargin-left: 12rpx;\n\t/* border-style: solid; */\n\tfloat: left;\n}\n.info-item {\n\tfont-size: large;\n\tfont-style: normal;\n\tfloat: left;\n\t/* font-weight:500; */\n\ttext-align: left;\n\t/* padding-left: 10rpx; */\n\t/* border-style: solid;  /* TODO */\n}\n.info-item-row {\n\tmargin-bottom: 5rpx;\n}\n.remark-item {\n\tfont-size: larger;\n\tfont-style: oblique;\n\tcolor: #699df3;\n\tfloat: left;\n\ttext-align: justify;\n\tpadding-left: 10rpx;\n\t/* padding-left: -60rpx; */\n}\n.avatar-item {}\n.u-card-wrap {\n\tbackground-color: #FFFFFF;\n\tmargin: 20rpx 0rpx 0rpx 0rpx;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -12366,7 +12366,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ./node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.content{\n\tfont-size: larger;\n\tfont-weight: 500;\n\tmargin-left:20rpx;\n\tpadding-top: 100rpx;\n}\n.remark-item{\n\theight: 200rpx;\n\ttext-align:justify;\n}\n.tagStyle{\n\tmargin-left:10rpx ;\n\tmargin-top:20rpx ;\n}\n", ""]);
+exports.push([module.i, "\n.content {\n\tfont-size: larger;\n\tfont-weight: 500;\n\tmargin-left: 20rpx;\n\tpadding-top: 100rpx;\n}\n.remark-item {\n\theight: 200rpx;\n\ttext-align: justify;\n}\n.tagStyle {\n\tmargin-left: 10rpx;\n\tmargin-top: 20rpx;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -17066,8 +17066,8 @@ var components
 try {
   components = {
     uIcon: __webpack_require__(/*! @/uview-ui/components/u-icon/u-icon.vue */ 8).default,
-    uToast: __webpack_require__(/*! @/uview-ui/components/u-toast/u-toast.vue */ 5).default,
-    uTabbar: __webpack_require__(/*! @/uview-ui/components/u-tabbar/u-tabbar.vue */ 113).default
+    uTabbar: __webpack_require__(/*! @/uview-ui/components/u-tabbar/u-tabbar.vue */ 113).default,
+    uToast: __webpack_require__(/*! @/uview-ui/components/u-toast/u-toast.vue */ 5).default
   }
 } catch (e) {
   if (
@@ -17247,8 +17247,8 @@ var render = function() {
         ],
         1
       ),
-      _c("u-toast", { ref: "uToast", attrs: { _i: 16 } }),
-      _c("u-tabbar", { attrs: { _i: 17 } })
+      _c("u-tabbar", { attrs: { _i: 16 } }),
+      _c("u-toast", { ref: "uToast", attrs: { _i: 17 } })
     ],
     1
   )
@@ -22105,8 +22105,8 @@ var components
 try {
   components = {
     uIcon: __webpack_require__(/*! @/uview-ui/components/u-icon/u-icon.vue */ 8).default,
-    uToast: __webpack_require__(/*! @/uview-ui/components/u-toast/u-toast.vue */ 5).default,
-    uTabbar: __webpack_require__(/*! @/uview-ui/components/u-tabbar/u-tabbar.vue */ 113).default
+    uTabbar: __webpack_require__(/*! @/uview-ui/components/u-tabbar/u-tabbar.vue */ 113).default,
+    uToast: __webpack_require__(/*! @/uview-ui/components/u-toast/u-toast.vue */ 5).default
   }
 } catch (e) {
   if (
@@ -22277,8 +22277,8 @@ var render = function() {
         ],
         1
       ),
-      _c("u-toast", { ref: "uToast", attrs: { _i: 15 } }),
-      _c("u-tabbar", { attrs: { _i: 16 } })
+      _c("u-tabbar", { attrs: { _i: 15 } }),
+      _c("u-toast", { ref: "uToast", attrs: { _i: 16 } })
     ],
     1
   )
@@ -22901,7 +22901,8 @@ try {
   components = {
     uImage: __webpack_require__(/*! @/uview-ui/components/u-image/u-image.vue */ 161).default,
     uRow: __webpack_require__(/*! @/uview-ui/components/u-row/u-row.vue */ 57).default,
-    uCol: __webpack_require__(/*! @/uview-ui/components/u-col/u-col.vue */ 49).default
+    uCol: __webpack_require__(/*! @/uview-ui/components/u-col/u-col.vue */ 49).default,
+    uToast: __webpack_require__(/*! @/uview-ui/components/u-toast/u-toast.vue */ 5).default
   }
 } catch (e) {
   if (
@@ -22927,131 +22928,134 @@ var render = function() {
   return _c(
     "v-uni-view",
     { staticClass: _vm._$g(0, "sc"), attrs: { _i: 0 } },
-    _vm._l(_vm._$g(1, "f"), function(item, index, $20, $30) {
-      return _c(
-        "v-uni-view",
-        {
-          key: item,
-          staticClass: _vm._$g("1-" + $30, "sc"),
-          attrs: { index: _vm._$g("1-" + $30, "a-index"), _i: "1-" + $30 },
-          on: {
-            click: function($event) {
-              return _vm.$handleViewEvent($event)
+    [
+      _vm._l(_vm._$g(1, "f"), function(item, index, $20, $30) {
+        return _c(
+          "v-uni-view",
+          {
+            key: item,
+            staticClass: _vm._$g("1-" + $30, "sc"),
+            attrs: { index: _vm._$g("1-" + $30, "a-index"), _i: "1-" + $30 },
+            on: {
+              click: function($event) {
+                return _vm.$handleViewEvent($event)
+              }
             }
-          }
-        },
-        [
-          _c(
-            "v-uni-view",
-            {
-              staticClass: _vm._$g("2-" + $30, "sc"),
-              attrs: { _i: "2-" + $30 }
-            },
-            [
-              _c("v-uni-image", {
-                staticClass: _vm._$g("3-" + $30, "sc"),
-                attrs: {
-                  src: _vm._$g("3-" + $30, "a-src"),
-                  mode: "aspectFill",
-                  _i: "3-" + $30
-                }
-              }),
-              _c("u-image", { attrs: { _i: "4-" + $30 }, slot: "title" }),
-              _c(
-                "v-uni-view",
-                { attrs: { calss: "info-item", _i: "5-" + $30 } },
-                [
-                  _c(
-                    "u-row",
-                    {
-                      staticClass: _vm._$g("6-" + $30, "sc"),
-                      attrs: { _i: "6-" + $30 }
-                    },
-                    [
-                      _c(
-                        "u-col",
-                        { attrs: { _i: "7-" + $30 } },
-                        [
-                          _c(
-                            "v-uni-text",
-                            {
-                              staticStyle: {
-                                "font-size": "larger",
-                                "font-weight": "bold"
+          },
+          [
+            _c(
+              "v-uni-view",
+              {
+                staticClass: _vm._$g("2-" + $30, "sc"),
+                attrs: { _i: "2-" + $30 }
+              },
+              [
+                _c("v-uni-image", {
+                  staticClass: _vm._$g("3-" + $30, "sc"),
+                  attrs: {
+                    src: _vm._$g("3-" + $30, "a-src"),
+                    mode: "aspectFill",
+                    _i: "3-" + $30
+                  }
+                }),
+                _c("u-image", { attrs: { _i: "4-" + $30 }, slot: "title" }),
+                _c(
+                  "v-uni-view",
+                  { attrs: { calss: "info-item", _i: "5-" + $30 } },
+                  [
+                    _c(
+                      "u-row",
+                      {
+                        staticClass: _vm._$g("6-" + $30, "sc"),
+                        attrs: { _i: "6-" + $30 }
+                      },
+                      [
+                        _c(
+                          "u-col",
+                          { attrs: { _i: "7-" + $30 } },
+                          [
+                            _c(
+                              "v-uni-text",
+                              {
+                                staticStyle: {
+                                  "font-size": "larger",
+                                  "font-weight": "bold"
+                                },
+                                attrs: { _i: "8-" + $30 }
                               },
-                              attrs: { _i: "8-" + $30 }
-                            },
-                            [_vm._v(_vm._$g("8-" + $30, "t0-0"))]
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _c(
-                    "u-row",
-                    {
-                      staticClass: _vm._$g("9-" + $30, "sc"),
-                      attrs: { _i: "9-" + $30 }
-                    },
-                    [
-                      _c(
-                        "u-col",
-                        { attrs: { _i: "10-" + $30 } },
-                        [
-                          _c("v-uni-text", { attrs: { _i: "11-" + $30 } }, [
-                            _vm._v(
-                              _vm._$g("11-" + $30, "t0-0") +
-                                " | " +
-                                _vm._$g("11-" + $30, "t0-1") +
-                                " | " +
-                                _vm._$g("11-" + $30, "t0-2")
+                              [_vm._v(_vm._$g("8-" + $30, "t0-0"))]
                             )
-                          ])
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _c(
-                    "u-row",
-                    {
-                      staticClass: _vm._$g("12-" + $30, "sc"),
-                      attrs: { _i: "12-" + $30 }
-                    },
-                    [
-                      _c(
-                        "u-col",
-                        { attrs: { _i: "13-" + $30 } },
-                        [
-                          _c(
-                            "v-uni-view",
-                            {
-                              staticClass: _vm._$g("14-" + $30, "sc"),
-                              staticStyle: { color: "#C0C4CC" },
-                              attrs: { _i: "14-" + $30 }
-                            },
-                            [_vm._v(_vm._$g("14-" + $30, "t0-0"))]
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      )
-    }),
-    1
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _c(
+                      "u-row",
+                      {
+                        staticClass: _vm._$g("9-" + $30, "sc"),
+                        attrs: { _i: "9-" + $30 }
+                      },
+                      [
+                        _c(
+                          "u-col",
+                          { attrs: { _i: "10-" + $30 } },
+                          [
+                            _c("v-uni-text", { attrs: { _i: "11-" + $30 } }, [
+                              _vm._v(
+                                _vm._$g("11-" + $30, "t0-0") +
+                                  " | " +
+                                  _vm._$g("11-" + $30, "t0-1") +
+                                  " | " +
+                                  _vm._$g("11-" + $30, "t0-2")
+                              )
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _c(
+                      "u-row",
+                      {
+                        staticClass: _vm._$g("12-" + $30, "sc"),
+                        attrs: { _i: "12-" + $30 }
+                      },
+                      [
+                        _c(
+                          "u-col",
+                          { attrs: { _i: "13-" + $30 } },
+                          [
+                            _c(
+                              "v-uni-view",
+                              {
+                                staticClass: _vm._$g("14-" + $30, "sc"),
+                                staticStyle: { color: "#C0C4CC" },
+                                attrs: { _i: "14-" + $30 }
+                              },
+                              [_vm._v(_vm._$g("14-" + $30, "t0-0"))]
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ],
+          1
+        )
+      }),
+      _c("u-toast", { ref: "uToast", attrs: { _i: 15 } })
+    ],
+    2
   )
 }
 var recyclableRender = false
@@ -23142,7 +23146,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ./node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.page-inner{\n\tbackground-color: #fafafa;\n\theight: calc(100vh);\n\n\n\n\tdisplay: -webkit-box;\n\tdisplay: -webkit-flex;\n\tdisplay: flex;\n\t-webkit-box-orient: vertical;\n\t-webkit-box-direction: normal;\n\t-webkit-flex-direction: column;\n\t        flex-direction: column;\n\t/* border-style: solid; */\n}\n.u-card-wrap {\n\tbackground-color: #FFFFFF;\n\tmargin: 20rpx 0rpx 0rpx 0rpx;\n}\n.u-body-item {\n\tfont-size: 32rpx;\n\tcolor: #333;\n\tpadding: 20rpx 20rpx;\n\t/* border-style: solid; */\n\t/* TODO */\n\toverflow: hidden;\n}\n.u-body-item uni-image {\n\twidth: 120rpx;\n\t-webkit-box-flex: 0;\n\t-webkit-flex: 0 0 120rpx;\n\t        flex: 0 0 120rpx;\n\theight: 120rpx;\n\t-webkit-border-radius: 8rpx;\n\t        border-radius: 8rpx;\n\tmargin-left: 12rpx;\n\t/* border-style: solid;  /* TODO */\n\tfloat: left;\n}\n.info-item {\n\tfloat: left;\n\ttext-align: left;\n\tpadding-left: 20rpx;\n\t/* border-style: solid;  /* TODO */\n}\n.info-item-row{\n\tmargin-bottom: 5rpx;\n}\n.avatar-item{\n\tmargin-right: 10rpx;\n}\n", ""]);
+exports.push([module.i, "\n.page-inner {\n\tbackground-color: #fafafa;\n\theight: calc(100vh);\n\n\n\n\tdisplay: -webkit-box;\n\tdisplay: -webkit-flex;\n\tdisplay: flex;\n\t-webkit-box-orient: vertical;\n\t-webkit-box-direction: normal;\n\t-webkit-flex-direction: column;\n\t        flex-direction: column;\n\t/* border-style: solid; */\n}\n.u-card-wrap {\n\tbackground-color: #FFFFFF;\n\tmargin: 20rpx 0rpx 0rpx 0rpx;\n}\n.u-body-item {\n\tfont-size: 32rpx;\n\tcolor: #333;\n\tpadding: 20rpx 20rpx;\n\t/* border-style: solid; */\n\t/* TODO */\n\toverflow: hidden;\n}\n.u-body-item uni-image {\n\twidth: 120rpx;\n\t-webkit-box-flex: 0;\n\t-webkit-flex: 0 0 120rpx;\n\t        flex: 0 0 120rpx;\n\theight: 120rpx;\n\t-webkit-border-radius: 8rpx;\n\t        border-radius: 8rpx;\n\tmargin-left: 12rpx;\n\t/* border-style: solid;  /* TODO */\n\tfloat: left;\n}\n.info-item {\n\tfloat: left;\n\ttext-align: left;\n\tpadding-left: 20rpx;\n\t/* border-style: solid;  /* TODO */\n}\n.info-item-row {\n\tmargin-bottom: 5rpx;\n}\n.avatar-item {\n\tmargin-right: 10rpx;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -23231,7 +23235,6 @@ try {
     uRow: __webpack_require__(/*! @/uview-ui/components/u-row/u-row.vue */ 57).default,
     uCol: __webpack_require__(/*! @/uview-ui/components/u-col/u-col.vue */ 49).default,
     uTag: __webpack_require__(/*! @/uview-ui/components/u-tag/u-tag.vue */ 310).default,
-    uModal: __webpack_require__(/*! @/uview-ui/components/u-modal/u-modal.vue */ 190).default,
     uToast: __webpack_require__(/*! @/uview-ui/components/u-toast/u-toast.vue */ 5).default
   }
 } catch (e) {
@@ -23366,20 +23369,7 @@ var render = function() {
           1
         )
       }),
-      _c("u-modal", {
-        attrs: { _i: 15 },
-        on: {
-          confirm: function($event) {
-            return _vm.$handleViewEvent($event)
-          }
-        },
-        model: {
-          value: _vm._$g(15, "v-model"),
-          callback: function() {},
-          expression: "delShow"
-        }
-      }),
-      _c("u-toast", { ref: "uToast", attrs: { _i: 16 } })
+      _c("u-toast", { ref: "uToast", attrs: { _i: 15 } })
     ],
     2
   )
@@ -23472,7 +23462,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ./node_modules/css-loader/dist/runtime/api.js */ 16);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* \t.search{\n\tbackground-color:  #f5f5f5;\n} */\n.whole {\n\tbackground-color: #f5f5f5;\n\theight: calc(100vh);\n}\n.u-card-wrap {\n\tbackground-color: $u-bg-color;\n\tpadding: 1px;\n\t/* border-style: solid; */\n}\n.u-body-item {\n\tfont-size: 32rpx;\n\tcolor: #333;\n\tpadding: 20rpx 20rpx;\n\tmargin-top: -10rpx;\n\tmargin-bottom: 16rpx;\n\tbackground-color: #ffffff;\n\t/* TODO*/\n\toverflow: hidden;\n}\n.u-body-item uni-image {\n\twidth: 120rpx;\n\t-webkit-box-flex: 0;\n\t-webkit-flex: 0 0 120rpx;\n\t        flex: 0 0 120rpx;\n\theight: 120rpx;\n\t-webkit-border-radius: 8rpx;\n\t        border-radius: 8rpx;\n\tmargin-left: 12rpx;\n\t/* border-style: solid; */\n\tfloat: left;\n}\n.info-item {\n\tfont-size: large;\n\tfont-style: normal;\n\tfloat: left;\n\t/* font-weight:500; */\n\ttext-align: left;\n\t/* padding-left: 10rpx; */\n\t/* border-style: solid;  /* TODO */\n}\n.info-item-row {\n\tmargin-bottom: 5rpx;\n}\n.remark-item {\n\tfont-size: larger;\n\tfont-style: oblique;\n\tcolor: #699df3;\n\tfloat: left;\n\ttext-align: justify;\n\tpadding-left: 10rpx;\n\t/* padding-left: -60rpx; */\n}\n.avatar-item {}\n.u-card-wrap {\n\tbackground-color: #FFFFFF;\n\tmargin: 20rpx 0rpx 0rpx 0rpx;\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* \t.search{\n\tbackground-color:  #f5f5f5;\n} */\n.whole {\n\tbackground-color: #f5f5f5;\n\theight: calc(100vh);\n}\n.u-card-wrap {\n\tbackground-color: $u-bg-color;\n\tpadding: 1px;\n\t/* border-style: solid; */\n}\n.u-body-item {\n\tfont-size: 32rpx;\n\tcolor: #333;\n\tpadding: 20rpx 20rpx;\n\tmargin-top: -10rpx;\n\tmargin-bottom: 16rpx;\n\tbackground-color: #ffffff;\n\t/* TODO*/\n\toverflow: hidden;\n}\n.u-body-item uni-image {\n\twidth: 120rpx;\n\t-webkit-box-flex: 0;\n\t-webkit-flex: 0 0 120rpx;\n\t        flex: 0 0 120rpx;\n\theight: 120rpx;\n\t-webkit-border-radius: 8rpx;\n\t        border-radius: 8rpx;\n\tmargin-left: 12rpx;\n\t/* border-style: solid; */\n\tfloat: left;\n}\n.info-item {\n\tfont-size: large;\n\tfont-style: normal;\n\tfloat: left;\n\t/* font-weight:500; */\n\ttext-align: left;\n\t/* padding-left: 10rpx; */\n\t/* border-style: solid;  /* TODO */\n}\n.info-item-row {\n\tmargin-bottom: 5rpx;\n}\n.remark-item {\n\tfont-size: larger;\n\tfont-style: oblique;\n\tcolor: #699df3;\n\tfloat: left;\n\ttext-align: justify;\n\tpadding-left: 10rpx;\n\t/* padding-left: -60rpx; */\n}\n.avatar-item {}\n.u-card-wrap {\n\tbackground-color: #FFFFFF;\n\tmargin: 20rpx 0rpx 0rpx 0rpx;\n}\n", ""]);
 // Exports
 module.exports = exports;
 

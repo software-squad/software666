@@ -77,8 +77,8 @@
 		},
 		onLoad() {
 			sendThis(this)
-			this.userid = sessionStorage.getItem('userid')
-			console.log(sessionStorage.getItem('userid'))
+			// this.userid = sessionStorage.getItem('userid')
+			this.userid = uni.getStorageSync('userid')
 			this.$api.staffOneByUseridSendData({
 				userid:this.userid
 			}).then((response) => {
@@ -121,16 +121,17 @@
 				this.show = true;
 			},
 			confirmExit() {
+				// #ifdef H5
 				sessionStorage.clear()
-				console.log(sessionStorage.getItem("token"))
-				uni.navigateTo({
-					url: "../login/login"
+				// #endif
+				uni.clearStorageSync()
+				uni.reLaunch({
+					url:"../login/login"
 				})
 			},
 			cancel() {
 				this.show = false;
 			}
-
 		}
 	}
 </script>

@@ -30,8 +30,7 @@ service.interceptors.request.use(
 		console.log('request...传输数据',config)
 		let token = null
 		if(config.url.indexOf('login')<0){  // 非登录请求
-			
-			token= sessionStorage.getItem("token");
+			token= uni.getStorageSync('token')
 			if(!token){
 				uni.showToast({
 					title: '您尚未登录',

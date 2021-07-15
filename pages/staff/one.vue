@@ -7,6 +7,7 @@
 			</u-cell-item>
 			<u-gap height="15" bg-color="#f9f9f9"></u-gap>
 
+			<!-- 动态实现用户信息展现，即获取的用户信息属性中没有的将不进行展示 -->
 			<!-- 动态实现方法一 -->
 			<!-- 通过key和中文描述绑定json格式，循环访问 -->
 			<u-cell-group>
@@ -26,13 +27,15 @@
 	export default {
 		data() {
 			return {
+				// cell-item样式
 				valueStyle: {
 					'text-align': 'left'
 				},
 				titleStyle: {
 					'width': '160rpx'
 				},
-
+				
+				// key和label的对应
 				labelDict: {
 					// username: '姓名',
 					sex: '性别',
@@ -55,6 +58,8 @@
 				user: {}
 			}
 		},
+		
+		// 页面加载
 		onLoad(item) {
 			console.log('页面跳转数据',item)
 			this.$api.staffOneByUseridSendData({
@@ -64,6 +69,7 @@
 				uni.setNavigationBarTitle({
 					title: this.user.username
 				})
+				// 默认头像处理
 				if (!this.user.faceurl) {
 					if (this.user.sex == '男') {
 						this.user.faceurl = '/static/boy1.svg'
@@ -75,6 +81,7 @@
 				}
 			})
 		},
+		
 		methods: {}
 	}
 </script>

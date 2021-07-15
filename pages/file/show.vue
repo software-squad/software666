@@ -1,38 +1,40 @@
 <template>
 	<view class="whole">
-			<u-gap height="10"></u-gap>
-			<view class="search">
-				<u-sticky bg-color="#f5f5f5">
-					<u-search placeholder="请输入文件标题" v-model="searchFileTitle" shape="round" @change="search" bg-color="#ffffff" border-color='#fdfcfa'
-					:show-action="false" ></u-search>
-				</u-sticky>
-			</view>
-			<u-swipe-action :show="item.show" :index="index" :key="item.fileid" v-for="(item,index) in itemShows"
-				:options="options" btn-width="180" @click="click" @open="open(index)" @content-click="navToOne(index)"
-				class="u-card-wrap">
-				<view class="u-body-item">
-					<!-- <image :src="item.faceurl" mode="aspectFill" class="avatar-item"></image> -->
-					<u-row class="info-item-row">
-						<u-col span="12">
-							<view class="info-item" style="font-weight: bold;">{{item.title}}</view>
-						</u-col>
-					</u-row>
-					<u-row>
-						<u-col span="12">
-							<view class="remark-item" style="float: left;">{{item.filename}}</view>
-						</u-col>
-					</u-row>
-					<u-gap height="10"></u-gap>
-					<u-tag :text="item.createdate" type="info" mode="plain" shape="circle"/>
-				</view>
-			</u-swipe-action>
-			<u-modal v-model="delShow" :content="delContent" :show-cancel-button="true" :async-close="true"
-				@confirm="confirmDel"></u-modal>
-				<u-toast ref="uToast"></u-toast>
+		<!-- 搜索框 -->
+		<u-gap height="10"></u-gap>
+		<view class="search">
+			<u-sticky bg-color="#f5f5f5">
+				<u-search placeholder="请输入文件标题" v-model="searchFileTitle" shape="round" @change="search"
+					bg-color="#ffffff" border-color='#fdfcfa' :show-action="false"></u-search>
+			</u-sticky>
 		</view>
+		<!-- 展示页面 -->
+		<u-swipe-action :show="item.show" :index="index" :key="item.fileid" v-for="(item,index) in itemShows"
+			:options="options" btn-width="180" @click="click" @open="open(index)" @content-click="navToOne(index)"
+			class="u-card-wrap">
+			<view class="u-body-item">
+				<u-row class="info-item-row">
+					<u-col span="12">
+						<view class="info-item" style="font-weight: bold;">{{item.title}}</view>
+					</u-col>
+				</u-row>
+				<u-row>
+					<u-col span="12">
+						<view class="remark-item" style="float: left;">{{item.filename}}</view>
+					</u-col>
+				</u-row>
+				<u-gap height="10"></u-gap>
+				<u-tag :text="item.createdate" type="info" mode="plain" shape="circle" />
+			</view>
+		</u-swipe-action>
+		<u-modal v-model="delShow" :content="delContent" :show-cancel-button="true" :async-close="true"
+			@confirm="confirmDel"></u-modal>
+		<u-toast ref="uToast"></u-toast>
+	</view>
 </template>
 
 <script>
+	import util from "../../api/util.js"
 	export default {
 		data() {
 			return {
@@ -43,38 +45,29 @@
 				items: [],
 				itemShows: [],
 				searchFileTitle: '',
-				options: [{
-						text: '编辑',
-						style: {
-							backgroundColor: '#007aff'
-						}
-					},
-					{
-						text: '删除',
-						style: {
-							backgroundColor: '#dd524d'
-						}
-					}
-				],
+				options: util.options,
 			}
 		},
-		
+
 		onPullDownRefresh() {
 			// 监听下拉刷新动作的执行方法，每次手动下拉刷新都会执行一次
 			// FIXME 这个会清除返回信息
 			// // #ifdef H5
 			// window.location.reload()
 			// // #endif
+			console.log('开始刷新')
 			this.myReload()
+			// FIXME 这里的时限控制貌似不太成功诶
 			setTimeout(function() {
 				uni.stopPullDownRefresh(); //停止下拉刷新动画
-			}, 1000);
+				console.log('刷新结束')
+			}, 4000);
 		},
-		
-		async onLoad() {
-			await this.myReLoad()
+
+		onLoad() {
+			this.myReLoad()
 		},
-		
+
 		onNavigationBarButtonTap() {
 			uni.navigateTo({
 				url: "upload"
@@ -82,8 +75,11 @@
 		},
 
 		methods: {
-			myReLoad(){
+			// 自定义加载页面参数
+			myReLoad() {
+				// 获取文档列表
 				this.$api.fileShowMany().then(res => {
+					// 异常码判断
 					if (res.data.msg == "10007") {
 						this.items = res.data.data
 						this.itemShows = res.data.data
@@ -92,53 +88,52 @@
 						}
 					} else {
 						this.$refs.uToast({
-							title:`数据获取失败`
+							title: `数据获取失败`
 						})
 					}
 				}).catch(err => {})
 			},
 			
+			// 文件查看
 			navToOne(index) {
 				let item = encodeURIComponent(JSON.stringify(this.itemShows[index]))
 				uni.navigateTo({
 					url: 'one?item=' + item
 				})
 			},
-
-			navToSearchByFilename() {
-				uni.navigateTo({
-					url: './search',
-					success() {
-						console.log('回到广场')
-					}
-				})
-			},
-
+			
+			// 文件搜索
 			search() {
 				if (this.searchFileTitle == "") {
 					this.itemShows = this.items
 				} else {
 					this.itemShows = []
-					this.items.forEach((item) => {
+					this.items.forEach((item) => { // 实现动态搜索
 						if (item.title.includes(this.searchFileTitle))
 							this.itemShows.push(item)
 					})
 				}
 			},
 
+			// 右滑
 			click(index, option) {
 				if (option == 1) {
+					// 删除功能
 					this.delShow = true
 					this.delContent = "确认删除" + this.itemShows[index].title + "？"
 					this.delIndex = index
 					this.delId = this.itemShows[index].fileid
 				} else {
+					// 编辑功能
+					itemShows[index].show = false
 					uni.navigateTo({
 						url: '/pages/file/edit?item=' + encodeURIComponent(JSON.stringify(this.itemShows[index]))
 					})
+					this.$forceUpdate() // 页面强制渲染
 				}
 			},
 
+			// 关闭其他滑块
 			open(index) {
 				// 先将正在被操作的swipeAction标记为打开状态，否则由于props的特性限制，
 				// 原本为'false'，再次设置为'false'会无效
@@ -147,26 +142,31 @@
 				this.itemShows.map((val, idx) => {
 					if (index != idx) this.itemShows[idx].show = false;
 				})
+				this.$forceUpdate() // 页面强制渲染
 			},
 
-
+			// 确认删除后即可
 			confirmDel() {
 				let index = this.delIndex
-				this.$api.fileEdit({
+				this.$api.fileDel({
 					fileid: this.delId,
 				}).then(res => {
-					this.itemShows.splice(index, 1);
-					this.items.splice(index, 1)
+					if (res.data.msg == 10003) {
+						this.itemShows.splice(index, 1);
+						this.items.splice(index, 1)
+						this.$refs.uToast({
+							title: `删除成功`
+						})
+					}
 				})
 				this.delShow = false
-				this.$refs.uToast({
-					title:`删除成功`
-				})
 			},
-
+			
+			// 取消文件删除
 			cancel() {
 				this.delShow = false;
 				this.itemShows[this.delIndex].show = false;
+				this.$forceUpdate()  // 页面强制渲染
 			}
 
 		}
@@ -174,16 +174,16 @@
 </script>
 
 <style>
-/* 	.search{
+	/* 	.search{
 		background-color:  #f5f5f5;
 	} */
 	.whole {
 		background-color: #f5f5f5;
 		height: calc(100vh);
-	/* 	#ifdef H5*/
-		 height: calc(100vh - var(--window-top));
-		/* #endif */ 
-	} 
+		/* 	#ifdef H5*/
+		height: calc(100vh - var(--window-top));
+		/* #endif */
+	}
 
 	.u-card-wrap {
 		background-color: $u-bg-color;
@@ -198,7 +198,7 @@
 		margin-top: -10rpx;
 		margin-bottom: 16rpx;
 		background-color: #ffffff;
-		/* TODO*/ 
+		/* TODO*/
 		overflow: hidden;
 	}
 
@@ -211,6 +211,7 @@
 		/* border-style: solid; */
 		float: left;
 	}
+
 	.info-item {
 		font-size: large;
 		font-style: normal;
@@ -220,18 +221,21 @@
 		/* padding-left: 10rpx; */
 		/* border-style: solid;  /* TODO */
 	}
-	.info-item-row{
+
+	.info-item-row {
 		margin-bottom: 5rpx;
 	}
-	.remark-item{
+
+	.remark-item {
 		font-size: larger;
-		font-style:oblique;
+		font-style: oblique;
 		color: #699df3;
 		float: left;
 		text-align: justify;
 		padding-left: 10rpx;
 		/* padding-left: -60rpx; */
 	}
+
 	.avatar-item {}
 
 	.u-card-wrap {

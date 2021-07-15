@@ -50,6 +50,8 @@
 		</view>
 		<u-tabbar :list="tabBerList" :mid-button="midBtn" active-color="#5098FF" inactive-color="#909399"
 			:border-top=false bg-color="#F8F8F8"></u-tabbar>
+			<!-- TODO  -->
+			<!-- <u-tabbar :list="$store.state.userInfo.tabbarlist" @change="changeTb" :inactive-color="inactiveColor" :active-color="activeColor"></u-tabbar> -->
 	</view>
 
 </template>
@@ -77,26 +79,6 @@
 				],
 				notice: [],
 				//自定义tabbar目录
-				tabbar1: [{
-						iconPath: "/static/tab_icons/home.png",
-						selectedIconPath: "/static/tab_icons/homeHL.png",
-						text: '',
-						pagePath: "/pages/menu/user_menu"
-					},
-					{
-						iconPath: "/static/tab_icons/人员.png",
-						selectedIconPath: "/static/tab_icons/人员HL.png",
-						text: '',
-						pagePath: "/pages/staff/user_index"
-					},
-					{
-						iconPath: "/static/tab_icons/user.png",
-						selectedIconPath: "/static/tab_icons/userHL.png",
-						text: '',
-						pagePath: "/pages/user/user"
-
-					},
-				],
 			}
 		},
 		computed: {

@@ -2,26 +2,23 @@ import util from "./util.js"
 
 const request = (config) => {
 	// 处理 apiUrl  
-	config.url = util.easyRequestUrl + config.url;  // => 已经进行跨域处理
-	console.log('封装请求中',config.url)
+	config.url = util.easyRequestUrl + config.url; // => 已经进行跨域处理
+	console.log('封装请求中', config.url)
 	if (config.url.indexOf('login') < 0) { // 非登录请求
 		console.log('非登录请求，token验证中')
-		let token=""
-		// let userid = -1
-		// #ifdef H5
-			token = sessionStorage.getItem('token')
-			// userid = sessionStorage.getItem('userid')
+		let token = ""
+		/* // #ifdef H5
+		// 	token = sessionStorage.getItem('token')
 		// #endif
-		// #ifndef H5
-			token = uni.getStorageSync('token')
-			// userid  = uni.getStorageSync('userid')
-		// #endif
-		console.log('请求token',token)
-		// console.log('请求userid',userid)
-		
+		*/
+		/// #ifndef H5
+		token = uni.getStorageSync('token')
+		/// #endif
+		console.log('请求token', token)
+
 		// FIXME 根据token测试
-		if(!token){
-			console.log('重定向',token)
+		if (!token) {
+			console.log('重定向', token)
 			// 添加重定向提示
 			uni.showToast({
 				title: '您尚未登录',
@@ -34,11 +31,13 @@ const request = (config) => {
 			return;
 		}
 		
+		// 请求头设置
 		config.header = {
-			'token': token
+			'token': token,
+			'userid':uni.getStorageSync('userid')
+			// 'userid':sessionStorage.getItem('userid')
+			// 'content-type':'application/x-www-form-urlencoded'
 		}
-		// console.log('请求头已设置')
-		// config.header.content-type = 'application/x-www-form-urlencoded'
 	}
 	if (!config.data) {
 		config.data = {};
@@ -112,10 +111,10 @@ const showError = (res) => {
 							// TODO 记得解除注释
 							// 注销token
 							// #ifdef H5
-								sessionStorage.setItem("token", '')
+							sessionStorage.setItem("token", '')
 							// #endif
 							// #ifndef H5
-								uni.setStorageSync('token','')
+							uni.setStorageSync('token', '')
 							// #endif
 							//去我的页面登录
 							uni.redirectTo({
@@ -172,9 +171,9 @@ const showError = (res) => {
 				break
 		}
 	}
-	
-	if(res.statusCode==200){
-		switch(res.data.msg){
+
+	if (res.statusCode == 200) {
+		switch (res.data.msg) {
 			case 10002:
 				uni.showToast({
 					title: '添加失败',

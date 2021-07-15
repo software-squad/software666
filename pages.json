@@ -16,23 +16,6 @@
 				"navigationBarTitleText": "首页",
 				"enablePullDownRefresh": false,
 				"backgroundColor": "#376CBD"
-
-				// "app-plus":{
-				// 	"titleNView": {
-				// 		"buttons": [{
-				// 				"text": "\ue606",
-				// 				"fontSrc": "/static/iconfont.ttf",
-				// 				"fontSize": "22px",
-				// 				"float": "left"
-				// 			},
-				// 			{
-				// 				"text": "\ue60d",
-				// 				"fontSrc": "/static/iconfont.ttf",
-				// 				"fontSize": "22px"
-				// 			}
-				// 		]
-				// 	}
-				// } 
 			}
 		},
 		{
@@ -417,27 +400,15 @@
 			},
 			{
 				"pagePath": "pages/staff/index"
-				// "text": "",
-				// "iconPath": "static/tab_icons/人员.png",
-				// "selectedIconPath": "static/tab_icons/人员HL.png"
 			},
 			{
 				"pagePath": "pages/staff/user_index"
-				// "text": "",
-				// "iconPath": "static/tab_icons/人员.png",
-				// "selectedIconPath": "static/tab_icons/人员HL.png"
 			},
 			{
 				"pagePath": "pages/user/user"
-				// "text": "",
-				// "iconPath": "static/tab_icons/user.png",
-				// "selectedIconPath": "static/tab_icons/userHL.png"
 			},
 			{
 				"pagePath": "pages/menu/user_menu"
-				// "text": "",
-				// "iconPath": "static/tab_icons/人员.png",
-				// "selectedIconPath": "static/tab_icons/人员HL.png"
 			}
 		]
 	},

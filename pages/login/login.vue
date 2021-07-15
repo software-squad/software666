@@ -109,6 +109,7 @@
 						this.userid = response.data.data.userid;
 						this.token = response.data.data.token;
 						this.status = response.data.data.status;
+						this.username = response.data.data.username;
 						console.log(this.status)
 						this.showSuccessToast();
 						// if (this.status) {

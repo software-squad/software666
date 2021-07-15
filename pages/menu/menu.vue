@@ -73,26 +73,6 @@
 						'欢迎登录CSI员工之家！'
 				],
 				notice:[],
-				tabbar0: [{
-						iconPath: "/static/tab_icons/home.png",
-						selectedIconPath: "/static/tab_icons/homeHL.png",
-						text: '',
-						pagePath: "/pages/menu/menu"
-					},
-					{
-						iconPath: "/static/tab_icons/人员.png",
-						selectedIconPath: "/static/tab_icons/人员HL.png",
-						text: '',
-						pagePath: "/pages/staff/index"
-					},
-					{
-						iconPath: "/static/tab_icons/user.png",
-						selectedIconPath: "/static/tab_icons/userHL.png",
-						text: '',
-						pagePath: "/pages/user/user"
-				
-					},
-				],
 			}
 		},
 		computed: {

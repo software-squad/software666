@@ -40,7 +40,8 @@
 		onLoad: function(option) {
 			sendThis(this)
 			this.imageSrc = JSON.parse(decodeURIComponent(option.pic));
-			this.userid = sessionStorage.getItem("userid");
+			// this.userid = sessionStorage.getItem("userid");
+			this.userid = uni.getStorageSync("userid");
 		},
 		methods: {
 			showToast(TITLE, TYPE) {

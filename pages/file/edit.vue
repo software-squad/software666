@@ -7,12 +7,16 @@
 		<u-field type="textarea" v-model="item.remark" label="描述" placeholder="说点什么吧" label-align="center"
 			label-width="150">
 		</u-field>
+
 		<!-- <u-gap height="15" bg-color="#f9f9f9"></u-gap> -->
+		<!-- TODO 方案一 多选弹窗限制文件类型的选择 -->
 		<!-- <view>
 				<u-action-sheet :list="list" v-model="show" @click="click"></u-action-sheet>
 				<u-button @click="show = true">选择文件</u-button>
-			</view> -->
+			</view> 
+		-->
 
+		<!-- TODO 文件编辑功能暂时不支持更换文件 -->
 		<!-- <uni-file-picker fileMediatype="all" :list-styles="listStyle" limit="1" autoUpload='false' @select="select"
 				@progress="progress" @success="success" @fail="fail" ref='files' />
 			<u-gap height="15" bg-color="#f9f9f9"></u-gap> -->
@@ -49,7 +53,8 @@
 					"border": false, // 是否显示边框
 					"dividline": true // 是否显示分隔线
 				},
-
+				
+				// 文件参数传递内容
 				item: {
 					"fileid": 0,
 					"title": "",
@@ -59,29 +64,29 @@
 					"username": "",
 					"filepath": ""
 				},
-				tempFilePath: '',
-				tempFile: null,
+				tempFilePath: '',  // 文件上传临时路径
+				tempFile: null,    // 临时文件信息存储
 			}
 		},
 		methods: {
+			// 文件编辑提交
 			submit() {
 				this.$api.fileEdit(this.item)
 					.then((res) => {
-						console.log('服务器请求结果', res)
-						this.$refs.uToast.show({
-							title: '上传成功',
-							type: 'success',
-							duration: 5000,
-							// back :true,
-							// url: '/pages/file/show'
-						})
-						setTimeout(uni.redirectTo({
-							url: '/pages/file/show'
-						}), 3000)
-
+						// 异常码处理
+						if (res.data.msg == 10005) {
+							this.$refs.uToast.show({
+								title: '上传成功',
+								type: 'success',
+								duration: 5000,
+							})
+							// 一定时间后返回
+							setTimeout(() => {
+								uni.navigateBack()
+							}, 1000)
+						}
 					})
 					.catch((error) => {
-						console.log(error);
 						this.$refs.uToast.show({
 							title: '上传失败',
 							type: 'false'
@@ -92,7 +97,7 @@
 		},
 
 		onLoad: function(option) {
-			console.log('带参跳转结果', option)
+			// 带参跳转，解析参数，即文件信息
 			if (option) {
 				let parm = JSON.parse(decodeURIComponent(option.item));
 				this.item.fileid = parm.fileid
@@ -100,16 +105,17 @@
 				this.item.filename = parm.filename
 				this.item.remark = parm.remark
 				this.item.filepath = parm.filepath
-
-				// #ifdef H5
-				this.item.userid = sessionStorage.getItem('userid')
-				this.item.username = sessionStorage.getItem('username')
-				// #endif
-				// #ifndef H5
+				
+				// // #ifdef H5
+				// this.item.userid = sessionStorage.getItem('userid')
+				// this.item.username = sessionStorage.getItem('username')
+				// // #endif
+				// // #ifndef H5
+				// 获取当前用户信息
 				this.item.userid = uni.getStorageSync('userid')
 				this.item.username = uni.getStorageSync('userid')
-				// #endif
-
+				// // #endif
+				
 				uni.setNavigationBarTitle({
 					title: this.item.title
 				})

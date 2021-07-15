@@ -5,7 +5,7 @@
 		<view class="u-search-box">
 			<u-sticky bg-color="#fafafa">
 				<u-search v-model='kw' :show-action="true" action-text="搜索" :animation="true" placeholder='请输入员工姓名'
-					@search='getSearchList' @custom='getSearchList' @change="change">
+					@search='search' @custom='search' @change="change">
 				</u-search>
 			</u-sticky>
 		</view>
@@ -63,6 +63,7 @@
 </template>
 
 <script>
+	import util from "../../api/util.js"
 	export default {
 		data() {
 			return {
@@ -70,31 +71,20 @@
 				kw: '', // 搜索框中的关键词
 				searchResults: [], // 搜索的结果列表
 				historyList: [], // 搜索历史的数组
-				delShow: false,
-				delContent: '',
-				delIndex: '',
-				delId: '',
-				options: [{
-						text: '编辑',
-						style: {
-							backgroundColor: '#007aff'
-						}
-					},
-					{
-						text: '删除',
-						style: {
-							backgroundColor: '#dd524d'
-						}
-					}
-				],
+				delShow: false, // 删除模态框展示
+				delContent: '', // 模态框内容
+				delIndex: '', // 选中删除对象的索引
+				delId: '', // 选中删除对象的id
+				options: util.options, // 滑动框的功能按钮
 			};
 		},
+
 		onNavigationBarButtonTap: function(e) {
 			uni.navigateTo({
 				url: '/pages/staff/add'
 			})
 		},
-		
+
 		onPullDownRefresh() {
 			this.getSearchList()
 			setTimeout(function() {
@@ -106,11 +96,10 @@
 			console.log("员工搜索中")
 			this.historyList = JSON.parse(uni.getStorageSync('kw') || '[]')
 		},
-		// onShow(){
-		// 	this.getSearchList()
-		// },
+
 		methods: {
-			// change 输入事件的处理函数
+
+			// change 动态处理触发搜索事件
 			change(e) {
 				if (this.kw.length == 0) {
 					this.searchResults = []
@@ -122,8 +111,23 @@
 					this.getSearchList()
 				}, 500)
 			},
+
+			// enter触发或点击搜索触发搜索事件
+			search() {
+				this.getSearchList()
+				this.saveSearchHistory()
+			},
+
+			// 点击搜索历史标签，触发搜索历史
+			gotoUserList(kw) {
+				console.log("点击搜索历史标签" + kw)
+				this.kw = kw
+				this.getSearchList()
+			},
+
+			// 获取搜索列表
 			getSearchList() {
-				console.log("获取搜索列表")
+				// console.log("获取搜索列表")
 				// 判断搜索关键词是否为空
 				if (this.kw.length === 0) {
 					this.searchResults = []
@@ -132,14 +136,18 @@
 				this.$api.staffShowUserByUsername({
 					username: this.kw,
 				}).then(res => {
-					if (res.data.code !== 200) alert(res.data.msg)
+					// 非200信息提示
+					// if (res.data.code !== 200) alert(res.data.msg)
 					this.searchResults = res.data.data
 					for (var i in this.searchResults) {
 						this.searchResults[i].show = false
 						if (!this.searchResults[i].remark) {
+							// 备注信息默认展示
 							this.searchResults[i].remark = '无详细描述'
 						}
+
 						if (!this.searchResults[i].faceurl) {
+							// 默认头像展示
 							if (this.searchResults[i].sex == '男') {
 								this.searchResults[i].faceurl = '/static/boy1.svg'
 							} else if (this.searchResults[i].sex == '女') {
@@ -149,17 +157,17 @@
 							}
 						}
 					}
-					this.saveSearchHistory()
 				})
 			},
 
+			// 存储搜索历史
 			saveSearchHistory() {
-				console.log("存储搜索历史")
-				console.log(this.kw)
-				// 重复存储
+				// console.log("存储搜索历史:",this.kw)
+
+				// 关键字不判重
 				// this.historyList.push(this.kw)
 
-				// 不重复存储
+				// 关键字判重
 				const set = new Set(this.historyList)
 				set.delete(this.kw)
 				set.add(this.kw)
@@ -169,21 +177,30 @@
 				uni.setStorageSync('kw', JSON.stringify(this.historyList))
 			},
 
+			// 清空搜索历史
 			clean() {
-				console.log("清除历史中")
 				this.historyList = []
 				uni.setStorageSync('kw', '[]')
 			},
-
-			gotoUserList(kw) {
-				console.log("获取搜索list" + kw)
-				this.kw = kw
-				this.getSearchList()
+			
+			// 查看一个用户具体信息
+			gotoOne(userid) {
+				console.log("即将跳转到个人信息页面", userid)
+				uni.navigateTo({
+					url: '../staff/one?userid=' + userid
+				})
 			},
-
+			
+			// 用户滑块功能点击
 			click(index, option) {
 				if (option == 1) {
-					let currUserid = sessionStorage.getItem('userid')
+					// ==========点击删除==========
+					// // #ifdef H5
+					// let currUserid = sessionStorage.getItem('userid')
+					// // #endif
+
+					// 自己不能删除自己的逻辑实现
+					let currUserid = uni.getStorageSync('userid')
 					if (currUserid == this.searchResults[index].userid) {
 						this.$refs.uToast.show({
 							title: '您无法删除自己',
@@ -191,11 +208,13 @@
 						})
 						return;
 					}
+					// 触发删除确认模态框
 					this.delShow = true
 					this.delContent = "确认删除" + this.searchResults[index].username + "？"
 					this.delIndex = index
 					this.delId = this.searchResults[index].userid
 				} else {
+					// ==========点击编辑==========
 					this.searchResults[index].show = false
 					uni.navigateTo({
 						url: '/pages/staff/edit?item=' + this.searchResults[index].userid,
@@ -204,8 +223,11 @@
 					// TODO 
 					// 方案一：监听navigateBack返回事件，自动刷新
 					// 方案二：主页面和子页面数据交互
+					// 方案三：下拉刷新（√）
 				}
 			},
+
+			// 其他员工的功能键隐藏
 			open(index) {
 				// 先将正在被操作的swipeAction标记为打开状态，否则由于props的特性限制，
 				// 原本为'false'，再次设置为'false'会无效
@@ -216,12 +238,9 @@
 				})
 				this.$forceUpdate()
 			},
-			gotoOne(userid) {
-				console.log("即将跳转到个人信息页面", userid)
-				uni.navigateTo({
-					url: '../staff/one?userid=' + userid
-				})
-			},
+
+			
+			// 删除用户
 			confirmDel() {
 				let index = this.delIndex
 				this.$api.staffDelData({
@@ -236,12 +255,16 @@
 					type: 'success',
 				})
 			},
+
+			// 取下删除操作
 			cancel() {
 				this.delShow = false;
 				this.searchResults[this.delIndex].show = false;
 				this.$forceUpdate()
 			}
 		},
+
+		// 历史按时间顺序取反
 		computed: {
 			histories() {
 				return [...this.historyList].reverse()

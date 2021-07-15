@@ -1,13 +1,15 @@
 <template>
 	<view class="whole">
 		<u-gap height="10"></u-gap>
+		<!-- 搜索栏 -->
 		<view class="search">
 			<u-sticky bg-color="#f5f5f5">
 				<u-search placeholder="请输入文件标题" v-model="searchFileTitle" shape="round" @change="search"
 					bg-color="#ffffff" border-color='#fdfcfa' :show-action="false"></u-search>
 			</u-sticky>
 		</view>
-
+		
+		<!-- 文件信息展示 -->
 		<view :index="index" :key="item.fileid" v-for="(item,index) in itemShows" @click="navToOne(index)"
 			class="u-card-wrap">
 			<view class="u-body-item">
@@ -26,63 +28,63 @@
 				<u-tag :text="item.createdate" type="info" mode="plain" shape="circle" />
 			</view>
 		</view>
-		<u-modal v-model="delShow" :content="delContent" :show-cancel-button="true" :async-close="true"
-			@confirm="confirmDel"></u-modal>
 		<u-toast ref="uToast"></u-toast>
 	</view>
 </template>
 
 <script>
+	import util from "../../api/util.js"
 	export default {
 		data() {
 			return {
-				delShow: false,
-				delContent: '',
-				delIndex: '',
-				delId: '',
 				items: [],
 				itemShows: [],
 				searchFileTitle: '',
-				options: [{
-						text: '编辑',
-						style: {
-							backgroundColor: '#007aff'
-						}
-					},
-					{
-						text: '删除',
-						style: {
-							backgroundColor: '#dd524d'
-						}
-					}
-				],
+				options: util.options,
 			}
 		},
 
-		async onLoad() {
-			await this.$api.fileShowMany().then(res => {
-				if (res.data.msg == "10007") {
-					this.items = res.data.data
-					this.itemShows = res.data.data
-					for (var i in this.itemShows) {
-						this.itemShows[i].show = false
-					}
-				} else {
-					this.$refs.uToast({
-						title: `数据获取失败`
-					})
-
-				}
-			}).catch(err => {})
+		onPullDownRefresh() {
+			// 监听下拉刷新动作的执行方法，每次手动下拉刷新都会执行一次
+			// FIXME 这个会清除返回信息
+			// // #ifdef H5
+			// window.location.reload()
+			// // #endif
+			console.log('开始刷新')
+			this.myReload()
+			// FIXME 这里的时限控制貌似不太成功诶
+			// TODO 这里的时间会不会太长
+			setTimeout(function() {
+				uni.stopPullDownRefresh(); //停止下拉刷新动画
+			}, 4000);
+			console.log('刷新结束')
 		},
 
-		onNavigationBarButtonTap() {
-			uni.navigateTo({
-				url: "upload"
-			})
+		onLoad() {
+			this.myReLoad()
 		},
 
 		methods: {
+			// 自定义加载页面参数
+			myReLoad() {
+				// 获取文档列表
+				this.$api.fileShowMany().then(res => {
+					// 异常码判断
+					if (res.data.msg == "10007") {
+						this.items = res.data.data
+						this.itemShows = res.data.data
+						for (var i in this.itemShows) {
+							this.itemShows[i].show = false
+						}
+					} else {
+						this.$refs.uToast({
+							title: `数据获取失败`
+						})
+					}
+				}).catch(err => {})
+			},
+
+			// 文件查看
 			navToOne(index) {
 				let item = encodeURIComponent(JSON.stringify(this.itemShows[index]))
 				uni.navigateTo({
@@ -90,70 +92,18 @@
 				})
 			},
 
-			navToSearchByFilename() {
-				uni.navigateTo({
-					url: './search',
-					success() {
-						console.log('回到广场')
-					}
-				})
-			},
-
+			// 文件搜索
 			search() {
 				if (this.searchFileTitle == "") {
 					this.itemShows = this.items
 				} else {
 					this.itemShows = []
-					this.items.forEach((item) => {
+					this.items.forEach((item) => { // 实现动态搜索
 						if (item.title.includes(this.searchFileTitle))
 							this.itemShows.push(item)
 					})
 				}
 			},
-
-			click(index, option) {
-				if (option == 1) {
-					this.delShow = true
-					this.delContent = "确认删除" + this.itemShows[index].title + "？"
-					this.delIndex = index
-					this.delId = this.itemShows[index].fileid
-				} else {
-					uni.navigateTo({
-						url: '/pages/file/edit?item=' + encodeURIComponent(JSON.stringify(this.itemShows[index]))
-					})
-				}
-			},
-
-			open(index) {
-				// 先将正在被操作的swipeAction标记为打开状态，否则由于props的特性限制，
-				// 原本为'false'，再次设置为'false'会无效
-				console.log(this.itemShows[index])
-				this.itemShows[index].show = true;
-				this.itemShows.map((val, idx) => {
-					if (index != idx) this.itemShows[idx].show = false;
-				})
-			},
-
-
-			confirmDel() {
-				let index = this.delIndex
-				this.$api.fileEdit({
-					fileid: this.delId,
-				}).then(res => {
-					this.itemShows.splice(index, 1);
-					this.items.splice(index, 1)
-				})
-				this.delShow = false
-				this.$refs.uToast({
-					title: `删除成功`
-				})
-			},
-
-			cancel() {
-				this.delShow = false;
-				this.itemShows[this.delIndex].show = false;
-			}
-
 		}
 	}
 </script>
