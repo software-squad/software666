@@ -4,7 +4,7 @@
 		<!-- 搜索框 -->
 		<view class="u-search-box">
 			<u-sticky bg-color="#fafafa">
-				<u-search v-model='kw' :show-action="true" action-text="搜索" :animation="true" height="80"
+				<u-search v-model='kw' :show-action="true" action-text="搜索" :animation="true" 
 					placeholder='请输入员工姓名' @search='getSearchList' @custom='getSearchList' @change="change">
 				</u-search>
 			</u-sticky>
@@ -94,10 +94,26 @@
 				],
 			};
 		},
+		onNavigationBarButtonTap: function(e) {
+			uni.navigateTo({
+				url: '/pages/staff/add'
+			})
+		},
+		
+		onPullDownRefresh() {
+			this.getSearchList()
+			setTimeout(function() {
+				uni.stopPullDownRefresh(); //停止下拉刷新动画
+			}, 1000);
+		},
+	
 		onLoad() {
 			console.log("员工搜索中")
 			this.historyList = JSON.parse(uni.getStorageSync('kw') || '[]')
 		},
+		// onShow(){
+		// 	this.getSearchList()
+		// },
 		methods: {
 			// change 输入事件的处理函数
 			change(e) {
@@ -118,12 +134,8 @@
 					this.searchResults = []
 					return
 				}
-				this.$request.request({
-					url: '/api/staff/showUserByUsername',
-					data: {
-						username: this.kw,
-					},
-					method: 'GET',
+				this.$api.staffShowUserByUsername({
+					username: this.kw,
 				}).then(res => {
 					if (res.data.code !== 200) alert(res.data.msg)
 					this.searchResults = res.data.data
@@ -145,37 +157,36 @@
 					this.saveSearchHistory()
 				})
 			},
-
+	
 			saveSearchHistory() {
 				console.log("存储搜索历史")
 				console.log(this.kw)
 				// 重复存储
 				// this.historyList.push(this.kw)
-
+	
 				// 不重复存储
 				const set = new Set(this.historyList)
 				set.delete(this.kw)
 				set.add(this.kw)
 				this.historyList = Array.from(set)
-
+	
 				// 对搜索历史数据，进行持久化的存储
 				uni.setStorageSync('kw', JSON.stringify(this.historyList))
 			},
-
+	
 			clean() {
 				console.log("清除历史中")
 				this.historyList = []
 				uni.setStorageSync('kw', '[]')
 			},
-
+	
 			gotoUserList(kw) {
 				console.log("获取搜索list" + kw)
 				this.kw = kw
 				this.getSearchList()
 			},
-
 			gotoOne(userid) {
-				console.log("即将跳转到个人信息页面")
+				console.log("即将跳转到个人信息页面", userid)
 				uni.navigateTo({
 					url: '../staff/one?userid=' + userid
 				})

@@ -80,9 +80,10 @@
 			<u-form-item label="邮政编码" prop='postcode'>
 				<u-input v-model='form.postcode' type='text' placeholder='请输入邮政编码' />
 			</u-form-item>
-
+			
+			<!-- TODO 美化，添加Field -->
 			<u-form-item label="备注信息" prop='remark'>
-				<u-input v-model='form.remark' type='text' placeholder='' />
+				<u-input v-model='form.remark' type='text' placeholder='请输入备注信息' />
 			</u-form-item>
 
 			<u-button class="form-button" type="primary" @click="formSubmit">提交</u-button>
@@ -92,8 +93,9 @@
 </template>
 
 <script>
+	import MD5 from "../../api/md5.js"
+	import util from "../../api/util.js"
 	export default {
-		name: 'staffForm',
 		data() {
 			return {
 				tempFilePath: '/static/头像.svg',
@@ -107,50 +109,10 @@
 				eduSelShow: false,
 				calSelShow: false,
 				addressSelShow: false,
-				statusList: [{
-					label: '管理员',
-					value: 1
-				}, {
-					label: '普通用户',
-					value: 0
-				}, ],
+				statusList: util.statusList,
 				posList: [],
-				sexList: [{
-						value: '0',
-						label: '保密'
-					}, {
-						value: '1',
-						label: '男'
-					},
-					{
-						value: '2',
-						label: '女'
-					}
-				],
-				eduList: [{
-						value: '0',
-						label: '小学'
-					}, {
-						value: '1',
-						label: '初中'
-					},
-					{
-						value: '2',
-						label: '高中'
-					}, {
-						value: '3',
-						label: '专科'
-					}, {
-						value: '4',
-						label: '本科'
-					}, {
-						value: '5',
-						label: '研究生'
-					}, {
-						value: '6',
-						label: '博士'
-					},
-				],
+				sexList: util.sexList,
+				eduList: util.eduList,
 				form: {
 					userid: 0,
 					password: '',
@@ -176,77 +138,15 @@
 					jobname: '',
 					remark: '',
 				},
-				rules: {
-					username: [{
-						required: true,
-						message: '姓名不能为空',
-						trigger: ['change', 'blur']
-					}, ],
-					cardid: [{
-						type: 'number',
-						message: '身份证号码格式不正确',
-						trigger: ['change', 'blur']
-					}, {
-						len: 18,
-						message: '身份证号码为18位',
-						trigger: ['change', 'blur']
-					}, ],
-					sex: // Not Null
-						[{
-							required: true,
-							message: '性别不能为空',
-							trigger: ['change', 'blur']
-						}, ],
-					// TODO 职位
-					// position: [{
-					// 	required: true,
-					// 	message: '职位不能为空',
-					// 	trigger: ['change', 'blur']
-					// }, ],
-					email: [{
-						type: 'email',
-						message: "邮箱格式不正确",
-						trigger: ['change', 'blur']
-					}, ],
-					tel: // Not Null
-						[{
-							required: true,
-							message: '手机号码不能为空',
-							trigger: ['change', 'blur']
-						}, {
-							// 自定义验证函数，见上说明
-							validator: (rule, value, callback) => {
-								// 上面有说，返回true表示校验通过，返回false表示不通过
-								// this.$u.test.mobile()就是返回true或者false的
-								return this.$u.test.mobile(value);
-							},
-							message: '手机号码格式不正确',
-							// 触发器可以同时用blur和change
-							trigger: ['change', 'blur'],
-						}, ],
-					qqnum: [{
-						type: 'number',
-						message: "QQ号码格式不正确",
-						trigger: ['change', 'blur']
-					}, ],
-
-					postcode: [{
-						type: 'number',
-						message: "邮编格式不正确",
-						trigger: ['change', 'blur']
-					}, ]
-
-				},
-				// 文字提示
-				errorType: ['message'],
-				// 不提示
-				// errorType: ['none'],
-				// 文字和下划线提示
-				// errorType: ['message', 'border-bottom'],
+				rules: util.addRule,
+				errorType: ['message'], // 文字提示
+				// errorType: ['none'],  // 不提示
+				// errorType: ['message', 'border-bottom'],  // 文字和下划线提示
 			}
 		},
 
 		methods: {
+			// 改变头像
 			changeHead() {
 				uni.chooseImage({
 					count: 1,
@@ -270,70 +170,81 @@
 				});
 			},
 			formSubmit() {
+				// 表单提交
+				// console.log('选中的职位', this.posSelRes)
+				if (!this.posSelRes) {
+					uni.showToast({
+						title: '职位不能为空',
+						icon: 'none',
+					})
+					return;
+				}
 				this.$refs.uForm.validate(valid => {
-					console.log("正在提交")
-					console.log(this.form)
+					// console.log("正在提交表单",this.form)
 					if (valid) {
+						this.form.password = MD5(this.form.password)
 						this.form.address = this.rangeAddress + this.detailAddress
-						this.$request.request({
-							url: "/api/staff/add",
-							data: {
-								...this.form,
-							},
-							method: 'POST'
-						}).then(res => {
-							this.$refs.uToast.show({
-								title: '提交成功',
-								type: 'success',
-								// TODO 时限逻辑，否则回猛的跳转
-							})
-							// uni.navigateBack()
+						this.$api.staffAdd(...this.form).then(res => {
+							if(res.data.msg==10001){
+								this.$refs.uToast.show({
+									title: '提交成功',
+									type: 'success',
+								})
+								// 添加时限逻辑。避免猛地返回
+								setTimeout(() => {
+									uni.navigateBack()
+								}, 1000)
+							}
 						})
 					} else {
+						// 会有提示框，无需toast
 						console.log('验证失败')
 					}
 				});
 			},
 			statusConfirm(e) {
-				console.log(e)
+				// console.log('权限选择结果',e)
 				this.form.status = e[0].value
 				this.statusLabel = e[0].label
 			},
 			sexConfirm(e) {
-				console.log(e)
+				// console.log('性别选择结果',e)
 				this.form.sex = e[0].label
 			},
 			posConfirm(e) {
+				// console.log('职位选择结果',e)
+				// 多选框，职位分别赋值
 				this.posSelRes = e[0].label + " " + e[1].label
 				this.form.deptname = e[0].label
 				this.form.deptid = e[0].value
 				this.form.jobname = e[1].label
 				this.form.jobid = e[1].value
-				console.log(e)
 			},
 			eduConfirm(e) {
-				console.log(e)
+				// console.log('教育选择结果',e)
 				this.form.education = e[0].label
 			},
 			addressConfirm(e) {
-				console.log(e)
+				// console.log('地址选择结果',e)
+				// 地址组合
 				this.rangeAddress = e.province.label + e.city.label + e.area.label
 			},
 			calChange(e) {
-				console.log(e)
+				// console.log('日历选择结果',e)
 				this.form.birthday = e.result
 			}
 		},
-		// 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
+		
 		onReady() {
+			// 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
 			this.$refs.uForm.setRules(this.rules);
 		},
+		
 		onLoad() {
-			this.$request.request({
-				url: '/api/staff/index',
-				method: "GET",
-			}).then(res => {
+			// 加载获取职位列表
+			this.$api.staffIndex().then(res => {
 				this.posList = res.data.data
+				// console.log('获取的职位列表',this.posList)
 			})
 		}
 	}

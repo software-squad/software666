@@ -8,6 +8,7 @@
 			<u-gap height="15" bg-color="#f9f9f9"></u-gap>
 
 			<!-- 动态实现方法一 -->
+			<!-- 通过key和中文描述绑定json格式，循环访问 -->
 			<u-cell-group>
 				<u-cell-item v-for="(value,key) in labelDict" :key='key' :title='value' :value='user[key]'
 					:valueStyle='valueStyle' :title-style="titleStyle" :arrow='false' v-show="user[key]?true:false">
@@ -46,26 +47,18 @@
 					party: '政治面貌',
 					address: '联系地址',
 					postcode: '邮政编码',
-					remark:'描述',
+					remark:'备注',
 					// loginname:'账户名', 
 					// password:'密码', 
 					// status:'权限', 
-					// '民族',
-					// '所学专业',
-					// '爱好',
-					// '备注'
 				},
 				user: {}
 			}
 		},
 		onLoad(item) {
-			console.log(item)
-			this.$request.request({
-				url: '/api/staff/oneByUserid',
-				method: 'GET',
-				data: {
-					userid: item.userid
-				},
+			console.log('页面跳转数据',item)
+			this.$api.staffOneByUseridSendData({
+				userid:item.userid
 			}).then(res => {
 				this.user = res.data.data
 				uni.setNavigationBarTitle({

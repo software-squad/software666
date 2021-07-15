@@ -33,16 +33,20 @@
 						</view>
 					</view>
 				</view>
-				
+
 			</scroll-view>
-		
+
 		</view>
-		
+
 		<u-toast ref="uToast" />
-		<u-tabbar :list="tabbar1" ></u-tabbar>
+		<u-tabbar :list="tabBerList" :mid-button="midBtn" active-color="#5098FF" inactive-color="#909399"
+			:border-top=false bg-color="#F8F8F8"></u-tabbar>
 	</view>
 </template>
 <script>
+	import {
+		mapGetters
+	} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -57,36 +61,18 @@
 				scrollRightTop: 0, // 右边栏目scroll-view的滚动条高度
 				timer: null, // 定时器
 				tabbar: '',
-				//自定义tabbar目录
-				tabbar1: [{
-						iconPath: "/static/tab_icons/home.png",
-						selectedIconPath: "/static/tab_icons/homeHL.png",
-						text: '首页',
-						pagePath: "/pages/menu/user_menu"
-					},
-					{
-						iconPath: "/static/tab_icons/人员.png",
-						selectedIconPath: "/static/tab_icons/人员HL.png",
-						text: '员工中心',
-						pagePath: "/pages/staff/user_index"
-					},
-					{
-						iconPath: "/static/tab_icons/user.png",
-						selectedIconPath: "/static/tab_icons/userHL.png",
-						text: '我的',
-						pagePath: "/pages/user/user"
-				
-					},
-				],
 			}
+		},
+		computed: {
+			...mapGetters([
+				'tabBerList',
+				'midBtn'
+			])
 		},
 		onLoad() {
 			console.log("加载中")
 			let _this = this
-			this.$request.request({
-				url: '/api/staff/index',
-				method: "GET",
-			}).then(res => {
+			this.$api.staffIndex().then(res => {
 				_this.tabbar = res.data.data
 				console.log("数据加载成功")
 			})
@@ -103,7 +89,8 @@
 			},
 			navToSearchByDeptAndJob(dept, job) {
 				uni.navigateTo({
-					url: '/pages/staff/user_show?deptid=' + dept.value + "&jobid=" + job.value + "&jobname=" + job.label
+					url: '/pages/staff/user_show?deptid=' + dept.value + "&jobid=" + job.value + "&jobname=" + job
+						.label
 				})
 			},
 			// 点击左边的栏目切换
@@ -215,18 +202,19 @@
 </script>
 
 <style lang="scss" scoped>
-	.icon-circle-plus-fill{
-	  color: #42b983;
-	  position: absolute;
-	  bottom: 120rpx;
-	  right: 20rpx;
+	.icon-circle-plus-fill {
+		color: #42b983;
+		position: absolute;
+		bottom: 120rpx;
+		right: 20rpx;
 	}
-	.icon-circle-plus-fill:hover{
-	  // -webkit-box-shadow: #ccc 10px 10px 10px;
-	  // -moz-box-shadow: #ccc 10px 10px 10px;
-	  box-shadow: #ccc 10px 10px 10px;
+
+	.icon-circle-plus-fill:hover {
+		// -webkit-box-shadow: #ccc 10px 10px 10px;
+		// -moz-box-shadow: #ccc 10px 10px 10px;
+		box-shadow: #ccc 10px 10px 10px;
 	}
-	
+
 	.u-wrap {
 		height: calc(100vh);
 		/* #ifdef H5 */
@@ -239,6 +227,7 @@
 
 	.u-search-box {
 		padding: 18rpx 30rpx;
+		background-color: #fafafa;
 	}
 
 	.u-menu-wrap {

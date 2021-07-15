@@ -8,6 +8,7 @@
 			</view>
 		</view>
 
+		<!--  -->
 		<view class="u-menu-wrap">
 			<scroll-view scroll-y scroll-with-animation="true" class="u-tab-view menu-scroll-view"
 				:scroll-top="scrollTop" :scroll-into-view="itemId">
@@ -34,17 +35,18 @@
 					</view>
 				</view>
 				<!-- TODO 权限隐藏 -->
-				<u-icon class="icon-circle-plus-fill" size="100" name="plus-circle-fill" @click="navToAdd"></u-icon>	
-				
+				<u-icon class="icon-circle-plus-fill" size="100" name="plus-circle-fill" @click="navToAdd"></u-icon>
 			</scroll-view>
-		
 		</view>
-		<!-- TODO -->
-		
 		<u-toast ref="uToast" />
+		<u-tabbar :list="tabBerList" :mid-button="midBtn" active-color="#5098FF" inactive-color="#909399"
+			:border-top=false bg-color="#F8F8F8"></u-tabbar>
 	</view>
 </template>
 <script>
+	import {
+		mapGetters
+	} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -61,13 +63,16 @@
 				tabbar: '',
 			}
 		},
+		computed: {
+			...mapGetters([
+				'tabBerList',
+				'midBtn'
+			])
+		},
 		onLoad() {
 			console.log("加载中")
 			let _this = this
-			this.$request.request({
-				url: '/api/staff/index',
-				method: "GET",
-			}).then(res => {
+			this.$api.staffIndex().then(res => {
 				_this.tabbar = res.data.data
 				console.log("数据加载成功")
 			})
@@ -76,7 +81,7 @@
 		// 	this.getMenuItemTop()
 		// },
 		methods: {
-			navToAdd(){
+			navToAdd() {
 				uni.navigateTo({
 					url: '/pages/staff/add'
 				})
@@ -204,18 +209,19 @@
 </script>
 
 <style lang="scss" scoped>
-	.icon-circle-plus-fill{
-	  color: #42b983;
-	  position: absolute;
-	  bottom: 120rpx;
-	  right: 20rpx;
+	.icon-circle-plus-fill {
+		color: #42b983;
+		position: absolute;
+		bottom: 120rpx;
+		right: 20rpx;
 	}
-	.icon-circle-plus-fill:hover{
-	  // -webkit-box-shadow: #ccc 10px 10px 10px;
-	  // -moz-box-shadow: #ccc 10px 10px 10px;
-	  box-shadow: #ccc 10px 10px 10px;
+
+	.icon-circle-plus-fill:hover {
+		// -webkit-box-shadow: #ccc 10px 10px 10px;
+		// -moz-box-shadow: #ccc 10px 10px 10px;
+		box-shadow: #ccc 10px 10px 10px;
 	}
-	
+
 	.u-wrap {
 		height: calc(100vh);
 		/* #ifdef H5 */
@@ -228,6 +234,7 @@
 
 	.u-search-box {
 		padding: 18rpx 30rpx;
+		background-color: #fafafa;
 	}
 
 	.u-menu-wrap {

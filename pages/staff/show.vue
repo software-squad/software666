@@ -2,15 +2,13 @@
 	<view class="page-inner">
 		<u-swipe-action :show="item.show" :index="index" :key="item.userid" v-for="(item,index) in searchResults"
 			:options="options" btn-width="180" @click="click" @open="open(index)" @content-click="gotoOne(item.userid)"
-			 class="u-card-wrap">
+			class="u-card-wrap">
 			<view class="u-body-item">
+				<!-- 头像 -->
 				<image :src="item.faceurl" mode="aspectFill" class="avatar-item"></image>
-				
-				<!-- TODO 调成u-image 有默认头像格式 -->
-				<!-- shape="circle" -->
-				<u-image width='120rpx' height='120rpx' slot="title" :src="item.faceurl" 
-				mode="aspectFill"></u-image>
-				
+				<!-- <u-image width='120rpx' height='120rpx' slot="title" :src="item.faceurl" 
+				mode="aspectFill"></u-image> -->
+				<!-- 信息栏 -->
 				<view calss="info-item">
 					<u-row class="info-item-row">
 						<u-col span=12>
@@ -30,8 +28,10 @@
 				</view>
 			</view>
 		</u-swipe-action>
+		<!-- 是否删除的模态框 -->
 		<u-modal v-model="delShow" :content="delContent" :show-cancel-button="true" :async-close="true"
 			@confirm="confirmDel"></u-modal>
+			<u-toast ref="uToast"/>
 	</view>
 
 </template>
@@ -40,7 +40,8 @@
 	export default {
 		data() {
 			return {
-				delShow: false,
+				item:null,
+				delShow: false, 
 				delContent: '',
 				delIndex: '',
 				searchResults: [],
@@ -59,29 +60,44 @@
 				],
 			};
 		},
+		// 增加员工
 		onNavigationBarButtonTap: function(e) {
 			uni.navigateTo({
 				url: '/pages/staff/add'
 			})
+			// TODO 返回刷新
 		},
 		onLoad: function(item) {
-			console.log('根据部门和职业搜索员工')
-			console.log(item)
+			// console.log('根据部门和职业搜索员工',item)
 			uni.setNavigationBarTitle({
 				title: item.jobname
 			})
-			this.$request.request({
-				url: "/api/staff/showUserByDeptAndJob",
-				data: {
+			// 后端申请
+			this.parm = item
+			this.myReload(item)
+		},
+		onPullDownRefresh() {
+			// 监听下拉刷新动作的执行方法，每次手动下拉刷新都会执行一次
+			// FIXME 这个会清除返回信息
+			// // #ifdef H5
+			// window.location.reload()
+			// // #endif
+			this.myReload(this.parm)
+			setTimeout(function() {
+				uni.stopPullDownRefresh(); //停止下拉刷新动画
+			}, 1000);
+		},
+		methods: {
+			// 获取页面渲染信息
+			myReload(item){
+				this.$api.staffShowUserByDeptAndJob({
 					deptid: item.deptid,
 					jobid: item.jobid
-				},
-				method:'POST',
-				}).then(res=>{
+				}).then(res => {
 					this.searchResults = res.data.data
 					for (var i in this.searchResults) {
 						this.searchResults[i].show = false
-						if(!this.searchResults[i].remark){
+						if (!this.searchResults[i].remark) {
 							this.searchResults[i].remark = '无详细描述'
 						}
 						if (!this.searchResults[i].faceurl) {
@@ -95,8 +111,8 @@
 						}
 					}
 				})
-		},
-		methods: {
+			},
+			// 滑动块
 			click(index, option) {
 				if (option == 1) {
 					this.delShow = true
@@ -104,60 +120,57 @@
 					this.delIndex = index
 					this.delId = this.searchResults[index].userid
 				} else {
-					this.navToEdit(index)
+					this.searchResults[index].show = false
+					uni.navigateTo({
+						url: '/pages/staff/edit?userid=' + this.searchResults[index].userid,
+					})
+					this.$forceUpdate()
+					// TODO 
+					// 方案一：监听navigateBack返回事件，自动刷新
+					// 方案二：主页面和子页面数据交互
 				}
 			},
+			// 打开滑块
 			open(index) {
-				// 先将正在被操作的swipeAction标记为打开状态，否则由于props的特性限制，
-				// 原本为'false'，再次设置为'false'会无效
-				console.log('打开中')
-				console.log(index)
-				console.log(this.searchResults[index])
+				console.log('打开第', index, '用户')
 				this.searchResults[index].show = true;
 				this.searchResults.map((val, idx) => {
 					if (index != idx) this.searchResults[idx].show = false;
 				})
-				console.log(this.searchResults)
+				this.$forceUpdate()
 			},
+			// 点击进入
 			gotoOne(userid) {
 				uni.navigateTo({
 					url: '../staff/one?userid=' + userid
 				})
 			},
-			navToEdit(index) {
-				// console.log('准备编辑')
-				// console.log(this.searchResults[index])
-				uni.navigateTo({
-					url: '/pages/staff/edit?userid=' + this.searchResults[index].userid,
+			// 确认删除
+			confirmDel() {
+				console.log('删除的id',this.delId)
+				this.$api.staffDelData({
+					userid:this.delId
+				}).then(res => {
+					this.searchResults.splice(this.delIndex, 1);
+					this.delShow = false
+					this.$refs.uToast.show({
+						title: '删除成功',
+						type: 'success',
+					})
 				})
 			},
-			confirmDel() {
-				let index = this.delIndex
-				console.log('删除的id')
-				console.log(this.delId)
-				this.$request.request({
-					url: '/api/staff/del',
-					data:{userid:this.delId,},
-					method: 'GET',
-					}).then(res=>{
-						// TODO 更友好的提示
-						// this.$u.toast(`删除了第${index}个cell`);
-						this.searchResults.splice(index, 1);
-					})
-				this.delShow = false
-				this.$u.toast(`删除成功`);
-			},
+			// 取消删除
 			cancel() {
 				this.delShow = false;
 				this.searchResults[this.delIndex].show = false;
+				this.$forceUpdate()
 			}
 		}
 	}
 </script>
 
 <style>
-	
-	.page-inner{
+	.page-inner {
 		background-color: #fafafa;
 		height: calc(100vh);
 		/* #ifdef H5 */
@@ -165,8 +178,8 @@
 		/* #endif */
 		display: flex;
 		flex-direction: column;
-		/* border-style: solid; */
 	}
+
 	.u-card-wrap {
 		background-color: #FFFFFF;
 		margin: 20rpx 0rpx 0rpx 0rpx;
@@ -176,8 +189,6 @@
 		font-size: 32rpx;
 		color: #333;
 		padding: 20rpx 20rpx;
-		/* border-style: solid; */
-		/* TODO */
 		overflow: hidden;
 	}
 
@@ -187,7 +198,6 @@
 		height: 120rpx;
 		border-radius: 8rpx;
 		margin-left: 12rpx;
-		/* border-style: solid;  /* TODO */
 		float: left;
 	}
 
@@ -195,14 +205,13 @@
 		float: left;
 		text-align: left;
 		padding-left: 20rpx;
-		/* border-style: solid;  /* TODO */ 
 	}
 
-	.info-item-row{
+	.info-item-row {
 		margin-bottom: 5rpx;
 	}
-	
-	.avatar-item{
+
+	.avatar-item {
 		margin-right: 10rpx;
 	}
 </style>

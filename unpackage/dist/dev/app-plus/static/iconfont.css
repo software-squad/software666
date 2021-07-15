@@ -3,9 +3,9 @@
   src: 	/* url('iconfont.woff2?t=1626204310989') format('woff2'),
        url('iconfont.woff?t=1626204310989') format('woff'),
        url('iconfont.ttf?t=1626204310989') format('truetype'); */
-  /* url('C:/Users/THINKPAD/Desktop/CSI/static/iconHome/iconfont.woff2?t=1625879810914') format('woff2'),
-  url('C:/Users/THINKPAD/Desktop/CSI/static/iconHome/iconfont.woff?t=1625879810914') format('woff'),
-  url('C:/Users/THINKPAD/Desktop/CSI/static/iconHome/iconfont.ttf?t=1625879810914') format('truetype'); */
+  url('D:/CodeFiles/App/dev-view/static/iconHome/iconfont.woff2?t=1625879810914') format('woff2'),
+  url('D:/CodeFiles/App/dev-view/static/iconHome/iconfont.woff?t=1625879810914') format('woff'),
+  url('D:/CodeFiles/App/dev-view/static/iconHome/iconfont.ttf?t=1625879810914') format('truetype');
 }
 
 .custom-icon {

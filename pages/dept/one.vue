@@ -12,13 +12,14 @@
 			<text class="title">部门描述</text>
 			<u-gap height="30"></u-gap>
 			<text style="font-size: larger; height: 200;">{{item.remark}}</text>
-			<u-gap height="40" ></u-gap>
+			<u-gap height="40"></u-gap>
 			<u-line color="#bbb" />
-			<u-gap height="30" ></u-gap>
+			<u-gap height="30"></u-gap>
 			<u-col span="40">
 				<u-row gutter="100" justify="space-around">
 					<button @click="navToEdit" class="custom-style">编辑</button>
-					<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="confirmExit" @cancel="cancel"></u-modal>
+					<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="confirmExit"
+						@cancel="cancel"></u-modal>
 					<button @click="del" type="error" class="custom-style">删除</button>
 				</u-row>
 			</u-col>
@@ -27,39 +28,43 @@
 </template>
 
 <script>
-	import {sendThis} from "../../api/request.js"
-	import {deptOneDelSendData} from "../../api/api.js"
+	import {
+		sendThis
+	} from "../../api/request.js"
+	import {
+		deptOneDelSendData
+	} from "../../api/api.js"
 	export default {
 		data() {
 			return {
-				deptid:'',
-				deptname:'',
-				remark:'',
-				depturl:'',
-				item:'',
-				imageSrc:'',
+				deptid: '',
+				deptname: '',
+				remark: '',
+				depturl: '',
+				item: '',
+				imageSrc: '',
 				show: false,
 				content: '确认删除该部门？'
 			}
 		},
 		onLoad: function(option) {
 			sendThis(this)
-			
+
 			this.item = JSON.parse(decodeURIComponent(option.item))
-			this.imageSrc=this.item.depturl
+			this.imageSrc = this.item.depturl
 			console.log("one")
 			console.log(this.imageSrc)
 			console.log(this.item.depturl)
 			console.log(this.item.remark)
 		},
 		methods: {
-			showToast(TITLE,TYPE) {
-							this.$refs.uToast.show({
-								title: TITLE.toString(),
-								type: TYPE.toString(),
-							})
+			showToast(TITLE, TYPE) {
+				this.$refs.uToast.show({
+					title: TITLE.toString(),
+					type: TYPE.toString(),
+				})
 			},
-			
+
 			showDelSuccessToast() {
 				this.$refs.uToast.show({
 					title: '删除成功',
@@ -72,12 +77,12 @@
 					type: 'false'
 				})
 			},
-			del(){
+			del() {
 				this.show = true;
 			},
-			confirmExit(){
-				let data = { 
-					deptid:this.item.deptid
+			confirmExit() {
+				let data = {
+					deptid: this.item.deptid
 				}
 				console.log(this.item.deptid)
 				console.log(data)
@@ -90,41 +95,44 @@
 						this.showToast()
 						console.log(error);
 						uni.navigateBack()
-					})		
+					})
 			},
-			cancel(){
+			cancel() {
 				this.show = false;
 			},
-			navToEdit(){
+			navToEdit() {
 				uni.navigateTo({
-					url: "edit?item="+encodeURIComponent(JSON.stringify(this.item))
-				}),
-				console.log("one")
+						url: "edit?item=" + encodeURIComponent(JSON.stringify(this.item))
+					}),
+					console.log("one")
 				console.log(this.item.name),
-				console.log(this.item.dcrpt)
+					console.log(this.item.dcrpt)
 			}
-			
-			
+
+
 		}
 	}
 </script>
 
 <style>
-	.deptOne{
+	.deptOne {
 		margin: 0 50rpx;
 	}
-	.name{
+
+	.name {
 		text-align: center;
 		margin-left: 285rpx;
 		font-size: larger;
 		font-weight: 550;
 	}
-	.title{
+
+	.title {
 		font-size: larger;
 		font-weight: bold;
 		margin-left: 260rpx;
 	}
-	.custom-style{
+
+	.custom-style {
 		color: #241c32;
 		font-weight: 520;
 		width: 150rpx;

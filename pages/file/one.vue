@@ -21,10 +21,7 @@
 </template>
 
 <script>
-	// const baseURL = 'http://192.168.0.125:8082/api/file/download?fileid='
 	import util from "../../api/util.js"
-	const url = util.baseUrl+'api/file/download?fileid='
-	
 	export default {
 		data() {
 			return {
@@ -46,8 +43,8 @@
 			
 			if (option) {
 				this.item = JSON.parse(decodeURIComponent(option.item));
-				console.log('基础url：',url)
-				this.fileLink = url+this.item.fileid
+				console.log('基础url：',util.dowloadBaseUrl)
+				this.fileLink = util.dowloadBaseUrl+this.item.fileid
 				uni.setNavigationBarTitle({
 					title:this.item.title
 				})

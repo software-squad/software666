@@ -4,25 +4,19 @@
 		<!-- 搜索框 -->
 		<view class="u-search-box">
 			<u-sticky bg-color="#fafafa">
-							<u-search v-model='kw' :show-action="true" action-text="搜索" :animation="true" height="80"
-								placeholder='请输入员工姓名' @search='getSearchList' @custom='getSearchList' @change="change">
-							</u-search>
-						</u-sticky>
+				<u-search v-model='kw' :show-action="true" action-text="搜索" :animation="true" placeholder='请输入员工姓名'
+					@search='getSearchList' @custom='getSearchList' @change="change">
+				</u-search>
+			</u-sticky>
 		</view>
 
 		<!-- 搜索建议列表 -->
 		<view class="sugg-list" v-if="this.kw.length !== 0">
 			<u-swipe-action :index="index" :key="item.userid" v-for="(item,index) in searchResults" :show="item.show"
 				:options="options" btn-width="180" @click="click" @open="open(index)"
-				@content-click="gotoOne(item.userid)" >
+				@content-click="gotoOne(item.userid)">
 				<view class="u-body-item">
 					<image :src="item.faceurl" mode="aspectFill" class="avatar-item"></image>
-
-					<!-- TODO 调成u-image 有默认头像格式 -->
-					<!-- shape="circle" -->
-					<u-image width='120rpx' height='120rpx' slot="title" :src="item.faceurl" mode="aspectFill">
-					</u-image>
-
 					<view calss="info-item">
 						<u-row class="info-item-row">
 							<u-col span=12>
@@ -100,10 +94,21 @@
 				url: '/pages/staff/add'
 			})
 		},
+		
+		onPullDownRefresh() {
+			this.getSearchList()
+			setTimeout(function() {
+				uni.stopPullDownRefresh(); //停止下拉刷新动画
+			}, 1000);
+		},
+
 		onLoad() {
 			console.log("员工搜索中")
 			this.historyList = JSON.parse(uni.getStorageSync('kw') || '[]')
 		},
+		// onShow(){
+		// 	this.getSearchList()
+		// },
 		methods: {
 			// change 输入事件的处理函数
 			change(e) {
@@ -124,12 +129,8 @@
 					this.searchResults = []
 					return
 				}
-				this.$request.request({
-					url: '/api/staff/showUserByUsername',
-					data: {
-						username: this.kw,
-					},
-					method: 'GET',
+				this.$api.staffShowUserByUsername({
+					username: this.kw,
 				}).then(res => {
 					if (res.data.code !== 200) alert(res.data.msg)
 					this.searchResults = res.data.data
@@ -182,46 +183,49 @@
 
 			click(index, option) {
 				if (option == 1) {
+					let currUserid = sessionStorage.getItem('userid')
+					if (currUserid == this.searchResults[index].userid) {
+						this.$refs.uToast.show({
+							title: '您无法删除自己',
+							type: 'warning',
+						})
+						return;
+					}
 					this.delShow = true
 					this.delContent = "确认删除" + this.searchResults[index].username + "？"
 					this.delIndex = index
 					this.delId = this.searchResults[index].userid
 				} else {
-					this.navToEdit(index)
 					this.searchResults[index].show = false
+					uni.navigateTo({
+						url: '/pages/staff/edit?item=' + this.searchResults[index].userid,
+					})
+					this.$forceUpdate()
+					// TODO 
+					// 方案一：监听navigateBack返回事件，自动刷新
+					// 方案二：主页面和子页面数据交互
 				}
 			},
 			open(index) {
 				// 先将正在被操作的swipeAction标记为打开状态，否则由于props的特性限制，
 				// 原本为'false'，再次设置为'false'会无效
-				console.log('打开中')
-				console.log(index)
-				console.log(this.searchResults[index])
+				console.log('打开第', index, '用户')
 				this.searchResults[index].show = true;
 				this.searchResults.map((val, idx) => {
 					if (index != idx) this.searchResults[idx].show = false;
 				})
-				console.log(this.searchResults)
+				this.$forceUpdate()
 			},
 			gotoOne(userid) {
-				console.log("即将跳转到个人信息页面")
+				console.log("即将跳转到个人信息页面", userid)
 				uni.navigateTo({
 					url: '../staff/one?userid=' + userid
 				})
 			},
-			navToEdit(index) {
-				uni.navigateTo({
-					url: '/pages/staff/edit?item=' + this.searchResults[index].userid,
-				})
-			},
 			confirmDel() {
 				let index = this.delIndex
-				this.$request.request({
-					url: '/api/staff/del',
-					data: {
-						userid: this.delId,
-					},
-					method: 'GET',
+				this.$api.staffDelData({
+					userid: this.delId,
 				}).then(res => {
 					this.searchResults.splice(index, 1);
 				})
@@ -235,6 +239,7 @@
 			cancel() {
 				this.delShow = false;
 				this.searchResults[this.delIndex].show = false;
+				this.$forceUpdate()
 			}
 		},
 		computed: {

@@ -4,13 +4,11 @@
 		<view class="search">
 			<u-sticky bg-color="#f5f5f5">
 				<u-search placeholder="请输入文件标题" v-model="searchFileTitle" shape="round" @change="search"
-				bg-color="#ffffff" border-color='#fdfcfa'
-					:show-action="false"></u-search>
+					bg-color="#ffffff" border-color='#fdfcfa' :show-action="false"></u-search>
 			</u-sticky>
 		</view>
 
-		<view  :index="index" :key="item.fileid" v-for="(item,index) in itemShows"
-			@click="navToOne(index)"
+		<view :index="index" :key="item.fileid" v-for="(item,index) in itemShows" @click="navToOne(index)"
 			class="u-card-wrap">
 			<view class="u-body-item">
 				<!-- <image :src="item.faceurl" mode="aspectFill" class="avatar-item"></image> -->
@@ -25,11 +23,12 @@
 					</u-col>
 				</u-row>
 				<u-gap height="10"></u-gap>
-				<u-tag :text="item.createdate" type="info" mode="plain" shape="circle"/>
+				<u-tag :text="item.createdate" type="info" mode="plain" shape="circle" />
 			</view>
 		</view>
 		<u-modal v-model="delShow" :content="delContent" :show-cancel-button="true" :async-close="true"
 			@confirm="confirmDel"></u-modal>
+		<u-toast ref="uToast"></u-toast>
 	</view>
 </template>
 
@@ -61,10 +60,7 @@
 		},
 
 		async onLoad() {
-			await this.$request.request({
-				url: '/api/file/showmany',
-				method: 'GET',
-			}).then(res => {
+			await this.$api.fileShowMany().then(res => {
 				if (res.data.msg == "10007") {
 					this.items = res.data.data
 					this.itemShows = res.data.data
@@ -72,10 +68,20 @@
 						this.itemShows[i].show = false
 					}
 				} else {
-					this.$u.toast(`数据获取失败`);
+					this.$refs.uToast({
+						title: `数据获取失败`
+					})
+
 				}
 			}).catch(err => {})
 		},
+
+		onNavigationBarButtonTap() {
+			uni.navigateTo({
+				url: "upload"
+			})
+		},
+
 		methods: {
 			navToOne(index) {
 				let item = encodeURIComponent(JSON.stringify(this.itemShows[index]))
@@ -83,6 +89,16 @@
 					url: 'one?item=' + item
 				})
 			},
+
+			navToSearchByFilename() {
+				uni.navigateTo({
+					url: './search',
+					success() {
+						console.log('回到广场')
+					}
+				})
+			},
+
 			search() {
 				if (this.searchFileTitle == "") {
 					this.itemShows = this.items
@@ -94,6 +110,20 @@
 					})
 				}
 			},
+
+			click(index, option) {
+				if (option == 1) {
+					this.delShow = true
+					this.delContent = "确认删除" + this.itemShows[index].title + "？"
+					this.delIndex = index
+					this.delId = this.itemShows[index].fileid
+				} else {
+					uni.navigateTo({
+						url: '/pages/file/edit?item=' + encodeURIComponent(JSON.stringify(this.itemShows[index]))
+					})
+				}
+			},
+
 			open(index) {
 				// 先将正在被操作的swipeAction标记为打开状态，否则由于props的特性限制，
 				// 原本为'false'，再次设置为'false'会无效
@@ -107,18 +137,16 @@
 
 			confirmDel() {
 				let index = this.delIndex
-				this.$request.request({
-					url: '/api/file/del',
-					data: {
-						fileid: this.delId,
-					},
-					method: 'GET',
+				this.$api.fileEdit({
+					fileid: this.delId,
 				}).then(res => {
 					this.itemShows.splice(index, 1);
 					this.items.splice(index, 1)
 				})
 				this.delShow = false
-				this.$u.toast(`删除成功`);
+				this.$refs.uToast({
+					title: `删除成功`
+				})
 			},
 
 			cancel() {
@@ -131,16 +159,16 @@
 </script>
 
 <style>
-/* 	.search{
+	/* 	.search{
 		background-color:  #f5f5f5;
 	} */
 	.whole {
 		background-color: #f5f5f5;
 		height: calc(100vh);
-	/* 	#ifdef H5*/
-		 height: calc(100vh - var(--window-top));
-		/* #endif */ 
-	} 
+		/* 	#ifdef H5*/
+		height: calc(100vh - var(--window-top));
+		/* #endif */
+	}
 
 	.u-card-wrap {
 		background-color: $u-bg-color;
@@ -155,7 +183,7 @@
 		margin-top: -10rpx;
 		margin-bottom: 16rpx;
 		background-color: #ffffff;
-		/* TODO*/ 
+		/* TODO*/
 		overflow: hidden;
 	}
 
@@ -168,6 +196,7 @@
 		/* border-style: solid; */
 		float: left;
 	}
+
 	.info-item {
 		font-size: large;
 		font-style: normal;
@@ -177,18 +206,21 @@
 		/* padding-left: 10rpx; */
 		/* border-style: solid;  /* TODO */
 	}
-	.info-item-row{
+
+	.info-item-row {
 		margin-bottom: 5rpx;
 	}
-	.remark-item{
+
+	.remark-item {
 		font-size: larger;
-		font-style:oblique;
+		font-style: oblique;
 		color: #699df3;
 		float: left;
 		text-align: justify;
 		padding-left: 10rpx;
 		/* padding-left: -60rpx; */
 	}
+
 	.avatar-item {}
 
 	.u-card-wrap {

@@ -28,6 +28,7 @@
 			</u-swipe-action>
 			<u-modal v-model="delShow" :content="delContent" :show-cancel-button="true" :async-close="true"
 				@confirm="confirmDel"></u-modal>
+				<u-toast ref="uToast"></u-toast>
 		</view>
 </template>
 
@@ -57,24 +58,23 @@
 				],
 			}
 		},
-
-		async onLoad() {
-			await this.$request.request({
-				url: '/api/file/showmany',
-				method: 'GET',
-			}).then(res => {
-				if (res.data.msg == "10007") {
-					this.items = res.data.data
-					this.itemShows = res.data.data
-					for (var i in this.itemShows) {
-						this.itemShows[i].show = false
-					}
-				} else {
-					this.$u.toast(`数据获取失败`);
-				}
-			}).catch(err => {})
+		
+		onPullDownRefresh() {
+			// 监听下拉刷新动作的执行方法，每次手动下拉刷新都会执行一次
+			// FIXME 这个会清除返回信息
+			// // #ifdef H5
+			// window.location.reload()
+			// // #endif
+			this.myReload()
+			setTimeout(function() {
+				uni.stopPullDownRefresh(); //停止下拉刷新动画
+			}, 1000);
 		},
-
+		
+		async onLoad() {
+			await this.myReLoad()
+		},
+		
 		onNavigationBarButtonTap() {
 			uni.navigateTo({
 				url: "upload"
@@ -82,6 +82,22 @@
 		},
 
 		methods: {
+			myReLoad(){
+				this.$api.fileShowMany().then(res => {
+					if (res.data.msg == "10007") {
+						this.items = res.data.data
+						this.itemShows = res.data.data
+						for (var i in this.itemShows) {
+							this.itemShows[i].show = false
+						}
+					} else {
+						this.$refs.uToast({
+							title:`数据获取失败`
+						})
+					}
+				}).catch(err => {})
+			},
+			
 			navToOne(index) {
 				let item = encodeURIComponent(JSON.stringify(this.itemShows[index]))
 				uni.navigateTo({
@@ -136,18 +152,16 @@
 
 			confirmDel() {
 				let index = this.delIndex
-				this.$request.request({
-					url: '/api/file/del',
-					data: {
-						fileid: this.delId,
-					},
-					method: 'GET',
+				this.$api.fileEdit({
+					fileid: this.delId,
 				}).then(res => {
 					this.itemShows.splice(index, 1);
 					this.items.splice(index, 1)
 				})
 				this.delShow = false
-				this.$u.toast(`删除成功`);
+				this.$refs.uToast({
+					title:`删除成功`
+				})
 			},
 
 			cancel() {

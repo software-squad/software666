@@ -1,4 +1,5 @@
-import service from "../api/request.js"
+import service from "./request.js"
+import request from "./easy_request.js"
 
 export function menuSendData(data) {
 	return service.request({
@@ -9,7 +10,8 @@ export function menuSendData(data) {
 }
 
 export function loginSendData(data) {
-	return service.request({
+	// return service.request({
+		return request.request({
 		method: 'POST',
 		url: '/api/login',
 		//url:'https://www.fastmock.site/mock/c8376d6981ddc3969681a61793cc783d/api/login',
@@ -127,6 +129,7 @@ export function jobAddSendData(data) {
 }
 
 
+// TODO 命名组合驼峰
 export function userSendData(data) {
 	return service.request({
 		method: 'POST',
@@ -134,3 +137,110 @@ export function userSendData(data) {
 		data: data
 	})
 }
+
+
+// ============================================= 我的
+
+export function fileEdit(data) {
+	return request.request({
+		url: '/api/file/edit',
+		method: 'POST',
+		data: data
+	})
+}
+
+export function fileShowMany() {
+	return request.request({
+		url: '/api/file/showmany',
+		method: 'GET',
+	})
+}
+
+export function fileDel(data) {
+	return request.request({
+		url: '/api/file/del',
+		data: data,
+		method: 'GET',
+	})
+}
+export function staffOneByUseridSendData(data) {
+	console.log(data)
+	return request.request({
+		method: 'GET',
+		url: '/api/staff/oneByUserid',
+		data: data
+	})
+}
+
+export function staffDelData(data) {
+	return request.request({
+		method: 'GET',
+		url: '/api/staff/del',
+		data: data
+	})
+}
+
+export function staffShowUserByDeptAndJob(data) {
+	return request.request({
+		method: 'POST',
+		url: "/api/staff/showUserByDeptAndJob",
+		data: data
+	})
+}
+
+export function staffIndex() {
+	return request.request({
+		url: '/api/staff/index',
+		method: "GET",
+	})
+}
+
+export function staffEditByUserid(data) {
+	return request.request({
+		url: "/api/staff/editByUserid",
+		data: data,
+		method: 'GET',
+	})
+}
+
+
+export function staffEditSubmit(data) {
+	return request.request({
+		url: "/api/staff/editSubmit",
+		data: data,
+		method: 'POST'
+	})
+}
+
+export function staffAdd(data) {
+	return request.request({
+		url: "/api/staff/add",
+		data:data,
+		method: 'POST'
+	})
+}
+
+export function staffShowUserByUsername(data) {
+	return request.request({
+		url: '/api/staff/showUserByUsername',
+		data: data,
+		method: 'GET',
+	})
+}
+
+					
+export default {
+	fileEdit: fileEdit,
+	fileShowMany: fileShowMany,
+	fileDel:fileDel,
+	staffOneByUseridSendData: staffOneByUseridSendData,
+	staffDelData: staffDelData,
+	staffShowUserByDeptAndJob: staffShowUserByDeptAndJob,
+	staffIndex: staffIndex,
+	staffEditByUserid: staffEditByUserid,
+	staffEditSubmit: staffEditSubmit,
+	staffAdd:staffAdd,
+	staffShowUserByUsername:staffShowUserByUsername,
+	
+	
+};

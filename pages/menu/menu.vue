@@ -48,12 +48,16 @@
 						</u-button>
 					</u-row>
 					</view>
-		<u-tabbar :list="tabbar0" ></u-tabbar>
+		<u-tabbar :list="tabBerList" :mid-button="midBtn" active-color="#5098FF" inactive-color="#909399"
+			:border-top=false bg-color="#F8F8F8"></u-tabbar>
 	</view>
 
 </template>
 
 <script>
+	import {
+		mapGetters
+	} from 'vuex'
 	import {
 		sendThis
 	} from "../../api/request.js"
@@ -90,6 +94,12 @@
 					},
 				],
 			}
+		},
+		computed: {
+			...mapGetters([
+				'tabBerList',
+				'midBtn'
+			])
 		},
 		onLoad() {
 			sendThis(this)

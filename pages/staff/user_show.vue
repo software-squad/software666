@@ -30,8 +30,6 @@
 				</view>
 			</view>
 		</view>
-		<u-modal v-model="delShow" :content="delContent" :show-cancel-button="true" :async-close="true"
-			@confirm="confirmDel"></u-modal>
 	</view>
 
 </template>
@@ -40,7 +38,8 @@
 	export default {
 		data() {
 			return {
-				delShow: false,
+				item:null,
+				delShow: false, 
 				delContent: '',
 				delIndex: '',
 				searchResults: [],
@@ -59,24 +58,44 @@
 				],
 			};
 		},
+		// 增加员工
+		onNavigationBarButtonTap: function(e) {
+			uni.navigateTo({
+				url: '/pages/staff/add'
+			})
+			// TODO 返回刷新
+		},
 		onLoad: function(item) {
-			console.log('根据部门和职业搜索员工')
-			console.log(item)
+			// console.log('根据部门和职业搜索员工',item)
 			uni.setNavigationBarTitle({
 				title: item.jobname
 			})
-			this.$request.request({
-				url: "/api/staff/showUserByDeptAndJob",
-				data: {
+			// 后端申请
+			this.parm = item
+			this.myReload(item)
+		},
+		onPullDownRefresh() {
+			// 监听下拉刷新动作的执行方法，每次手动下拉刷新都会执行一次
+			// FIXME 这个会清除返回信息
+			// // #ifdef H5
+			// window.location.reload()
+			// // #endif
+			this.myReload(this.parm)
+			setTimeout(function() {
+				uni.stopPullDownRefresh(); //停止下拉刷新动画
+			}, 1000);
+		},
+		methods: {
+			// 获取页面渲染信息
+			myReload(item){
+				this.$api.staffShowUserByDeptAndJob({
 					deptid: item.deptid,
 					jobid: item.jobid
-				},
-				method:'POST',
-				}).then(res=>{
+				}).then(res => {
 					this.searchResults = res.data.data
 					for (var i in this.searchResults) {
 						this.searchResults[i].show = false
-						if(!this.searchResults[i].remark){
+						if (!this.searchResults[i].remark) {
 							this.searchResults[i].remark = '无详细描述'
 						}
 						if (!this.searchResults[i].faceurl) {
@@ -90,8 +109,9 @@
 						}
 					}
 				})
-		},
-		methods: {
+			},
+			
+			// 点击进入
 			gotoOne(userid) {
 				uni.navigateTo({
 					url: '../staff/one?userid=' + userid

@@ -1,27 +1,28 @@
 <template>
 	<view>
-			<u-gap height="40"></u-gap>
-			<u-field v-model="item.title" label="标题" placeholder="取个标题吧" label-align="center" label-width="150" >
-			</u-field>
-			<u-gap height="40"></u-gap>
-			<u-field type="textarea" v-model="item.remark" label="描述" placeholder="说点什么吧" label-align="center" label-width="150">
-			</u-field>
-			<!-- <u-gap height="15" bg-color="#f9f9f9"></u-gap> -->
-			<!-- <view>
+		<u-gap height="40"></u-gap>
+		<u-field v-model="item.title" label="标题" placeholder="取个标题吧" label-align="center" label-width="150">
+		</u-field>
+		<u-gap height="40"></u-gap>
+		<u-field type="textarea" v-model="item.remark" label="描述" placeholder="说点什么吧" label-align="center"
+			label-width="150">
+		</u-field>
+		<!-- <u-gap height="15" bg-color="#f9f9f9"></u-gap> -->
+		<!-- <view>
 				<u-action-sheet :list="list" v-model="show" @click="click"></u-action-sheet>
 				<u-button @click="show = true">选择文件</u-button>
 			</view> -->
-	
-			<!-- <uni-file-picker fileMediatype="all" :list-styles="listStyle" limit="1" autoUpload='false' @select="select"
+
+		<!-- <uni-file-picker fileMediatype="all" :list-styles="listStyle" limit="1" autoUpload='false' @select="select"
 				@progress="progress" @success="success" @fail="fail" ref='files' />
 			<u-gap height="15" bg-color="#f9f9f9"></u-gap> -->
-			
-			<view class="sub_com">
-				<u-button class="sub_bott" @click="submit" type="primary">提交</u-button>
-			</view>
-			<u-toast ref="uToast"/>
-	
+
+		<view class="sub_com">
+			<u-button class="sub_bott" @click="submit" type="primary">提交</u-button>
 		</view>
+		<u-toast ref="uToast" />
+
+	</view>
 </template>
 
 <script>
@@ -64,11 +65,7 @@
 		},
 		methods: {
 			submit() {
-				this.$request.request({
-						url: '/api/file/edit',
-						method: 'POST',
-						data: this.item
-					})
+				this.$api.fileEdit(this.item)
 					.then((res) => {
 						console.log('服务器请求结果', res)
 						this.$refs.uToast.show({
@@ -80,8 +77,8 @@
 						})
 						setTimeout(uni.redirectTo({
 							url: '/pages/file/show'
-						}), 3000 )
-						
+						}), 3000)
+
 					})
 					.catch((error) => {
 						console.log(error);
@@ -103,18 +100,18 @@
 				this.item.filename = parm.filename
 				this.item.remark = parm.remark
 				this.item.filepath = parm.filepath
-				
+
 				// #ifdef H5
-					this.item.userid = sessionStorage.getItem('userid')
-					this.item.username = sessionStorage.getItem('username')
+				this.item.userid = sessionStorage.getItem('userid')
+				this.item.username = sessionStorage.getItem('username')
 				// #endif
 				// #ifndef H5
-					this.item.userid = uni.getStorageSync('userid')
-					this.item.username = uni.getStorageSync('userid')
+				this.item.userid = uni.getStorageSync('userid')
+				this.item.username = uni.getStorageSync('userid')
 				// #endif
-				
+
 				uni.setNavigationBarTitle({
-					title:this.item.title
+					title: this.item.title
 				})
 			} else {
 				this.$u.toast('点击为空')

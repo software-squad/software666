@@ -2,11 +2,10 @@ import util from "./util.js"
 
 const request = (config) => {
 	// 处理 apiUrl  
-	// config.url = util.easyRequestUrl + config.url;  // => 已经进行跨域处理
+	config.url = util.easyRequestUrl + config.url;  // => 已经进行跨域处理
 	console.log('封装请求中',config.url)
-	// console.log('判断中',config.url.indexOf('login'))
 	if (config.url.indexOf('login') < 0) { // 非登录请求
-		console.log('非登录请求')
+		console.log('非登录请求，token验证中')
 		let token=""
 		// let userid = -1
 		// #ifdef H5
@@ -21,19 +20,19 @@ const request = (config) => {
 		// console.log('请求userid',userid)
 		
 		// FIXME 根据token测试
-		// if(!token){
-		// 	console.log('重定向',token)
-		// 	// 添加重定向提示
-		// 	uni.showToast({
-		// 		title: '您尚未登录',
-		// 		icon: 'none',
-		// 		duration: 4000
-		// 	});
-		// 	uni.redirectTo({
-		// 		url: '/pages/login/login',
-		// 	})
-		// 	return;
-		// }
+		if(!token){
+			console.log('重定向',token)
+			// 添加重定向提示
+			uni.showToast({
+				title: '您尚未登录',
+				icon: 'none',
+				duration: 4000
+			});
+			uni.redirectTo({
+				url: '/pages/login/login',
+			})
+			return;
+		}
 		
 		config.header = {
 			'token': token
@@ -162,14 +161,12 @@ const showError = (res) => {
 					icon: 'none',
 					duration: 4000
 				});
-				if (token == '') {
-					setTimeout(() => {
-						//去我的页面登录
-						uni.redirectTo({
-							url: '/pages/login'
-						})
-					}, 1500)
-				}
+				setTimeout(() => {
+					//去我的页面登录
+					uni.redirectTo({
+						url: '/pages/login'
+					})
+				}, 1500)
 				break
 			default:
 				break

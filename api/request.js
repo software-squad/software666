@@ -1,4 +1,6 @@
 import axios from "axios";
+import util from "./util.js"
+
 let vm = null;
 
 export function sendThis(_this){
@@ -8,7 +10,8 @@ export function sendThis(_this){
 //创建axios，赋给变量service
 const BASEURL = process.env.NODE_ENV === "production" ? "" : "/";
 const service = axios.create({
-    baseURL: 'http://192.168.0.117:8082/', //http://localhost:8080/devApi =='http://www.web-jshtml.cn/productapi'
+    // baseURL: 'http://4097n16y34.zicp.vip:80/', //http://localhost:8080/devApi =='http://www.web-jshtml.cn/productapi'
+	baseURL: util.requestBaseUrl, // 统一管理
     timeout: 15000, //超时时间，最好设大一点，不然请求接口时间如果超过超时时间就会无法返回
     headers: {
         "X-Custom-Header": "foobar",
@@ -24,7 +27,25 @@ service.interceptors.request.use(
         //业务需求
         //向请求头添加参数： config.headers['userId']='xxx'
         //为请求头对象，添加token验证的Authorization字段
-        config.headers.token = sessionStorage.getItem("token");
+		console.log('request...传输数据',config)
+		let token = null
+		if(config.url.indexOf('login')<0){  // 非登录请求
+			
+			token= sessionStorage.getItem("token");
+			if(!token){
+				uni.showToast({
+					title: '您尚未登录',
+					icon: 'none',
+					duration: 4000
+				});
+				uni.redirectTo({
+					url: '/pages/login/login',
+				})
+				return;
+			}
+		}
+		
+        config.headers.token = token
 		// console.log(config.headers.token);
         return config;
     },
