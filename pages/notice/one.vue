@@ -1,3 +1,4 @@
+<!-- 管理员单个公告展示界面 -->
 <template>
 	<view>
 		<u-toast ref="uToast" />
@@ -46,12 +47,12 @@
 			}
 		},
 		onLoad: function(option) {
+			sendThis(this)
 			this.item = JSON.parse(decodeURIComponent(option.item));
-			console.log("noticeOne")
 			console.log(this.item.title); //打印出上个页面传递的参数。
 			console.log(this.item.content); //打印出上个页面传递的参数。
 			uni.setNavigationBarTitle({
-				title: this.item.title,
+				title: this.item.title
 			})
 		},
 		methods: {
@@ -68,65 +69,12 @@
 			cancel() {
 				this.show = false;
 			},
-			// navToEdit() {
-			// 	uni.navigateTo({
-			// 		url: 'edit?item=' + encodeURIComponent(JSON.stringify(this.item))
-			// 	})
-			// 	console.log(this.item.title)
-			// 	console.log(this.item.content)
-			// },
-			// navToShow() {
-			// 	uni.navigateTo({
-			// 		url: 'show?item=' + encodeURIComponent(JSON.stringify(this.item))
-			// 	})
-			// 	console.log(this.item.title)
-			// 	console.log(this.item.content)
-			// },
-
-			showDeletSuccessToast() {
-				this.$refs.uToast.show({
-					title: '删除成功',
-					type: 'success'
-				})
-			},
-			showEditSuccessToast() {
-				this.$refs.uToast.show({
-					title: '编辑成功',
-					type: 'success'
-				})
-			},
-			showDeletFalseToast() {
-				this.$refs.uToast.show({
-					title: '删除失败',
-					type: 'false'
-				})
-			},
-			showEditFalseToast() {
-				this.$refs.uToast.show({
-					title: '编辑失败',
-					type: 'false'
-				})
-			},
 			submit() {
-				let data = {
-					noticeid: this.item.noticeid,
-					title: this.item.title,
-					content: this.item.content,
-					createdate: this.item.createdate,
-					userid: this.item.userid,
-					username: this.item.username,
-				}
-				noticeEditSendData(data)
-					.then((response) => {
-						this.showEditSuccessToast();
-						uni.navigateTo({
-							url: 'edit?item=' + encodeURIComponent(JSON.stringify(this.item))
-						})
-					})
-					.catch((error) => {
-						console.log(error);
-						this.showEditFalseToast();
-					})
+				// BUG 关闭当前页面跳转
+				uni.navigateTo({
+					url: 'edit?item=' + encodeURIComponent(JSON.stringify(this.item))
+				})
+				// })
 			},
 
 			delet() {
@@ -135,14 +83,18 @@
 				}
 				noticeDeletSendData(data)
 					.then((response) => {
-						this.showDeletSuccessToast();
+						// 返回上一页并刷新的方法
+						let pages = getCurrentPages(); // 当前页面
+						let beforePage = pages[pages.length - 2]; // 上一页
 						uni.navigateBack({
-							url: '/pages/notice/show'
-						})
+							success: function() {
+								console.log("返回上一页并刷新")
+								beforePage.submit() // 执行上一页的onLoad方法
+							}
+						});
 					})
 					.catch((error) => {
 						console.log(error);
-						this.showDeletFalseToast();
 					})
 			},
 

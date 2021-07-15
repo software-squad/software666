@@ -13,23 +13,23 @@ const request = (config) => {
 
 		// FIXME 根据token测试
 		if (!token) {
-			console.log('重定向', token)
+			// console.log('重定向', token)
 			// 添加重定向提示
 			uni.showToast({
 				title: '您尚未登录',
 				icon: 'none',
 				duration: 4000
 			});
-			uni.redirectTo({
+			uni.reLaunch({
 				url: '/pages/login/login',
 			})
 			return;
 		}
-
+		
 		// 请求头设置
 		config.header = {
 			'token': token,
-			'userid': uni.getStorageSync('userid')
+			'userid':uni.getStorageSync('userid')
 			// 'userid':sessionStorage.getItem('userid')
 			// 'content-type':'application/x-www-form-urlencoded'
 		}
@@ -61,7 +61,7 @@ const request = (config) => {
 			},
 			// 请求失败
 			fail: (error) => {
-				console.log("服务器请求失败", error)
+				// console.log("服务器请求失败", error)
 				uni.showToast({
 					title: '服务器请求失败',
 					icon: 'none',
@@ -97,11 +97,11 @@ const showError = (res) => {
 				});
 				break
 			case 403:
-				uni.showToast({
-					title: '您没有操作权限',
-					icon: 'none',
-					duration: 4000
-				});
+			uni.showToast({
+				title: '您没有操作权限',
+				icon: 'none',
+				duration: 4000
+			});
 				// uni.showModal({
 				// 	title: '登录已过期',
 				// 	content: '很抱歉，登录已过期，请重新登录',
@@ -113,7 +113,7 @@ const showError = (res) => {
 				// 			// sessionStorage.setItem("token", '')
 				// 			uni.setStorageSync('token', '')
 				// 			//去我的页面登录
-				// 			uni.redirectTo({
+				// 			uni.reLaunch({
 				// 				url: '/pages/login/login'
 				// 			})
 				// 		} else if (res.cancel) {
@@ -158,7 +158,7 @@ const showError = (res) => {
 				});
 				setTimeout(() => {
 					//去我的页面登录
-					uni.redirectTo({
+					uni.reLaunch({
 						url: '/pages/login'
 					})
 				}, 1500)

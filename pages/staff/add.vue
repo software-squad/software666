@@ -95,7 +95,7 @@
 </template>
 
 <script>
-	import MD5 from "../../api/md5.js"
+	import {MD5} from "../../api/md5.js"
 	import util from "../../api/util.js"
 	export default {
 		data() {
@@ -124,7 +124,59 @@
 				posList: [],
 
 				// 表单验证
-				rules: util.addRule,
+				rules: {
+					username: [{
+						required: true,
+						message: '姓名不能为空',
+						trigger: ['change', 'blur']
+					}, ],
+					cardid: [{
+						type: 'number',
+						message: '身份证号码格式不正确',
+						trigger: ['change', 'blur']
+					}, {
+						len: 18,
+						message: '身份证号码为18位',
+						trigger: ['change', 'blur']
+					}, ],
+					sex: // Not Null
+						[{
+							required: true,
+							message: '性别不能为空',
+							trigger: ['change', 'blur']
+						}, ],
+					email: [{
+						type: 'email',
+						message: "邮箱格式不正确",
+						trigger: ['change', 'blur']
+					}, ],
+					tel: // Not Null
+						[{
+							required: true,
+							message: '手机号码不能为空',
+							trigger: ['change', 'blur']
+						}, {
+							// 自定义验证函数，见上说明
+							validator: (rule, value, callback) => {
+								// 上面有说，返回true表示校验通过，返回false表示不通过
+								// this.$u.test.mobile()就是返回true或者false的
+								return this.$u.test.mobile(value);
+							},
+							message: '手机号码格式不正确',
+							// 触发器可以同时用blur和change
+							trigger: ['change', 'blur'],
+						}, ],
+					qqnum: [{
+						type: 'number',
+						message: "QQ号码格式不正确",
+						trigger: ['change', 'blur']
+					}, ],
+					postcode: [{
+						type: 'number',
+						message: "邮编格式不正确",
+						trigger: ['change', 'blur']
+					}, ]
+				},
 				// 表单验证错误提示
 				errorType: ['message'], // 文字提示
 
@@ -199,9 +251,13 @@
 				this.$refs.uForm.validate(valid => {
 					// console.log("正在提交表单",this.form)
 					if (valid) {
-						this.form.password = MD5(this.form.password) // 密码md5加密
+						// console.log('密码',this.form.password)
+						let pwd = MD5(this.form.password) // 密码md5加密
+						this.form.password = pwd
+						// console.log('密码',this.form.password)
 						this.form.address = this.rangeAddress + this.detailAddress // 地址组合验证
-						// TODO 默认头像  保密|男|女
+						// console.log('地址',this.form.address)
+						// 默认头像  保密|男|女
 						if(this.form.facepath=="/static/头像.svg"){
 							if (this.form.sex == '男') {
 								this.form.facepath = '/static/boy1.svg'
@@ -209,7 +265,8 @@
 								this.form.facepath = '/static/girl1.svg'
 							}
 						}
-						this.$api.staffAdd(...this.form)
+						// console.log("头像",this.form.facepath)
+						this.$api.staffAdd({...this.form})
 							.then(res => {
 								if (res.data.msg == 10001) { // 异常码验证
 									this.$refs.uToast.show({
@@ -217,8 +274,17 @@
 										type: 'success',
 									})
 									// 添加时限逻辑。避免猛地返回
+									let pages = getCurrentPages(); // 当前页面（index = pages.length）
+									let beforePage = pages[pages.length - 2]; // 上一个页面
+									// 一定时间后返回
 									setTimeout(() => {
-										uni.navigateBack()
+										uni.navigateBack({
+											delta:1,
+											success: function() {
+												console.log("返回上一页并刷新")
+												beforePage.myReload() // 执行上一页的onLoad方法
+											}
+										});
 									}, 1000)
 								}
 								// easy_request会有提示框，无需toast

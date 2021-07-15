@@ -1,5 +1,7 @@
+<!-- 普通用户单个公告展示界面 -->
 <template>
 	<view>
+		<!-- 根据所点击公告内容动态改变公告标题和内容 -->
 		<u-toast ref="uToast" />
 		<uni-group title="公告标题" top="20">
 			<view>{{item.title}}</view>
@@ -40,7 +42,7 @@
 			sendThis(this)
 			this.item = JSON.parse(decodeURIComponent(option.item));
 			console.log("noticeOne")
-			console.log(this.item.title); //打印出上个页面传递的参数。
+			console.log(this.item.title);   //打印出上个页面传递的参数。
 			console.log(this.item.content); //打印出上个页面传递的参数。
 		},
 		methods: {
@@ -51,90 +53,6 @@
 					type: TYPE.toString(),
 				})
 			},
-			// open() {
-			// 	this.show = true;
-			// },
-			// cancel() {
-			// 	this.show = false;
-			// },
-			// navToEdit() {
-			// 	uni.navigateTo({
-			// 		url: 'edit?item=' + encodeURIComponent(JSON.stringify(this.item))
-			// 	})
-			// 	console.log(this.item.title)
-			// 	console.log(this.item.content)
-			// },
-			// navToShow() {
-			// 	uni.navigateTo({
-			// 		url: 'show?item=' + encodeURIComponent(JSON.stringify(this.item))
-			// 	})
-			// 	console.log(this.item.title)
-			// 	console.log(this.item.content)
-			// },
-
-			// showDeletSuccessToast() {
-			// 	this.$refs.uToast.show({
-			// 		title: '删除成功',
-			// 		type: 'success'
-			// 	})
-			// },
-			// showEditSuccessToast() {
-			// 	this.$refs.uToast.show({
-			// 		title: '编辑成功',
-			// 		type: 'success'
-			// 	})
-			// },
-			// showDeletFalseToast() {
-			// 	this.$refs.uToast.show({
-			// 		title: '删除失败',
-			// 		type: 'false'
-			// 	})
-			// },
-			// showEditFalseToast() {
-			// 	this.$refs.uToast.show({
-			// 		title: '编辑失败',
-			// 		type: 'false'
-			// 	})
-			// },
-			// submit() {
-			// 	let data = {
-			// 		noticeid: this.item.noticeid,
-			// 		title: this.item.title,
-			// 		content: this.item.content,
-			// 		createdate: this.item.createdate,
-			// 		userid: this.item.userid,
-			// 		username: this.item.username,
-			// 	}
-			// 	noticeEditSendData(data)
-			// 		.then((response) => {
-			// 			this.showEditSuccessToast();
-			// 			uni.navigateTo({
-			// 				url: 'edit?item=' + encodeURIComponent(JSON.stringify(this.item))
-			// 			})
-			// 		})
-			// 		.catch((error) => {
-			// 			console.log(error);
-			// 			this.showEditFalseToast();
-			// 		})
-			// },
-
-			// delet() {
-			// 	let data = {
-			// 		noticeid: this.item.noticeid,
-			// 	}
-			// 	noticeDeletSendData(data)
-			// 		.then((response) => {
-			// 			this.showDeletSuccessToast();
-			// 			uni.navigateTo({
-			// 				url: '/pages/notice/show'
-			// 			})
-			// 		})
-			// 		.catch((error) => {
-			// 			console.log(error);
-			// 			this.showDeletFalseToast();
-			// 		})
-			// },
-
 		}
 	}
 </script>

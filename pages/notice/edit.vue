@@ -1,3 +1,4 @@
+<!-- 公告编辑界面 -->
 <template>
 	<view class="noticeEdit">
 		<u-toast ref="uToast" />
@@ -14,7 +15,7 @@
 			<u-row gutter="20">
 				<u-modal v-model="show" :content="content1" :show-cancel-button="true" @confirm="submit"
 					@cancel="cancel"></u-modal>
-				<button @click="open" type="primary">发布</button>
+				<button @click="open" type="primary">提交</button>
 			</u-row>
 		</u-col>
 	</view>
@@ -44,6 +45,7 @@
 			}
 		},
 		onLoad: function(option) {
+			sendThis(this)
 			this.item = JSON.parse(decodeURIComponent(option.item));
 			console.log(this.item.title); //打印出上个页面传递的参数。
 			console.log(this.item.content); //打印出上个页面传递的参数。
@@ -56,31 +58,15 @@
 					type: TYPE.toString(),
 				})
 			},
+			//打开确认是否发布的弹窗
 			open() {
 				this.show = true;
 			},
+			//取消编辑，弹窗消失
 			cancel() {
 				this.show = false;
 			},
-			// navToShow() {
-			// 	uni.redirectTo({
-			// 		url: 'show?item=' + encodeURIComponent(JSON.stringify(this.item))
-			// 	})
-			// 	console.log(this.item.title)
-			// 	console.log(this.item.content)
-			// },
-			showSuccessToast() {
-				this.$refs.uToast.show({
-					title: '发布成功',
-					type: 'success'
-				})
-			},
-			showFalseToast() {
-				this.$refs.uToast.show({
-					title: '发布失败',
-					type: 'false'
-				})
-			},
+			//确认编辑
 			submit() {
 				let data = {
 					noticeid: this.item.noticeid,
@@ -92,16 +78,21 @@
 				}
 				noticeEditSendData(data)
 					.then((response) => {
-						this.showSuccessToast();
+						// 返回上一页并刷新的方法
+						let pages = getCurrentPages(); // 当前页面
+						let beforePage = pages[pages.length-3]; // 上上页
+						// TODO
 						uni.navigateBack({
 							delta: 2,
 							url: '/pages/notice/show',
-
-						})
+							success: function() {
+								console.log("返回上一页并刷新")
+								beforePage.submit() // 执行上一页的onLoad方法
+							}
+						});
 					})
 					.catch((error) => {
 						console.log(error);
-						this.showFalseToast();
 					})
 			},
 

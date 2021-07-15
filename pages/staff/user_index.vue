@@ -40,7 +40,9 @@
 	</view>
 </template>
 <script>
-	import {mapGetters} from 'vuex'
+	import {
+		mapGetters
+	} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -81,14 +83,14 @@
 			// 点击搜索事件
 			navToSearchByUsername() {
 				uni.navigateTo({
-					url: './search',
+					url: './user_search',
 				})
 			},
 			
 			// 点击职业
 			navToSearchByDeptAndJob(dept, job) {
 				uni.navigateTo({
-					url: '/pages/staff/show?deptid=' + dept.value + "&jobid=" + job.value + "&jobname=" + job.label
+					url: '/pages/staff/user_show?deptid=' + dept.value + "&jobid=" + job.value + "&jobname=" + job.label
 				})
 			},
 			

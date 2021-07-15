@@ -1,3 +1,4 @@
+<!-- 公告添加界面 -->
 <template>
 	<view>
 		<u-toast ref="uToast" />
@@ -42,7 +43,9 @@
 				List: [],
 			}
 		},
-		onLoad() {},
+		onLoad() {
+			sendThis(this)
+		},
 		methods: {
 			//showToast方法，实现异常码弹窗
 			showToast(TITLE, TYPE) {
@@ -51,32 +54,15 @@
 					type: TYPE.toString(),
 				})
 			},
+			//打开确认是否发布的弹窗
 			open() {
 				this.show = true;
 			},
+			//取消发布，弹窗消失
 			cancel() {
 				this.show = false;
 			},
-			// navToShow() {
-			// 	uni.redirectTo({
-			// 		url: 'show?item=' + encodeURIComponent(JSON.stringify(this.item))
-			// 	})
-			// 	console.log(this.item.title)
-			// 	console.log(this.item.content)
-			// },
-
-			showSuccessToast() {
-				this.$refs.uToast.show({
-					title: '发布成功',
-					type: 'success'
-				})
-			},
-			showFalseToast() {
-				this.$refs.uToast.show({
-					title: '发布失败',
-					type: 'false'
-				})
-			},
+			//确认发布
 			submit() {
 				let data = {
 					//noticeid: this.noticeid,
@@ -89,14 +75,22 @@
 				}
 				noticeAddSendData(data)
 					.then((response) => {
-						this.showSuccessToast();
+						// 返回上一页并刷新的方法
+						let pages = getCurrentPages(); // 当前页面
+						let beforePage = pages[pages.length - 2]; // 上一页就是show页面
+						// console.log(pages);
+						// console.log(beforePage);
+						
 						uni.navigateBack({
-							url: '/pages/notice/show'
-						})
+							// url: '/pages/notice/show',
+							success: function() {
+								console.log("返回上一页并刷新")
+								beforePage.submit() // 执行上一页的onLoad方法
+							}
+						});
 					})
 					.catch((error) => {
 						console.log(error);
-						this.showFalseToast();
 					})
 			},
 

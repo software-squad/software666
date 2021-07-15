@@ -1,3 +1,4 @@
+<!-- 管理员公告展示界面 -->
 <template>
 	<view class="whole">
 		<u-toast ref="uToast" />
@@ -42,11 +43,11 @@
 				// userid: '',
 			}
 		},
-		computed: {},
 		onLoad() {
 			sendThis(this)
 			this.submit()
 		},
+		//顶部导航栏加号跳转页面
 		onNavigationBarButtonTap: function(e) {
 			uni.navigateTo({
 				url: "add"
@@ -60,25 +61,19 @@
 					type: TYPE.toString(),
 				})
 			},
+			//跳转到单个公告展示页面
 			navToOne(index) {
 				this.item = this.List[index]
+				// TODO 记得检验一下逻辑
 				uni.navigateTo({
 					url: 'one?item=' + encodeURIComponent(JSON.stringify(this.item))
 				})
-				console.log(this.item.title);
-				console.log(this.item.content);
+				// console.log(this.item.title);  //打印出上个页面传递的参数。
+				// console.log(this.item.content);//打印出上个页面传递的参数。
 			},
 
-			submit() {
-				let data = {
-					noticeid: this.item.noticeid,
-					title: this.item.title,
-					content: this.item.content,
-					createdate: this.item.createdate,
-					userid: this.item.userid,
-					username: this.item.username,
-				}
-				noticeShowGetData(data)
+			submit:function(){
+				noticeShowGetData()
 					.then((response) => {
 						this.List = []
 						for (let i = 0; i < response.data.data.length; i++) {

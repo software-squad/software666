@@ -140,7 +140,60 @@
 				},
 
 				// 表单验证
-				rules: util.editRule,
+				rules: {
+					username: [{
+						required: true,
+						message: '姓名不能为空',
+						trigger: ['change', 'blur']
+					}, ],
+					cardid: [{
+						type: 'number',
+						message: '身份证号码格式不正确',
+						trigger: ['change', 'blur']
+					}, {
+						len: 18,
+						message: '身份证号码为18位',
+						trigger: ['change', 'blur']
+					}, ],
+					sex: // Not Null
+						[{
+							required: true,
+							message: '性别不能为空',
+							trigger: ['change', 'blur']
+						}, ],
+					email: [{
+						type: 'email',
+						message: "邮箱格式不正确",
+						trigger: ['change', 'blur']
+					}, ],
+					tel: // Not Null
+						[{
+							required: true,
+							message: '手机号码不能为空',
+							trigger: ['change', 'blur']
+						}, {
+							// 自定义验证函数，见上说明
+							validator: (rule, value, callback) => {
+								// 上面有说，返回true表示校验通过，返回false表示不通过
+								// this.$u.test.mobile()就是返回true或者false的
+								return this.$u.test.mobile(value);
+							},
+							message: '手机号码格式不正确',
+							// 触发器可以同时用blur和change
+							trigger: ['change', 'blur'],
+						}, ],
+					qqnum: [{
+						type: 'number',
+						message: "QQ号码格式不正确",
+						trigger: ['change', 'blur']
+					}, ],
+					
+					postcode: [{
+						type: 'number',
+						message: "邮编格式不正确",
+						trigger: ['change', 'blur']
+					}, ]
+				},
 				// 表单验证错误提示
 				errorType: ['message'], // 文字提示
 			}
@@ -190,7 +243,7 @@
 					if (valid) {
 						console.log("正在提交表单", this.form)
 						this.form.address = this.rangeAddress + this.detailAddress
-						this.$api.staffEditSubmit(...this.form)
+						this.$api.staffEditSubmit({...this.form})
 							.then(res => {
 								// 10005 更新成功
 								if (res.data.msg == 10005) {
@@ -199,8 +252,17 @@
 										type: 'success',
 									})
 									// 添加时限逻辑。避免猛地返回
+									let pages = getCurrentPages(); // 当前页面（index = pages.length）
+									let beforePage = pages[pages.length - 2]; // 上一个页面
+									// 一定时间后返回
 									setTimeout(() => {
-										uni.navigateBack()
+										uni.navigateBack({
+											delta:1,
+											success: function() {
+												console.log("返回上一页并刷新")
+												beforePage.myReload() // 执行上一页的onLoad方法
+											}
+										});
 									}, 1000)
 								}
 								// easy_request会有提示框，无需toast

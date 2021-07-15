@@ -105,8 +105,17 @@
 							// back :true,
 							// url: '/pages/file/show'
 						})
+						let pages = getCurrentPages(); // 当前页面（index = pages.length）
+						let beforePage = pages[pages.length - 2]; // 上一个页面
+						// 一定时间后返回
 						setTimeout(() => {
-							uni.navigateBack()
+							uni.navigateBack({
+								delta:1,
+								success: function() {
+									console.log("返回上一页并刷新")
+									beforePage.myReload() // 执行上一页的onLoad方法
+								}
+							});
 						}, 1000)
 					},
 					fail: (err) => {

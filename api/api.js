@@ -1,5 +1,6 @@
-import service from "./request.js"
-import request from "./easy_request.js"
+// 调用封装好的service对象，统一管理请求后端的接口，便于修改和更新
+import service from "../api/request.js"
+import request from "../api/easy_request.js"
 
 export function menuSendData(data) {
 	return service.request({
@@ -11,7 +12,6 @@ export function menuSendData(data) {
 
 export function loginSendData(data) {
 	return service.request({
-		// return request.request({
 		method: 'POST',
 		url: '/api/login',
 		//url:'https://www.fastmock.site/mock/c8376d6981ddc3969681a61793cc783d/api/login',
@@ -22,7 +22,7 @@ export function loginSendData(data) {
 export function noticeShowGetData(data) {
 	return service.request({
 		method: 'GET',
-		url: '/api/notice/showmany',
+		url: '/api/notice/showNotices',
 		//url:'https://www.fastmock.site/mock/c8376d6981ddc3969681a61793cc783d/api/notice/showmany',
 		data: data
 	})
@@ -58,7 +58,7 @@ export function noticeAddSendData(data) {
 export function changePwdSendData(data) {
 	return service.request({
 		method: 'POST',
-		url: '/api/user/changepwd',
+		url: '/api/user/changePwd',
 		//url: 'https://www.fastmock.site/mock/c8376d6981ddc3969681a61793cc783d/api/user/changepwd',
 		data: data
 	})
@@ -67,7 +67,7 @@ export function changePwdSendData(data) {
 export function deptShowSendData(data) {
 	return service.request({
 		method: 'GET',
-		url: '/api/dept/showAll',
+		url: '/api/dept/showDepts',
 		data: data
 	})
 }
@@ -99,7 +99,7 @@ export function deptAddSendData(data) {
 export function jobShowSendData(data) {
 	return service.request({
 		method: 'GET',
-		url: '/api/job/show',
+		url: '/api/job/showJobs',
 		data: data
 	})
 }
@@ -129,7 +129,6 @@ export function jobAddSendData(data) {
 }
 
 
-// TODO 命名组合驼峰
 export function userSendData(data) {
 	return service.request({
 		method: 'POST',
@@ -137,9 +136,6 @@ export function userSendData(data) {
 		data: data
 	})
 }
-
-
-// ============================================= 我的
 
 export function fileEdit(data) {
 	return request.request({
@@ -213,9 +209,10 @@ export function staffEditSubmit(data) {
 }
 
 export function staffAdd(data) {
+	console.log('进来了',data)
 	return request.request({
 		url: "/api/staff/add",
-		data:data,
+		data: data,
 		method: 'POST'
 	})
 }
@@ -228,19 +225,19 @@ export function staffShowUserByUsername(data) {
 	})
 }
 
-					
+
 export default {
 	fileEdit: fileEdit,
 	fileShowMany: fileShowMany,
-	fileDel:fileDel,
+	fileDel: fileDel,
 	staffOneByUseridSendData: staffOneByUseridSendData,
 	staffDelData: staffDelData,
 	staffShowUserByDeptAndJob: staffShowUserByDeptAndJob,
 	staffIndex: staffIndex,
 	staffEditByUserid: staffEditByUserid,
 	staffEditSubmit: staffEditSubmit,
-	staffAdd:staffAdd,
-	staffShowUserByUsername:staffShowUserByUsername,
-	
-	
+	staffAdd: staffAdd,
+	staffShowUserByUsername: staffShowUserByUsername,
+
+
 };

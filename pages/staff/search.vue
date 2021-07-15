@@ -86,7 +86,7 @@
 		},
 
 		onPullDownRefresh() {
-			this.getSearchList()
+			this.myReload()
 			setTimeout(function() {
 				uni.stopPullDownRefresh(); //停止下拉刷新动画
 			}, 1000);
@@ -108,13 +108,13 @@
 				// 动态搜索
 				clearTimeout(this.timer)
 				this.timer = setTimeout(() => {
-					this.getSearchList()
+					this.myReload()
 				}, 500)
 			},
 
 			// enter触发或点击搜索触发搜索事件
 			search() {
-				this.getSearchList()
+				this.myReload()
 				this.saveSearchHistory()
 			},
 
@@ -122,11 +122,11 @@
 			gotoUserList(kw) {
 				console.log("点击搜索历史标签" + kw)
 				this.kw = kw
-				this.getSearchList()
+				this.myReload()
 			},
 
 			// 获取搜索列表
-			getSearchList() {
+			myReload() {
 				// console.log("获取搜索列表")
 				// 判断搜索关键词是否为空
 				if (this.kw.length === 0) {
@@ -218,7 +218,7 @@
 					// ==========点击编辑==========
 					this.searchResults[index].show = false
 					uni.navigateTo({
-						url: '/pages/staff/edit?item=' + this.searchResults[index].userid,
+						url: '/pages/staff/edit?userid=' + this.searchResults[index].userid,
 					})
 					this.$forceUpdate()
 					// TODO 

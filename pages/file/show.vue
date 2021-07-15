@@ -55,17 +55,18 @@
 			// // #ifdef H5
 			// window.location.reload()
 			// // #endif
+			// TODO 编辑后必须重新获取数据，这里为啥刷新不了
 			console.log('开始刷新')
 			this.myReload()
 			// FIXME 这里的时限控制貌似不太成功诶
 			setTimeout(function() {
 				uni.stopPullDownRefresh(); //停止下拉刷新动画
 				console.log('刷新结束')
-			}, 4000);
+			}, 1000);
 		},
 
 		onLoad() {
-			this.myReLoad()
+			this.myReload()
 		},
 
 		onNavigationBarButtonTap() {
@@ -76,8 +77,9 @@
 
 		methods: {
 			// 自定义加载页面参数
-			myReLoad() {
+			myReload() {
 				// 获取文档列表
+				// console.log('文件刷新成功啦')
 				this.$api.fileShowMany().then(res => {
 					// 异常码判断
 					if (res.data.msg == "10007") {
@@ -93,7 +95,7 @@
 					}
 				}).catch(err => {})
 			},
-			
+
 			// 文件查看
 			navToOne(index) {
 				let item = encodeURIComponent(JSON.stringify(this.itemShows[index]))
@@ -101,7 +103,7 @@
 					url: 'one?item=' + item
 				})
 			},
-			
+
 			// 文件搜索
 			search() {
 				if (this.searchFileTitle == "") {
@@ -125,8 +127,10 @@
 					this.delId = this.itemShows[index].fileid
 				} else {
 					// 编辑功能
-					itemShows[index].show = false
-					                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+					this.itemShows[index].show = false
+					uni.navigateTo({
+						url: '/pages/file/edit?item=' + encodeURIComponent(JSON.stringify(this.itemShows[index]))
+					})
 					this.$forceUpdate() // 页面强制渲染
 				}
 			},
@@ -149,22 +153,34 @@
 				this.$api.fileDel({
 					fileid: this.delId,
 				}).then(res => {
+					console.log('回调成功')
 					if (res.data.msg == 10003) {
-						this.itemShows.splice(index, 1);
-						this.items.splice(index, 1)
+						// TODO 删除会重复index
+						console.log('删除成功啦')
+						for (var i in this.itemShows) {
+							if (this.itemShows[i].fileid == this.delId) {
+								this.itemShows.splice(i, 1);
+								console.log('itemShows删除了第',i,'个')
+							}
+							if (this.items[i].fileid == this.delId) {
+								this.items.splice(i, 1);
+								console.log('items删除了第',i,'个')
+							}
+						}
 						this.$refs.uToast({
 							title: `删除成功`
 						})
+						this.myReload()
 					}
 				})
 				this.delShow = false
 			},
-			
+
 			// 取消文件删除
 			cancel() {
 				this.delShow = false;
 				this.itemShows[this.delIndex].show = false;
-				this.$forceUpdate()  // 页面强制渲染
+				this.$forceUpdate() // 页面强制渲染
 			}
 
 		}

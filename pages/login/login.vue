@@ -21,7 +21,6 @@
 		<u-col span="400">
 			<u-row gutter="20">
 				<button @click="submit" type="primary">登录</button>
-				<button @click="submit" type="default">刷脸</button>
 			</u-row>
 		</u-col>
 	</view>
@@ -65,18 +64,8 @@
 					type: TYPE.toString(),
 				})
 			},
-			showFalseToast() {
-							this.$refs.uToast.show({
-								title: '用户名或密码错误',
-								type: 'false',
-							})
-						},
 			showSuccessToast() {
-				this.$refs.uToast.show({
-					title: '登录成功',
-					type: 'success',
-				})
-
+		
 				uni.setStorageSync("userid", this.userid)
 				uni.setStorageSync("token", this.token)
 				uni.setStorageSync("username", this.username)
@@ -98,11 +87,7 @@
 			submit() {
 				let data = {
 					loginname: this.loginname,
-					//password: this.password,
-					password: MD5(this.password),
-					// userid: this.userid,
-					// status: this.status,
-					// remember: this.remember,
+					password: MD5(this.password),//对password进行md5加密
 				}
 				loginSendData(data)
 					.then((response) => {
@@ -112,15 +97,6 @@
 						this.username = response.data.data.username;
 						console.log(this.status)
 						this.showSuccessToast();
-						// if (this.status) {
-						// 	uni.switchTab({
-						// 		url: '/pages/menu/menu'
-						// 	})
-						// } else {
-						// 	uni.switchTab({
-						// 		url: '/pages/menu/user_menu'
-						// 	})
-						// }
 						if (this.status) {
 							this.$store.commit('tabBer/add', tabber.testBBar)
 							console.log(this.$store.getters.tabBerList)
@@ -137,22 +113,11 @@
 					})
 					.catch((error) => {
 						console.log(error);
-						this.showFalseToast();
 						uni.redirectTo({
 							url: '/pages/login/login'
 						})
 					})
 			},
-			//监听账号输入操作,如果输入账号，自动输入密码
-			// change() {
-			// 	let loginname = this.loginname
-			// 	let password = JSON.parse(localStorage.getItem("password"))
-			// 	if (remember) {
-			// 		this.password = password
-			// 	}
-			// },
-			// checkboxChange(e) {
-			// 	console.log(e);
 		},
 	}
 </script>

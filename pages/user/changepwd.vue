@@ -22,6 +22,9 @@
 
 <script>
 	import {
+		MD5
+	} from "../../api/md5.js"
+	import {
 		changePwdSendData
 	} from "../../api/api.js"
 	import {
@@ -37,40 +40,27 @@
 				confirmpwd: ''
 			}
 		},
+		// 页面加载时
 		onLoad: function(option) {
+			// 将当前页面的this传给request
 			sendThis(this)
-			this.imageSrc = JSON.parse(decodeURIComponent(option.pic));
-			// this.userid = sessionStorage.getItem("userid");
-			this.userid = uni.getStorageSync("userid");
+			// 获取带参跳转的图片路径
+			this.imageSrc = JSON.parse(decodeURIComponent(option.pic))
+			// 获取存在前端的userid
+			this.userid = sessionStorage.getItem("userid")
 		},
 		methods: {
+			// 拦截器调用显示错误码
 			showToast(TITLE, TYPE) {
 				this.$refs.uToast.show({
-					title: TITLE.toString(),
-					type: TYPE.toString(),
+					title: String(TITLE),
+					type: String(TYPE),
 				})
 			},
-			// showFalseToast() {
-			// 				this.$refs.uToast.show({
-			// 					title: '修改失败',
-			// 					type: 'error',
-			// 				})
-			// },
-			// showSuccessToast() {
-			// 				this.$refs.uToast.show({
-			// 					title: '修改成功',
-			// 					type: 'success'
-			// 				})
-			// },
-			showWarningToast() {
-				this.$refs.uToast.show({
-					title: '两次输入的新密码不一致',
-					type: 'error'
-				})
-			},
+			// 先验证两次密码是否一致
 			confirm() {
 				if (this.confirmpwd != this.newpwd) {
-					this.showWarningToast();
+					this.showToast('两次输入的密码不一致','error');
 					this.oldpwd = '';
 					this.newpwd = '';
 					this.confirmpwd = '';
@@ -78,29 +68,24 @@
 					this.submit();
 				}
 			},
+			// 若一致，将账号密码发至后端，在回调中将token存入前端
 			submit() {
 				let data = {
 					userid: this.userid,
-					oldpwd: this.oldpwd,
-					newpwd: this.newpwd,
+					oldpwd: MD5(this.oldpwd),
+					newpwd:  MD5(this.newpwd),
 				}
 				changePwdSendData(data)
 					.then((response) => {
-						// this.showToast()
-						// this.showSuccessToast()
-						uni.navigateTo({
-							url: "user"
-						})
+						uni.navigateBack()
 					})
 					.catch((error) => {
 						console.log(error);
-						// this.showFalseToast()
 					})
 			},
+			// 点击取消回到user页面
 			cancel() {
-				uni.navigateTo({
-					url: "user"
-				})
+				uni.navigateBack()
 			}
 
 		}

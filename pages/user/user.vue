@@ -36,6 +36,7 @@
 		sendThis
 	} from "../../api/request.js"
 	export default {
+
 		data() {
 			return {
 				faceurl: '',
@@ -47,26 +48,7 @@
 				tel: '',
 				deptname: '',
 				jobname: '',
-				tabbar0: [{
-						iconPath: "/static/tab_icons/home.png",
-						selectedIconPath: "/static/tab_icons/homeHL.png",
-						text: '首页',
-						pagePath: "/pages/menu/menu"
-					},
-					{
-						iconPath: "/static/tab_icons/人员.png",
-						selectedIconPath: "/static/tab_icons/人员HL.png",
-						text: '员工中心',
-						pagePath: "/pages/staff/show"
-					},
-					{
-						iconPath: "/static/tab_icons/user.png",
-						selectedIconPath: "/static/tab_icons/userHL.png",
-						text: '我的',
-						pagePath: "/pages/user/user"
 
-					},
-				],
 			}
 		},
 		computed: {
@@ -75,63 +57,76 @@
 				'midBtn'
 			])
 		},
+		// 页面加载时
 		onLoad() {
+			// 将当前页面的this传到request.js
 			sendThis(this)
-			// this.userid = sessionStorage.getItem('userid')
+			// 获取前端存储的uerid
+			console.log(this.userid)
 			this.userid = uni.getStorageSync('userid')
-			this.$api.staffOneByUseridSendData({
-				userid:this.userid
-			}).then((response) => {
-					this.faceurl = response.data.data.faceurl,
-						this.username = response.data.data.username,
-						this.sex = response.data.data.sex,
-						this.tel = response.data.data.tel,
-						this.deptname = response.data.data.deptname,
-						this.jobname = response.data.data.jobname
-					// UPDATE 判断性别
-					if (!this.faceurl) {
-						if (this.sex == '男') {
-							this.faceurl = '/static/boy1.svg'
-						} else if (this.sex == '女') {
-							this.faceurl = '/static/girl1.svg'
-						} else {
-							this.faceurl = '/static/头像.svg'
-						}
-					}
-				})
-				.catch((error) => {
-					console.log(error);
-				})
+			console.log(this.userid)
+			// 根据userid获取userinfo
+			this.GetInfo()
 		},
 		methods: {
+			// 根据userid获取userinfo
+			GetInfo() {
+				this.$api.staffOneByUseridSendData({
+						userid: this.userid
+					}).then((response) => {
+						this.faceurl = response.data.data.faceurl,
+							this.username = response.data.data.username,
+							this.sex = response.data.data.sex,
+							this.tel = response.data.data.tel,
+							this.deptname = response.data.data.deptname,
+							this.jobname = response.data.data.jobname
+						// UPDATE 判断性别
+						if (!this.faceurl) {
+							if (this.sex == '男') {
+								this.faceurl = '/static/boy1.svg'
+							} else if (this.sex == '女') {
+								this.faceurl = '/static/girl1.svg'
+							} else {
+								this.faceurl = '/static/头像.svg'
+							}
+						}
+					})
+					.catch((error) => {
+						console.log(error);
+					})
+			},
+			// 拦截器调用展示msg信息
 			showToast(TITLE, TYPE) {
 				this.$refs.uToast.show({
 					title: TITLE.toString(),
 					type: TYPE.toString(),
 				})
 			},
-
+			// 带参跳转到修改密码页面
 			changePwd() {
-				console.log('123')
 				uni.navigateTo({
 					url: "../user/changepwd?pic=" + encodeURIComponent(JSON.stringify(this.faceurl))
 				})
 			},
+			// 点击离开后弹窗消失
 			exit() {
 				this.show = true;
 			},
+			// 确认离开后跳转到登陆界面，并将token删除
 			confirmExit() {
-				// #ifdef H5
 				sessionStorage.clear()
-				// #endif
 				uni.clearStorageSync()
+				console.log('用户退出后，当前userid=',uni.getStorageSync('userid'))
+				// 这里必须是关掉所有页面回到login
 				uni.reLaunch({
-					url:"../login/login"
+					url: "../login/login"
 				})
 			},
+			// 点击取消后弹窗消失
 			cancel() {
 				this.show = false;
 			}
+
 		}
 	}
 </script>

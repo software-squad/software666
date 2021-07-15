@@ -1,4 +1,4 @@
-//md5.js
+//md5.js   MD5加密
 var MD5 = function (string) {
 
     function RotateLeft(lValue, iShiftBits) {

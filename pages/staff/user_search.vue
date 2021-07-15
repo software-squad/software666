@@ -5,7 +5,7 @@
 		<view class="u-search-box">
 			<u-sticky bg-color="#fafafa">
 				<u-search v-model='kw' :show-action="true" action-text="搜索" :animation="true" placeholder='请输入员工姓名'
-					@search='getSearchList' @custom='getSearchList' @change="change">
+					@search='myReload' @custom='myReload' @change="change">
 				</u-search>
 			</u-sticky>
 		</view>
@@ -85,7 +85,7 @@
 		},
 
 		onPullDownRefresh() {
-			this.getSearchList()
+			this.myReload()
 			setTimeout(function() {
 				uni.stopPullDownRefresh(); //停止下拉刷新动画
 			}, 1000);
@@ -107,13 +107,13 @@
 				// 动态搜索
 				clearTimeout(this.timer)
 				this.timer = setTimeout(() => {
-					this.getSearchList()
+					this.myReload()
 				}, 500)
 			},
 
 			// enter触发或点击搜索触发搜索事件
 			search() {
-				this.getSearchList()
+				this.myReload()
 				this.saveSearchHistory()
 			},
 
@@ -121,11 +121,11 @@
 			gotoUserList(kw) {
 				console.log("点击搜索历史标签" + kw)
 				this.kw = kw
-				this.getSearchList()
+				this.myReload()
 			},
 
 			// 获取搜索列表
-			getSearchList() {
+			myReload() {
 				// console.log("获取搜索列表")
 				// 判断搜索关键词是否为空
 				if (this.kw.length === 0) {

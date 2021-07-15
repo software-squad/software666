@@ -1,3 +1,4 @@
+<!-- 普通用户公告展示界面 -->
 <template>
 	<view class="whole">
 		<u-toast ref="uToast" />
@@ -19,11 +20,23 @@
 				<u-tag :text="item.createdate" type="info" mode="plain" shape="circle"/>
 			</view>
 		</view>
+		<!-- 自定义tabbar -->
+		<u-tabbar
+			:list="tabBerList"
+			:mid-button="midBtn"
+			active-color="#5098FF"
+			inactive-color="#909399"
+			:border-top= false
+			bg-color = "#F8F8F8"
+		></u-tabbar>
 	</view>
 </template>
 
-
 <script>
+	//import mapGetters函数 用于自定义tabbar
+	import {
+		mapGetters
+	} from 'vuex'
 	//import sendThis 函数，实现拦截器统一拦截msg码弹窗
 	import {
 		sendThis
@@ -36,18 +49,20 @@
 			return {
 				item: '',
 				List: [],
-				//noticeid: '',
-				// title: '',
-				// content: '',
-				// createdate: '',
-				// userid: '',
 			}
 		},
-		computed: {},
-		onLoad() {
-			this.submit()
-			sendThis(this)
+		//自定义tabbar
+		computed: {
+			...mapGetters([
+				'tabBerList',
+				'midBtn'
+			])
 		},
+		onLoad() {
+			sendThis(this)
+			this.submit()
+		},
+		//顶部导航栏加号跳转页面
 		onNavigationBarButtonTap: function(e) {
 			uni.navigateTo({
 				url: "add"
@@ -61,13 +76,14 @@
 					type: TYPE.toString(),
 				})
 			},
+			//跳转到单个公告展示页面
 			navToOne(index) {
 				this.item = this.List[index]
 				uni.navigateTo({
-					url: 'user_one?item=' + encodeURIComponent(JSON.stringify(this.item))
+					url: 'one?item=' + encodeURIComponent(JSON.stringify(this.item))
 				})
-				console.log(this.item.title);
-				console.log(this.item.content);
+				console.log(this.item.title);  //打印出上个页面传递的参数。
+				console.log(this.item.content);//打印出上个页面传递的参数。
 			},
 
 			submit() {
@@ -156,3 +172,4 @@
 	}
 	.avatar-item {}
 </style>
+

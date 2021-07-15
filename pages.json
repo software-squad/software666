@@ -36,13 +36,6 @@
 			}
 
 		}, {
-			"path": "pages/login/facelogin",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
 			"path": "pages/staff/show",
 			"style": {
 				"navigationBarTitleText": "搜索结果",
@@ -368,35 +361,14 @@
 		}
 
 	},
-	// "tabBar": {
-	// 	"color": "#8a8a8a",
-	// 	"selectedColor": "#d4237a",
-	// 	"borderStyle": "black",
-	// 	"backgroundColor": "#ffffff",
-	// 	"list": [
-
-	// 		{
-	// 			"pagePath": "pages/menu/menu",
-	// 			"text": "首页"
-	// 		},
-	// 		{
-	// 			"pagePath": "pages/staff/index",
-	// 			"text": "广场"
-	// 		}, {
-	// 			"pagePath": "pages/user/home",
-	// 			"text": "个人"
-	// 		}
-	// 	]
-	// },
+	
 	"tabBar": {
 		"selectedColor": "#52a500",
 		"backgroundColor": "#fafafa",
 		"borderStyle": "black",
 		"list": [{
 				"pagePath": "pages/menu/menu"
-				// "text": "",
-				// "iconPath": "static/tab_icons/home.png",
-				// "selectedIconPath": "static/tab_icons/homeHL.png"
+
 			},
 			{
 				"pagePath": "pages/staff/index"
