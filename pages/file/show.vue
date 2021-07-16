@@ -20,7 +20,7 @@
 				</u-row>
 				<u-row>
 					<u-col span="12">
-						<view class="remark-item" style="float: left;">{{item.filename}}</view>
+						<view class="remark-item" style="float: left;">{{item.remark}}</view>
 					</u-col>
 				</u-row>
 				<u-gap height="10"></u-gap>
@@ -85,8 +85,14 @@
 					if (res.data.msg == "10007") {
 						this.items = res.data.data
 						this.itemShows = res.data.data
+						
 						for (var i in this.itemShows) {
+							var str = this.itemShows[i].filename.split(14)
+							console.log('字符串切片',str)
+							this.itemShows[i].filename = str
+							this.items[i].filename = str
 							this.itemShows[i].show = false
+							this.items[i].show = false
 						}
 					} else {
 						this.$refs.uToast({

@@ -179,7 +179,6 @@
 		font-size: 30rpx;
 		position: absolute;
 		bottom: 0rpx;
-
 	}
 
 	.sub_bott {

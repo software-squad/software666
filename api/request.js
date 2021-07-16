@@ -120,6 +120,12 @@ service.interceptors.response.use(
 				case 10012:
 					pointer.showToast('密码不正确', 'error')
 					break;
+				case 10013:
+					pointer.showToast('账户名已存在', 'error')
+					break
+				case 10014:
+					pointer.showToast('您没有操作权限', 'error')
+					break
 				default:
 					pointer.showToast('未知错误', 'error')
 			}

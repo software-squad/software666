@@ -219,6 +219,13 @@ const showError = (res) => {
 					duration: 4000
 				});
 				break
+			case 10014:
+				uni.showToast({
+					title: '您没有操作权限',
+					icon: 'none',
+					duration: 4000
+				});
+				break
 		}
 	}
 	return null

@@ -77,7 +77,10 @@
 				}
 				changePwdSendData(data)
 					.then((response) => {
-						uni.navigateBack()
+						this.showToast('修改成功','success');
+						setTimeout(() => {
+							uni.navigateBack();
+						}, 1000)
 					})
 					.catch((error) => {
 						console.log(error);

@@ -86,7 +86,7 @@
 				'midBtn'
 			])
 		},
-		onLoad() {
+		onShow() {
 			sendThis(this)
 			this.submit()
 		},

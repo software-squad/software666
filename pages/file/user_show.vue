@@ -21,7 +21,7 @@
 				</u-row>
 				<u-row>
 					<u-col span="12">
-						<view class="remark-item" style="float: left;">{{item.filename}}</view>
+						<view class="remark-item" style="float: left;">{{item.remark}}</view>
 					</u-col>
 				</u-row>
 				<u-gap height="10"></u-gap>
