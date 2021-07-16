@@ -25,10 +25,11 @@
 					<!-- 确认是否提交的模态框 -->
 					<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="confirm"
 						@cancel="cancel"></u-modal>
-					<button @click="submit">提交</button>
+					<u-button @click="submit" shape="circle" class="custom-style">提交</u-button>
 				</u-row>
 			</u-col>
 		</view>
+		<u-gap height="30"></u-gap>
 	</view>
 </template>
 
@@ -118,5 +119,13 @@
 	.title {
 		font-size: larger;
 		font-weight: bold;
+	}
+	.custom-style {
+		color: #ffffff;
+		background-color: #0167ff;
+		font-weight: 550;
+		font-size: larger;
+		width: 100%;
+		height: 90rpx;
 	}
 </style>

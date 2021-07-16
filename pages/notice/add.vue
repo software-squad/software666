@@ -2,12 +2,13 @@
 <template>
 	<view>
 		<u-toast ref="uToast" />
+		<view class="whole">
 		<u-gap height="40"></u-gap>
-		<text>公告标题</text>
+		<text class="title">公告标题</text>
 		<u-gap height="10"></u-gap>
 		<u-input type="text" :border="true" placeholder="请输入文档标题" v-model="title" />
 		<u-gap height="30"></u-gap>
-		<text>公告内容</text>
+		<text class="title">公告内容</text>
 		<u-gap height="10"></u-gap>
 		<u-input type="textarea" height="700" :border="true" placeholder="请输入文档描述" v-model="content" />
 		<u-gap height="80"></u-gap>
@@ -15,9 +16,10 @@
 			<u-row gutter="20">
 				<u-modal v-model="show" :content="content1" :show-cancel-button="true" @confirm="submit"
 					@cancel="cancel"></u-modal>
-				<button @click="open" type="primary">发布</button>
+				<u-button @click="open" type="primary" shape="circle" class="custom-style">发布</u-button>
 			</u-row>
 		</u-col>
+		</view>
 	</view>
 </template>
 
@@ -99,5 +101,20 @@
 </script>
 
 <style>
-
+	.whole{
+		margin: 0 50rpx;
+	}
+	.title{
+		font-size: larger;
+		font-weight: bold;
+	}
+	.custom-style {
+			color: #ffffff;
+			background-color: #0167ff;
+			font-weight: 550;
+			font-size: larger;
+			width: 100%;
+			height: 90rpx;
+		}
 </style>
+

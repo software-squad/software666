@@ -15,7 +15,7 @@
 			<u-row gutter="20">
 				<u-modal v-model="show" :content="content1" :show-cancel-button="true" @confirm="submit"
 					@cancel="cancel"></u-modal>
-				<button @click="open" type="primary">提交</button>
+				<u-button @click="open" type="primary" shape="circle" class="custom-style">发布</u-button>
 			</u-row>
 		</u-col>
 	</view>
@@ -80,7 +80,7 @@
 					.then((response) => {
 						// 返回上一页并刷新的方法
 						let pages = getCurrentPages(); // 当前页面
-						let beforePage = pages[pages.length-3]; // 上上页
+						let beforePage = pages[pages.length - 3]; // 上上页
 						// TODO
 						uni.navigateBack({
 							delta: 2,
@@ -101,11 +101,21 @@
 </script>
 
 <style>
-.noticeEdit{
-	margin: 0 50rpx;
-}
-.title{
- 		font-size: larger;
- 		font-weight: bold;
- 	}
+	.noticeEdit {
+		margin: 0 50rpx;
+	}
+
+	.title {
+		font-size: larger;
+		font-weight: bold;
+	}
+
+	.custom-style {
+		color: #ffffff;
+		background-color: #0167ff;
+		font-weight: 550;
+		font-size: larger;
+		width: 100%;
+		height: 90rpx;
+	}
 </style>

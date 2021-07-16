@@ -355,7 +355,9 @@
 	}
 
 	.form-button {
-		width: min-content
+		width: 100%;
+		font-size: larger;
+		font-weight: 550;
 	}
 
 	.form-box {
@@ -363,3 +365,4 @@
 		/* margin: 0 50rpx; */
 	}
 </style>
+

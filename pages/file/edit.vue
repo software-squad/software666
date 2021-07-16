@@ -22,7 +22,7 @@
 			<u-gap height="15" bg-color="#f9f9f9"></u-gap> -->
 
 		<view class="sub_com">
-			<u-button class="sub_bott" @click="submit" type="primary">提交</u-button>
+			<u-button class="sub_bott" @click="submit" type="primary" shape="circle">提交</u-button>
 		</view>
 		<u-toast ref="uToast" />
 
@@ -144,13 +144,16 @@
 		font-size: 30rpx;
 		position: absolute;
 		bottom: 0rpx;
-
+	
 	}
-
+	
 	.sub_bott {
-		width: 60%;
 		margin-bottom: 50rpx;
-		/* background-color:#fed404;
-  color:#343537; */
+		color: #ffffff;
+		background-color: #0167ff;
+		font-weight: 550;
+		font-size: larger;
+		width: 100%;
+		height: 90rpx;
 	}
 </style>

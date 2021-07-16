@@ -21,7 +21,7 @@
  			<u-col span="400">
  				<u-row gutter="20">
  					<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="confirm" @cancel="cancel"></u-modal>
- 					<button @click="submit" type="primary">提交</button>
+ 					<u-button @click="submit" type="primary" shape="circle" class="custom-style">提交</u-button>
  				</u-row>
  			</u-col>
  		</view>
@@ -137,6 +137,13 @@
  		font-size: larger;
  		font-weight: bold;
  	}
- 
+ 	.custom-style {
+ 		width: 100%;
+ 		color: #ffffff;
+ 		background-color: #0167ff;
+ 		font-weight: 550;
+ 		font-size: larger;
+ 		height: 90rpx;
+ 	}
  </style>
  

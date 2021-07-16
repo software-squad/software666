@@ -20,7 +20,7 @@
 
 		<u-col span="400">
 			<u-row gutter="20">
-				<button @click="submit" type="primary">登录</button>
+				<u-button @click="submit" type="primary" class="custom-style">登录</u-button>
 			</u-row>
 		</u-col>
 	</view>
@@ -158,5 +158,10 @@
 		// border-style: solid;
 		margin: 100rpx 0rpx 30rpx 30rpx;
 		height: 150rpx;
+	}
+	.custom-style{
+		font-size: larger;
+		font-weight: bold;
+		width:100%;
 	}
 </style>

@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="whole">
 
 		<u-field v-model="item.title" label="标题" placeholder="取个标题吧" label-align="center">
 		</u-field>
@@ -17,11 +17,8 @@
 		<uni-file-picker fileMediatype="all" :list-styles="listStyle" limit="1" :autoUpload="false" @select="select"
 			@progress="progress" @success="success" @fail="fail" ref='files' />
 		<u-gap height="15" bg-color="#f9f9f9"></u-gap>
-
-		<view class="sub_com">
-			<u-button class="sub_bott" @click="submit" type="primary">上传</u-button>
-		</view>
-
+		<u-gap height="200"></u-gap>
+		<u-button class="sub_bott" @click="submit" type="primary">上传</u-button>
 		<u-toast ref="uToast" />
 	</view>
 </template>
@@ -171,6 +168,10 @@
 </script>
 
 <style>
+	.whole {
+		margin: 0 50rpx;
+	}
+
 	.sub_com {
 		width: 100%;
 		display: flex;
@@ -179,12 +180,18 @@
 		font-size: 30rpx;
 		position: absolute;
 		bottom: 0rpx;
+
 	}
 
 	.sub_bott {
-		width: 80%;
 		margin-bottom: 50rpx;
+		color: #ffffff;
+		background-color: #0167ff;
+		font-weight: 550;
+		font-size: larger;
+		width: 100%;
+		height: 90rpx;
 		/* background-color:#fed404;
-  color:#343537; */
+	color:#343537; */
 	}
 </style>

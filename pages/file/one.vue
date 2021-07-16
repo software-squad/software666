@@ -40,11 +40,10 @@
 
 		onLoad: function(option) {
 			// console.log('文件信息带参跳转', option)
-			
+
 			if (option) {
 				this.item = JSON.parse(decodeURIComponent(option.item));
 				console.log('基础url：', util.dowloadBaseUrl)
-				console.log('现有文件',this.item)
 				this.fileLink = util.dowloadBaseUrl + this.item.fileid
 				uni.setNavigationBarTitle({
 					title: this.item.title
@@ -74,5 +73,6 @@
 	.tagStyle {
 		margin-left: 10rpx;
 		margin-top: 20rpx;
+		font-size: larger;
 	}
 </style>

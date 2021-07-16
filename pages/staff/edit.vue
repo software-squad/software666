@@ -351,11 +351,13 @@
 		text-align: center;
 		padding: 20rpx 0 0 0;
 	}
-
+	
 	.form-button {
-		width: min-content
+		width: 100%;
+		font-size: larger;
+		font-weight: 550;
 	}
-
+	
 	.form-box {
 		margin: 20rpx;
 	}

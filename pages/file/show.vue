@@ -20,7 +20,7 @@
 				</u-row>
 				<u-row>
 					<u-col span="12">
-						<view class="remark-item" style="float: left;">{{item.remark}}</view>
+						<view class="remark-item">简介:{{item.remark}}</view>
 					</u-col>
 				</u-row>
 				<u-gap height="10"></u-gap>
@@ -247,13 +247,11 @@
 	}
 
 	.remark-item {
-		font-size: larger;
-		font-style: oblique;
-		color: #699df3;
+		font-size: large;
+		color: #a8a7ab;
 		float: left;
 		text-align: justify;
 		padding-left: 10rpx;
-		/* padding-left: -60rpx; */
 	}
 
 	.avatar-item {}

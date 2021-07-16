@@ -3,12 +3,10 @@
 	<view>
 		<!-- 根据所点击公告内容动态改变公告标题和内容 -->
 		<u-toast ref="uToast" />
-		<uni-group title="公告标题" top="20">
-			<view>{{item.title}}</view>
-		</uni-group>
-		<uni-group title="公告内容" top="20">
-			<view>{{item.content}}</view>
-		</uni-group>
+		<u-gap height="20"></u-gap>
+		<view class="noticeOne">
+			<text class="title">公告内容</text>
+			</view>
 	</view>
 
 </template>
@@ -58,5 +56,12 @@
 </script>
 
 <style>
-
+	.noticeOne{
+		margin: 0 50rpx;
+	}
+	.title{
+		font-size: larger;
+		font-weight: bold;
+		/* margin-left: 260rpx; */
+	}
 </style>

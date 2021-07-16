@@ -17,11 +17,11 @@
 			</u-cell-group>
 		</view>
 		<view class="userBtn">
-			<u-button @click="changePwd">修改密码</u-button>
+			<u-button @click="changePwd" shape="circle" class="custom-style">修改密码</u-button>
 			<u-gap height="20"></u-gap>
 			<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="confirmExit"
 				@cancel="cancel"></u-modal>
-			<u-button type="error" @click="exit">退出登录</u-button>
+			<u-button type="error" @click="exit" shape="circle" class="custom1-style">退出登录</u-button>
 		</view>
 		<u-tabbar :list="tabBerList" :mid-button="midBtn" active-color="#5098FF" inactive-color="#909399"
 			:border-top=false bg-color="#F8F8F8"></u-tabbar>
@@ -147,5 +147,21 @@
 
 	.userBtn {
 		padding: 75rpx;
+	}
+
+	.custom-style {
+		color: #ffffff;
+		background-color: #0167ff;
+		font-weight: 550;
+		font-size: larger;
+		width: 100%;
+		height: 90rpx;
+	}
+
+	.custom1-style {
+		font-size: larger;
+		font-weight: 550;
+		width: 100%;
+		height: 90rpx;
 	}
 </style>

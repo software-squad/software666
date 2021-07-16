@@ -12,14 +12,14 @@
 			<u-gap height="30"></u-gap>
 			<u-input type="password" :border="true" v-model="confirmpwd" placeholder="请再次输入新密码" />
 			<u-gap height="180"></u-gap>
+			<u-row>
+				<u-button type="primary" @click="confirm" shape="circle" class="custom-style">确认</u-button>
+				<u-button type="error" @click="cancel" shape="circle" class="custom1-style">取消</u-button>
+			</u-row>
 		</view>
-		<u-row>
-			<u-button type="primary" @click="confirm">确认</u-button>
-			<u-button type="error" @click="cancel">取消</u-button>
-		</u-row>
+
 	</view>
 </template>
-
 <script>
 	import {
 		MD5
@@ -77,10 +77,7 @@
 				}
 				changePwdSendData(data)
 					.then((response) => {
-						this.showToast('修改成功','success');
-						setTimeout(() => {
-							uni.navigateBack();
-						}, 1000)
+						uni.navigateBack()
 					})
 					.catch((error) => {
 						console.log(error);
@@ -100,12 +97,24 @@
 		align-items: center;
 		display: flex;
 		justify-content: center;
-	}
-
-	,
+	},
 	.password {
 		align-items: center;
 		width: 100%;
 		padding: 0 50rpx;
+	}
+	.custom-style {
+		color: #ffffff;
+		background-color: #0167ff;
+		font-weight: 550;
+		font-size: larger;
+		width: 50%;
+		height: 90rpx;
+	}
+	.custom1-style {
+		font-size: larger;
+		font-weight: 550;
+		width: 50%;
+		height: 90rpx;
 	}
 </style>

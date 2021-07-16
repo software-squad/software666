@@ -24,7 +24,7 @@
  				<u-row gutter="20">
  					<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="confirm"
  						@cancel="cancel"></u-modal>
- 					<button @click="submit" type="primary" class="but">提交</button>
+ 					<u-button @click="submit" type="primary" shape="circle" class="custom-style">提交</u-button>
  				</u-row>
  			</u-col>
  			<u-gap height="30"></u-gap>
@@ -131,19 +131,27 @@
  	.jobOne {
  		margin: 0 50rpx;
  	}
-
+ 	
  	.title {
  		font-size: larger;
  		font-weight: bold;
  	}
-	
-	.info-item {
-		font-size: large;
-		font-style: normal;
-		float: left;
-		font-weight:500;
-		text-align: left;
-		padding-left: 10rpx;
-		/* border-style: solid;  /* TODO */
-	}
+ 	
+ 	.info-item {
+ 		font-size: large;
+ 		font-style: normal;
+ 		float: left;
+ 		font-weight:500;
+ 		text-align: left;
+ 		padding-left: 10rpx;
+ 		/* border-style: solid;  /* TODO */
+ 	}
+ 	.custom-style {
+ 			color: #ffffff;
+ 			background-color: #0167ff;
+ 			font-weight: 550;
+ 			font-size: larger;
+ 			width: 100%;
+ 			height: 90rpx;
+ 		}
  </style>

@@ -2,9 +2,9 @@
 	<view>
 			<u-toast ref="uToast" />
 			<view class="jobOne">
-				<u-gap height="30"></u-gap>
+				<u-gap height="20"></u-gap>
 				<text class="title">所属部门</text>
-				<u-gap height="30"></u-gap>
+				<u-gap height="40"></u-gap>
 				<text>{{item.deptname}}</text>
 				<u-line color="#bbb" />
 				<u-gap height="30"></u-gap>

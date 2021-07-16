@@ -2,21 +2,24 @@
 <template>
 	<view>
 		<u-toast ref="uToast" />
-		<uni-group title="公告标题" top="20">
-			<view>{{item.title}}</view>
-		</uni-group>
-		<uni-group title="公告内容" top="20">
-			<view>{{item.content}}</view>
-		</uni-group>
+		<u-gap height="20"></u-gap>
+		<view class="noticeOne">
+			<text class="title">公告内容</text>
+			<u-gap height="60"></u-gap>
+			<text style="font-size: larger; height: 200;">{{item.content}}</text>
+			<u-gap height="40" ></u-gap>
+			<u-line color="#bbb" />
+			<u-gap height="100" ></u-gap>
 
 		<u-col span="400" justify="center">
 			<u-row gutter="20">
-				<button @click="submit" type="primary">编辑</button>
+				<u-button @click="submit" type="primary" shape="circle" class="custom-style">编辑</u-button>
 				<u-modal v-model="show" :content="content1" :show-cancel-button="true" @confirm="delet"
 					@cancel="cancel"></u-modal>
-				<button @click="open" type="warn">删除</button>
+				<u-button @click="open" type="error" shape="circle" class="custom1-style">删除</u-button>
 			</u-row>
 		</u-col>
+		</view>
 	</view>
 
 </template>
@@ -103,5 +106,34 @@
 </script>
 
 <style>
-
+	.noticeOne{
+		margin: 0 50rpx;
+	}
+	.name{
+		text-align: center;
+		margin-left: 285rpx;
+		font-size: larger;
+		font-weight: 550;
+	}
+	.title{
+		font-size: larger;
+		font-weight: bold;
+		/* margin-left: 260rpx; */
+	}
+	.custom-style {
+		color: #ffffff;
+		background-color: #0167ff;
+		font-weight: 550;
+		font-size: larger;
+		width: 50%;;
+		height: 90rpx;
+	}
+	.custom1-style {
+		color: #241c32;
+		background-color: #e6e6e6;
+		font-size: larger;
+		font-weight: 550;
+		width: 50%;
+		height: 90rpx;
+	}
 </style>

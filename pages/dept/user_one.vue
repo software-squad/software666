@@ -71,5 +71,7 @@
 	.title {
 		font-size: larger;
 		font-weight: bold;
+		margin-left: 260rpx;
 	}
 </style>
+

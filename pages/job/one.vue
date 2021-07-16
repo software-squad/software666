@@ -2,7 +2,7 @@
 	<view>
 			<u-toast ref="uToast" />
 			<view class="jobOne">
-				<u-gap height="30"></u-gap>
+				<u-gap height="20"></u-gap>
 				<text class="title">所属部门</text>
 				<u-gap height="30"></u-gap>
 				<text>{{item.deptname}}</text>
@@ -120,18 +120,19 @@
 		font-weight: bold;
 		margin-left: 260rpx;
 	}
-	.custom-style{
-		color: #241c32;
-		font-weight: bold;
-		/* background-color: #a8a7ab; ; */
-		width: 150rpx;
+	.custom-style {
+		color: #ffffff;
+		background-color: #0167ff;
+		font-weight: 550;
+		font-size: larger;
+		width: 50%;
 		height: 90rpx;
 	}
-	.custom1-style{
-		color: #241c32;
-		font-weight: bold;
-		background-color: #e6e6e6; 
-		width: 150rpx;
+	
+	.custom1-style {
+		font-size: larger;
+		font-weight: 550;
+		width: 50%;
 		height: 90rpx;
 	}
 </style>

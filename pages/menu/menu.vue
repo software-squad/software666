@@ -164,6 +164,7 @@
 <style scoped>
 	.whole {
 		background-color: #f5f5f5;
+		/* background-color: #fdfbfa; */
 		height: calc(100vh);
 		/* #ifdef H5 */
 		height: calc(100vh - var(--window-top));
@@ -196,7 +197,7 @@
 		background-color: #ffffff;
 		color: #000000;
 		font-size: large;
-		margin-top: -10rpx;
+		margin-top: -60rpx;
 		margin-bottom: -10rpx;
 	}
 
@@ -207,7 +208,7 @@
 		background-color: #ffffff;
 		color: #000000;
 		font-size: large;
-		margin-top: -10rpx;
+		margin-top: -60rpx;
 		margin-bottom: -10rpx
 	}
 
@@ -218,7 +219,7 @@
 		background-color: #ffffff;
 		color: #000000;
 		font-size: large;
-		margin-top: -100rpx;
+		margin-top: -140rpx;
 	}
 
 	,
@@ -228,7 +229,7 @@
 		background-color: #ffffff;
 		color: #000000;
 		font-size: large;
-		margin-top: -100rpx;
+		margin-top: -140rpx;
 	}
 
 	,

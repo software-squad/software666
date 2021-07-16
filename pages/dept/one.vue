@@ -17,12 +17,12 @@
 			<u-col span="40">
 				<u-row gutter="100" justify="space-around">
 					<!-- 跳转到编辑界面的按钮 -->
-					<button @click="navToEdit" class="custom-style">编辑</button>
+					<u-button @click="navToEdit"  shape="circle" class="custom-style">编辑</u-button>
 					<!-- 是否确认删除的模态框 -->
 					<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="confirm"
 						@cancel="cancel"></u-modal>
 					<!-- deptid为1的部门为待定部门，里面为待定人员，不可删除，对于管理员隐藏删除键 -->
-					<button @click="del" type="error" v-if="item.deptid!=1">删除</button>
+					<u-button @click="del" type="error" shape="circle" class="custom1-style">删除</u-button>
 				</u-row>
 			</u-col>
 		</view>
@@ -138,11 +138,18 @@
 		font-weight: bold;
 		margin-left: 260rpx;
 	}
-
 	.custom-style {
-		color: #241c32;
-		font-weight: 520;
-		width: 150rpx;
+			color: #ffffff;
+			background-color: #0167ff;
+			font-weight: 550;
+			font-size: larger;
+			width: 50%;
+			height: 90rpx;
+		}
+	.custom1-style {
+		font-size: larger;
+		font-weight: 550;
+		width: 50%;
 		height: 90rpx;
 	}
 </style>
