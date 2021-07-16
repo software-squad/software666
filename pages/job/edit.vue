@@ -109,7 +109,7 @@
 							delta:2, // 返回两层
  							success: function() {
  								console.log("返回上一页并刷新")
- 								beforePage.JobShowSendData() // 执行上一页的方法
+ 								beforePage.myReload() // 执行上一页的方法
  							}
  						});
  					})

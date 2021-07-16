@@ -24,6 +24,7 @@
 </template>
 
 <script>
+	import util from '../../api/util.js'
 	export default {
 		data() {
 			return {
@@ -83,7 +84,7 @@
 
 				const uploadTask = uni.uploadFile({
 					// 文件提交
-					url: '/api/file/upload',
+					url: util.easyRequestUrl+'/api/file/upload',
 					filePath: this.tempFilePath,
 					header: {
 						token: uni.getStorageSync('token')

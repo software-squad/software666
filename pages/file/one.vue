@@ -11,12 +11,13 @@
 			<text class="content">{{item.username}}</text>
 			<u-gap height="10"></u-gap>
 			<u-gap height="15" bg-color="#f9f9f9"></u-gap>
+			<u-tag text="备注" mode="light" shape="circle" class="tagStyle" />
 			<view class="remark-item">{{item.remark}}</view>
 		</view>
 		
 		<u-gap height="15" bg-color="#f9f9f9"></u-gap>
-		<u-tag text="点击此处下载" mode="light" shape="circle" class="tagStyle" />
-		<u-link :href="fileLink" under-line="true">{{item.filename}}</u-link>
+		<!-- <u-tag text="点击此处下载" mode="light" shape="circle" class="tagStyle" /> -->
+		<u-link :href="fileLink" under-line="true">点击此处下载</u-link>
 	</view>
 </template>
 

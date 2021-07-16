@@ -17,7 +17,7 @@
 					</u-col>
 				</u-row>
 				<u-gap height="10"></u-gap>
-				<u-tag :text="item.createdate" type="info" mode="plain" shape="circle"/>
+				<u-tag :text="item.editdate" type="info" mode="plain" shape="circle"/>
 			</view>
 		</view>
 	</view>
@@ -45,7 +45,13 @@
 		},
 		onLoad() {
 			sendThis(this)
-			this.submit()
+			this.myReload()
+			this.$forceUpdate()
+		},
+		
+		onShow() {
+			sendThis(this)
+			this.myReload()
 		},
 		//顶部导航栏加号跳转页面
 		onNavigationBarButtonTap: function(e) {
@@ -72,26 +78,19 @@
 				// console.log(this.item.content);//打印出上个页面传递的参数。
 			},
 
-			submit:function(){
+			myReload:function(){
 				noticeShowGetData()
 					.then((response) => {
-						this.List = []
+						this.List = response.data.data
 						for (let i = 0; i < response.data.data.length; i++) {
-							let l = {
-								noticeid: response.data.data[i].noticeid,
-								title: response.data.data[i].title,
-								content: response.data.data[i].content,
-								createdate: response.data.data[i].createdate,
-								userid: response.data.data[i].userid,
-								username: response.data.data[i].userid,
-								show: false
-							}
-							this.List.push(l)
+							this.List[i].show = false
 						}
+						this.$forceUpdate()
 					})
 					.catch((error) => {
 						console.log(error);
 					})
+					
 			},
 
 		}

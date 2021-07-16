@@ -225,6 +225,14 @@ export function staffShowUserByUsername(data) {
 	})
 }
 
+export function resetPwd(data) {
+	return request.request({
+		url: '/api/admin/resetPwd',
+		data: data,
+		method: 'POST',
+	})
+}
+
 
 export default {
 	fileEdit: fileEdit,
@@ -238,6 +246,5 @@ export default {
 	staffEditSubmit: staffEditSubmit,
 	staffAdd: staffAdd,
 	staffShowUserByUsername: staffShowUserByUsername,
-
-
+	resetPwd:resetPwd
 };

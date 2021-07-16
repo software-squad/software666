@@ -5,7 +5,7 @@
 		<view class="u-search-box">
 			<view class="u-search-inner" @click="navToSearchByUsername">
 				<u-icon name="search" color="#909399" :size="28"></u-icon>
-				<text class="u-search-text">请输入员工姓名，不支持模糊搜索</text>
+				<text class="u-search-text">请输入员工姓名，支持模糊搜索</text>
 			</view>
 		</view>
 

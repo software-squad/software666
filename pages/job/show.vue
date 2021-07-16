@@ -48,12 +48,12 @@
 			// 将当前页面的this发送到js函数便于拦截错误码
 			sendThis(this)
 			// 初始化职位显示信息
-			this.JobShowSendData()
+			this.myReload()
 		},
 		
 		methods: {
 			// 请求职位信息接口并在前端展示响应结果
-			JobShowSendData(){
+			myReload(){
 				jobShowSendData()
 				.then((response) => {
 					this.jobs = []

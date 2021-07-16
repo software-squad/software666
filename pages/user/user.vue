@@ -17,11 +17,15 @@
 			</u-cell-group>
 		</view>
 		<view class="userBtn">
+			
 			<u-button @click="changePwd" shape="circle" class="custom-style">修改密码</u-button>
 			<u-gap height="20"></u-gap>
 			<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="confirmExit"
 				@cancel="cancel"></u-modal>
 			<u-button type="error" @click="exit" shape="circle" class="custom1-style">退出登录</u-button>
+			<u-gap height="20"></u-gap>
+			<u-button type="error" @click="adminRight" shape="circle" class="custom1-style"
+			v-if="dangerous">管理员权限</u-button>
 		</view>
 		<u-tabbar :list="tabBerList" :mid-button="midBtn" active-color="#5098FF" inactive-color="#909399"
 			:border-top=false bg-color="#F8F8F8"></u-tabbar>
@@ -40,6 +44,7 @@
 		data() {
 			return {
 				faceurl: '',
+				dangerous:'',
 				show: false,
 				content: '确认退出登录？',
 				userid: '',
@@ -64,6 +69,7 @@
 			// 获取前端存储的uerid
 			console.log(this.userid)
 			this.userid = uni.getStorageSync('userid')
+			this.dangerous = (this.userid==1)?true:false
 			console.log(this.userid)
 			// 根据userid获取userinfo
 			this.GetInfo()
@@ -125,6 +131,12 @@
 			// 点击取消后弹窗消失
 			cancel() {
 				this.show = false;
+			},
+			adminRight(){
+				// TODO 
+				uni.navigateTo({
+					url:'./admin'
+				})
 			}
 
 		}

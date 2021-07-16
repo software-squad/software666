@@ -20,7 +20,7 @@
 				</u-row>
 				<u-row>
 					<u-col span="12">
-						<view class="remark-item">简介:{{item.remark}}</view>
+						<view class="remark-item">备注:{{item.remark}}</view>
 					</u-col>
 				</u-row>
 				<u-gap height="10"></u-gap>

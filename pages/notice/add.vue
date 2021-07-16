@@ -87,7 +87,7 @@
 							// url: '/pages/notice/show',
 							success: function() {
 								console.log("返回上一页并刷新")
-								beforePage.submit() // 执行上一页的onLoad方法
+								beforePage.myReload() // 执行上一页的onLoad方法
 							}
 						});
 					})

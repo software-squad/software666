@@ -4,7 +4,7 @@
 		<!-- 搜索框 -->
 		<view class="u-search-box">
 			<u-sticky bg-color="#fafafa">
-				<u-search v-model='kw' :show-action="true" action-text="搜索" :animation="true" placeholder='请输入员工姓名'
+				<u-search v-model='kw' :show-action="true" action-text="搜索" :animation="true" placeholder='请输入员工姓名,支持模糊搜索'
 					@search='search' @custom='search' @change="change">
 				</u-search>
 			</u-sticky>

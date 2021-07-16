@@ -89,12 +89,15 @@
 						// 返回上一页并刷新的方法
 						let pages = getCurrentPages(); // 当前页面
 						let beforePage = pages[pages.length - 2]; // 上一页
-						uni.navigateBack({
-							success: function() {
-								console.log("返回上一页并刷新")
-								beforePage.submit() // 执行上一页的onLoad方法
-							}
-						});
+						setTimeout(() => {
+							uni.navigateBack({
+								success: function() {
+									console.log("返回上一页并刷新")
+									beforePage.myReload() // 执行上一页的onLoad方法
+								}
+							});
+						}, 1000)
+						
 					})
 					.catch((error) => {
 						console.log(error);
