@@ -169,9 +169,9 @@
 </script>
 
 <style>
-	.whole {
+	/* .whole {
 		margin: 0 50rpx;
-	}
+	} */
 
 	.sub_com {
 		width: 100%;

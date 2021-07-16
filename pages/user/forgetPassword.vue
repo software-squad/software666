@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<u-field v-model="item.userid" label="用户ID" placeholder="请输入用户ID" label-align="center">
+		<u-field v-model="item.loginname" label="用户登录名" placeholder="请输入用户登录名" label-align="center">
 		</u-field>
 		<!-- <u-gap height="10" bg-color="#f9f9f9"></u-gap> -->
 		<u-field v-model="item.newpwd" label="重置密码" placeholder="请输入重置密码" label-align="center"></u-field>
@@ -21,7 +21,7 @@
 		data() {
 			return {
 				item: {
-					userid: '',
+					loginname: '',
 					newpwd: '',
 				},
 				modalShow: false
@@ -48,7 +48,7 @@
 					return;
 				}else{
 					this.$api.resetPwd({
-						userid:this.item.userid,
+						loginname:this.item.loginname,
 						newpwd:MD5(this.item.newpwd)
 					}).then((res)=>{
 						this.$refs.uToast.show({

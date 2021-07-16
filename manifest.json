@@ -53,7 +53,7 @@
             "disableHostCheck" : true,
             "proxy" : {
                 "/api" : {
-                    "target" : "http://192.168.0.111:8082/", // ipv4地址 
+                    "target" : "http://192.168.0.100:8082/", // ipv4地址 
                     // "target" : "http://4097n16y34.zicp.vip:80/",  // lyq的内网穿透地址
                     // "target":"http://4097h1o714.zicp.vip:25464/", // gm的内网穿透地址
 					

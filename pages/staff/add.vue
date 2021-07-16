@@ -251,10 +251,6 @@
 				this.$refs.uForm.validate(valid => {
 					// console.log("正在提交表单",this.form)
 					if (valid) {
-						// console.log('密码',this.form.password)
-						let pwd = MD5(this.form.password) // 密码md5加密
-						this.form.password = pwd
-						// console.log('密码',this.form.password)
 						this.form.address = this.rangeAddress + this.detailAddress // 地址组合验证
 						// console.log('地址',this.form.address)
 						// 默认头像  保密|男|女
@@ -266,6 +262,12 @@
 							}
 						}
 						// console.log("头像",this.form.facepath)
+						let pwd = MD5(this.form.password) // 密码md5加密
+						this.form.password = pwd
+						// let data = this.form
+						// data.password = MD5(this.form.password) // 密码md5加密
+						// console.log('form',this.form)
+						// console.log('data',data)
 						this.$api.staffAdd({...this.form})
 							.then(res => {
 								if (res.data.msg == 10001) { // 异常码验证

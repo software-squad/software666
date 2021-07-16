@@ -1,12 +1,16 @@
 <!-- 普通用户单个公告展示界面 -->
 <template>
 	<view>
-		<!-- 根据所点击公告内容动态改变公告标题和内容 -->
 		<u-toast ref="uToast" />
 		<u-gap height="20"></u-gap>
 		<view class="noticeOne">
 			<text class="title">公告内容</text>
-			</view>
+			<u-gap height="60"></u-gap>
+			<text style="font-size: larger; height: 200;">{{item.content}}</text>
+			<u-gap height="40" ></u-gap>
+			<u-line color="#bbb" />
+			<u-gap height="100" ></u-gap>
+		</view>
 	</view>
 
 </template>

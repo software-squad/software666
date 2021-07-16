@@ -20,16 +20,16 @@
 			</u-card>
 
 			<u-row class="rowBtn">
-				<u-button class="jobBtn" shape="square" @click="clickJob">
-					<view>
-						<u-icon name="position" custom-prefix="custom-icon" size="70" color="#2467cd"></u-icon>
-						<view>职位</view>
-					</view>
-				</u-button>
 				<u-button class="deptBtn" shape="square" @click="clickDept">
 					<view>
 						<u-icon name="bumenguanli" custom-prefix="custom-icon" size="70" color="#2467cd"></u-icon>
 						<view>部门</view>
+					</view>
+				</u-button>
+				<u-button class="jobBtn" shape="square" @click="clickJob">
+					<view>
+						<u-icon name="position" custom-prefix="custom-icon" size="70" color="#2467cd"></u-icon>
+						<view>职位</view>
 					</view>
 				</u-button>
 			</u-row>

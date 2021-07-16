@@ -17,7 +17,7 @@
 		
 		<u-gap height="15" bg-color="#f9f9f9"></u-gap>
 		<!-- <u-tag text="点击此处下载" mode="light" shape="circle" class="tagStyle" /> -->
-		<u-link :href="fileLink" under-line="true">点击此处下载</u-link>
+		<u-link :href="fileLink" under-line="true">点击链接下载文件</u-link>
 	</view>
 </template>
 
@@ -46,9 +46,10 @@
 				this.item = JSON.parse(decodeURIComponent(option.item));
 				console.log('基础url：', util.dowloadBaseUrl)
 				this.fileLink = util.dowloadBaseUrl + this.item.fileid
-				uni.setNavigationBarTitle({
-					title: this.item.title
-				})
+				// uni.setNavigationBarTitle({
+				// 	// title: this.item.title
+				// 	title: '文件查看'
+				// })
 			} else {
 				this.$u.toast('点击为空')
 			}

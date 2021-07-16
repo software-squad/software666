@@ -44,12 +44,15 @@
 			onLoad() {
 				// 把当前指向当前页面的指针发给request.js
 				sendThis(this)
-				// 调用函数DeptShowSendData，请求展示所有部门及其信息
-				this.DeptShowSendData()
+				// 调用函数myReload，请求展示所有部门及其信息
+				this.myReload()
+			},
+			onShow() {
+				this.myReload()
 			},
 			methods: {
 				// 调用函数deptShowSendData，请求并在其回调中展示所有部门及其信息
-				DeptShowSendData:function(){
+				myReload:function(){
 					deptShowSendData()
 						.then((response) => {
 							// 该回调函数将响应的数据中的部门信息存入dept数组，dept里为所有部门的所有信息

@@ -67,10 +67,13 @@
 				title: item.jobname
 			})
 			// 后端申请
-			this.parm = item
-			this.myReload(item)
+			this.item = item
+			this.myReload()
 		},
-
+		onShow() {
+			this.myReload()
+		},
+		
 		// 监听下拉刷新动作的执行方法，每次手动下拉刷新都会执行一次
 		onPullDownRefresh() {
 			// FIXME 这个会清除返回信息
@@ -85,10 +88,10 @@
 
 		methods: {
 			// 获取页面渲染信息
-			myReload(item) {
+			myReload() {
 				this.$api.staffShowUserByDeptAndJob({
-					deptid: item.deptid,
-					jobid: item.jobid
+					deptid: this.item.deptid,
+					jobid: this.item.jobid
 				}).then(res => {
 					this.searchResults = res.data.data
 					for (var i in this.searchResults) {

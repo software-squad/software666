@@ -76,7 +76,7 @@
 						// 异常码处理
 						if (res.data.msg == 10005) {
 							this.$refs.uToast.show({
-								title: '上传成功',
+								title: '编辑成功',
 								type: 'success',
 								duration: 1000,
 							})
@@ -109,6 +109,7 @@
 			// 带参跳转，解析参数，即文件信息
 			if (option) {
 				let parm = JSON.parse(decodeURIComponent(option.item));
+				console.log('带参跳转',parm)
 				this.item.fileid = parm.fileid
 				this.item.title = parm.title
 				this.item.filename = parm.filename
@@ -125,9 +126,10 @@
 				this.item.username = uni.getStorageSync('userid')
 				// // #endif
 				
-				uni.setNavigationBarTitle({
-					title: this.item.title
-				})
+				// uni.setNavigationBarTitle({
+				// 	// title: this.item.title
+				// 	title: '文件编辑'
+				// })
 			} else {
 				this.$u.toast('点击为空')
 			}

@@ -102,16 +102,19 @@
  				}
  				jobAddSendData(data)
  					.then((response) => {
- 						this.showToast('提交成功','success')
+ 						// this.showToast('提交成功','success')
  						// 回调函数里返回show页面并刷新
  						let pages = getCurrentPages(); // 当前页面
  						let beforePage = pages[pages.length - 2]; // 上一页
- 						uni.navigateBack({
+						setTimeout(function(){
+							uni.navigateBack({
  							success: function() {
  								console.log("返回上一页并刷新")
- 								beforePage.JobShowSendData() // 执行上一页的方法
+ 								beforePage.myReload() // 执行上一页的方法
  							}
  						});
+						},1000)
+ 						
  					})
  					.catch((error) => {
  						console.log(error)

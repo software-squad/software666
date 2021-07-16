@@ -22,9 +22,9 @@
 				<u-gap height="40"></u-gap>
 				<u-col span="400">
 					<u-row gutter="20">
-							<u-button @click="navToEdit"  shape="circle" class="custom-style">编辑</u-button>
+							<u-button @click="navToEdit"   :disabled="item.jobid==1" shape="circle" class="custom-style">编辑</u-button>
 							<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="confirm" @cancel="cancel"></u-modal>
-							<u-button @click="del" v-if="item.deptname!='待定'" type="error" shape="circle" class="custom1-style" >删除</u-button>
+							<u-button @click="del" :disabled="item.jobid==1" type="error" shape="circle" class="custom1-style" >删除</u-button>
 						</u-row>
 					</u-col>
 			</view>

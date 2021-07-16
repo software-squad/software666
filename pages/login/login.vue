@@ -15,7 +15,7 @@
 			<u-input type="password" :border="true" v-model="password" placeholder="请输入密码" />
 		</view>
 		<u-gap height="50"></u-gap>
-		<u-checkbox v-model="remember" style="margin-left: 40rpx;">记住密码</u-checkbox>
+		<!-- <u-checkbox v-model="remember" style="margin-left: 40rpx;">记住密码</u-checkbox> -->
 		<u-gap height="80"></u-gap>
 
 		<u-col span="400">

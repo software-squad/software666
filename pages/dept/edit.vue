@@ -73,6 +73,9 @@
 				// BUG 这一步必须要，要不然会逻辑错误
 				if(!this.tempdepturl){
 					this.tempdepturl = this.item.depturl
+					if(!this.tempdepturl){
+						this.tempdepturl = this.$util.default_deptimg
+					}
 				}
 				console.log('部门照片', this.tempdepturl)
 				let data = {
@@ -84,18 +87,18 @@
 				// 调用接口函数deptEditSendData，发出部门编辑请求
 				deptEditSendData(data)
 					.then((response) => {
-						
+						console.log('编辑成功')
 						// 返回上一页并刷新数据的方法
 						let pages = getCurrentPages(); // 当前页面
 						let beforePage = pages[pages.length - 3]; // 上两页
-						// console.log('编辑跳转',pages)
+						console.log('编辑跳转',pages)
 						uni.navigateBack({
 							delta:2,
 							// url:'./show',
 							success: function() {
 								console.log("返回上一页并刷新")
 								// 注意，这一个貌似只能再这里实现
-								beforePage.DeptShowSendData() // 执行上一页的onLoad方法
+								beforePage.myReload() // 执行上一页的onLoad方法
 							}
 						});
 					})

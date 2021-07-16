@@ -14,6 +14,9 @@ Vue.use(uView);
 import api from './api/api.js'
 Vue.prototype.$api = api
 
+import util from './api/util.js'
+Vue.prototype.$util = util
+
 Vue.config.productionTip = false
 
 App.mpType = 'app'

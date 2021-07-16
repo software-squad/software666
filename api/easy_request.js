@@ -29,7 +29,7 @@ const request = (config) => {
 		// 请求头设置
 		config.header = {
 			'token': token,
-			'userid':uni.getStorageSync('userid')
+			// 'userid':uni.getStorageSync('userid')
 			// 'userid':sessionStorage.getItem('userid')
 			// 'content-type':'application/x-www-form-urlencoded'
 		}

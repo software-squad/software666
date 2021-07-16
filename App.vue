@@ -1,3 +1,7 @@
+<!-- 注意，
+由于uView框架Bug，需要将./static/iconfont.css 中注释了的url改为您当前
+static文件夹所在的绝对路径，以保证运行的软件图片能正常执行
+-->
 <script>
 	import md5Libs from "uview-ui/libs/function/md5.js"
 	export default {

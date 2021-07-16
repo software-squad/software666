@@ -81,7 +81,8 @@ export function deptOneDelSendData(data) {
 }
 
 export function deptEditSendData(data) {
-	return service.request({
+	// return service.request({
+	return request.request({
 		method: 'POST',
 		url: '/api/dept/edit',
 		data: data
@@ -209,7 +210,7 @@ export function staffEditSubmit(data) {
 }
 
 export function staffAdd(data) {
-	console.log('进来了',data)
+	console.log('进来了', data)
 	return request.request({
 		url: "/api/staff/add",
 		data: data,
@@ -246,5 +247,5 @@ export default {
 	staffEditSubmit: staffEditSubmit,
 	staffAdd: staffAdd,
 	staffShowUserByUsername: staffShowUserByUsername,
-	resetPwd:resetPwd
+	resetPwd: resetPwd
 };

@@ -75,19 +75,27 @@
 		
 		// 页面初始化，获取部门和职位列表
 		onLoad() {
-			let _this = this
-			this.$api.staffIndex().then(res => {
-				_this.tabbar = res.data.data
-				console.log("数据加载成功")
-			})
+			this.myReload()
 		},
 		
 		onReady() {
 			this.getMenuItemTop()
 		},
+		onShow() {
+			console.log('展示中')
+			this.myReload()
+		},
 		
 		methods: {
 			
+			myReload(){
+				let _this = this
+				this.$api.staffIndex().then(res => {
+					_this.tabbar = res.data.data
+					console.log("数据加载成功")
+				})
+				this.$forceUpdate()
+			},
 			// 新增用户
 			navToAdd() {
 				uni.navigateTo({

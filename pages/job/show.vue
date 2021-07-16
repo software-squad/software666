@@ -50,12 +50,13 @@
 			// 初始化职位显示信息
 			this.myReload()
 		},
-		
+		onShow() {
+			this.myReload()
+		},
 		methods: {
 			// 请求职位信息接口并在前端展示响应结果
 			myReload(){
-				jobShowSendData()
-				.then((response) => {
+				jobShowSendData().then((response) => {
 					this.jobs = []
 					console.log("response")
 					console.log(response.data.data)

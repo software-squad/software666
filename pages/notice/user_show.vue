@@ -80,7 +80,7 @@
 			navToOne(index) {
 				this.item = this.List[index]
 				uni.navigateTo({
-					url: 'one?item=' + encodeURIComponent(JSON.stringify(this.item))
+					url: 'user_one?item=' + encodeURIComponent(JSON.stringify(this.item))
 				})
 				console.log(this.item.title);  //打印出上个页面传递的参数。
 				console.log(this.item.content);//打印出上个页面传递的参数。

@@ -24,8 +24,8 @@
 				@cancel="cancel"></u-modal>
 			<u-button type="error" @click="exit" shape="circle" class="custom1-style">退出登录</u-button>
 			<u-gap height="20"></u-gap>
-			<u-button type="error" @click="adminRight" shape="circle" class="custom1-style"
-			v-if="dangerous">管理员权限</u-button>
+			<u-button type="warning" @click="adminRight" shape="circle" class="custom1-style"
+			v-if="dangerous">根用户权限</u-button>
 		</view>
 		<u-tabbar :list="tabBerList" :mid-button="midBtn" active-color="#5098FF" inactive-color="#909399"
 			:border-top=false bg-color="#F8F8F8"></u-tabbar>

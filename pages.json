@@ -120,14 +120,14 @@
 		}, {
 			"path": "pages/file/edit",
 			"style": {
-				"navigationBarTitleText": "文件名称",
+				"navigationBarTitleText": "文件信息编辑",
 				"enablePullDownRefresh": false
 			}
 
 		}, {
 			"path": "pages/file/one",
 			"style": {
-				"navigationBarTitleText": "文件名称",
+				"navigationBarTitleText": "文件信息查看",
 				"enablePullDownRefresh": false
 			}
 
@@ -353,7 +353,7 @@
             "path" : "pages/user/admin",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "管理员权限",
+                "navigationBarTitleText": "根用户权限",
                 "enablePullDownRefresh": false
             }
             
@@ -362,7 +362,7 @@
             "path" : "pages/user/forgetPassword",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "忘记密码",
+                "navigationBarTitleText": "重置用户密码",
                 "enablePullDownRefresh": false
             }
             

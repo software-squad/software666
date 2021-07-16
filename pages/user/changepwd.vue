@@ -77,7 +77,10 @@
 				}
 				changePwdSendData(data)
 					.then((response) => {
-						uni.navigateBack()
+						// TODO 需要中
+						setTimeout(() => {
+							uni.navigateBack()
+						}, 1000)
 					})
 					.catch((error) => {
 						console.log(error);

@@ -17,12 +17,12 @@
 			<u-col span="40">
 				<u-row gutter="100" justify="space-around">
 					<!-- 跳转到编辑界面的按钮 -->
-					<u-button @click="navToEdit"  shape="circle" class="custom-style">编辑</u-button>
+					<u-button @click="navToEdit" shape="circle" class="custom-style" :disabled="item.deptid==1?true:false">编辑</u-button>
 					<!-- 是否确认删除的模态框 -->
 					<u-modal v-model="show" :content="content" :show-cancel-button="true" @confirm="confirm"
 						@cancel="cancel"></u-modal>
 					<!-- deptid为1的部门为待定部门，里面为待定人员，不可删除，对于管理员隐藏删除键 -->
-					<u-button @click="del" type="error" shape="circle" class="custom1-style">删除</u-button>
+					<u-button @click="del" type="error" shape="circle" class="custom1-style" :disabled="item.deptid==1?true:false">删除</u-button>
 				</u-row>
 			</u-col>
 		</view>
@@ -48,7 +48,7 @@
 				item: '',
 				imageSrc: '',
 				show: false,
-				content: '确认删除该部门？'
+				content: '确认删除该部门？',
 			}
 		},
 		// 在页面加载的生命周期
@@ -62,6 +62,7 @@
 			console.log("show页面部门照片的url：", this.item.depturl)
 			console.log("one页面部门照片的url：", this.imageSrc)
 			console.log("部门描述", this.item.remark)
+			console.log("部门id", this.item.deptid)
 			// 设置动态加载导航栏标题为跳转部门的名字
 			uni.setNavigationBarTitle({
 				title: this.item.deptname
@@ -94,7 +95,7 @@
 						uni.navigateBack({
 							success: function() {
 								console.log("返回上一页并刷新")
-								beforePage.DeptShowSendData() // 执行上一页的onLoad方法
+								beforePage.myReload() // 执行上一页的onLoad方法
 							}
 						});
 					})
@@ -110,14 +111,15 @@
 			// 该页面的编辑按钮点击事件，带参跳转到实际的可编辑页面
 			navToEdit() {
 				// BUG 应该是redirectTo
-				uni.redirectTo({
-						url: "edit?item=" + encodeURIComponent(JSON.stringify(this.item))
-					}),
-				console.log("===============one页面==============")
-				console.log("部门名称",this.item.name),
-				console.log("部门描述",this.item.remark)
-			}
-		}
+				// uni.redirectTo({
+				uni.navigateTo({
+				url: "edit?item=" + encodeURIComponent(JSON.stringify(this.item))
+			}),
+		console.log("===============one页面==============")
+		console.log("部门名称", this.item.name),
+		console.log("部门描述", this.item.remark)
+	}
+	}
 	}
 </script>
 
@@ -138,14 +140,16 @@
 		font-weight: bold;
 		margin-left: 260rpx;
 	}
+
 	.custom-style {
-			color: #ffffff;
-			background-color: #0167ff;
-			font-weight: 550;
-			font-size: larger;
-			width: 50%;
-			height: 90rpx;
-		}
+		color: #ffffff;
+		background-color: #0167ff;
+		font-weight: 550;
+		font-size: larger;
+		width: 50%;
+		height: 90rpx;
+	}
+
 	.custom1-style {
 		font-size: larger;
 		font-weight: 550;

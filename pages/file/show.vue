@@ -69,6 +69,10 @@
 			this.myReload()
 		},
 
+		onShow() {
+			this.myReload()
+		},
+		
 		onNavigationBarButtonTap() {
 			uni.navigateTo({
 				url: "upload"
@@ -85,12 +89,7 @@
 					if (res.data.msg == "10007") {
 						this.items = res.data.data
 						this.itemShows = res.data.data
-						
 						for (var i in this.itemShows) {
-							var str = this.itemShows[i].filename.split(14)
-							console.log('字符串切片',str)
-							this.itemShows[i].filename = str
-							this.items[i].filename = str
 							this.itemShows[i].show = false
 							this.items[i].show = false
 						}
@@ -104,6 +103,7 @@
 
 			// 文件查看
 			navToOne(index) {
+				// console.log('file')
 				let item = encodeURIComponent(JSON.stringify(this.itemShows[index]))
 				uni.navigateTo({
 					url: 'one?item=' + item
@@ -145,7 +145,7 @@
 			open(index) {
 				// 先将正在被操作的swipeAction标记为打开状态，否则由于props的特性限制，
 				// 原本为'false'，再次设置为'false'会无效
-				console.log(this.itemShows[index])
+				// console.log('打开',this.itemShows[index])
 				this.itemShows[index].show = true;
 				this.itemShows.map((val, idx) => {
 					if (index != idx) this.itemShows[idx].show = false;

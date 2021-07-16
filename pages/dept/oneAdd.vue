@@ -75,20 +75,25 @@
 			},
 			// 模态框确认事件，定义传给后端的data，并调用deptAddSendData接口向后端发出请求
 			confirm() {
+				let tempImgPath = this.url
+				if(!tempImgPath){
+					tempImgPath = this.$util.default_deptimg
+				}
 				let data = {
 					deptname: this.deptname,
 					remark: this.remark,
-					depturl: this.url
+					depturl: tempImgPath
 				}
 				deptAddSendData(data)
 					.then((response) => {
 						// 回调函数里返回show页面并刷新
+						
 						let pages = getCurrentPages(); // 当前页面
 						let beforePage = pages[pages.length - 2]; // 上一页
 						uni.navigateBack({
 							success: function() {
 								console.log("返回上一页并刷新")
-								beforePage.DeptShowSendData() // 执行上一页的方法
+								beforePage.myReload() // 执行上一页的方法
 							}
 						});
 					})

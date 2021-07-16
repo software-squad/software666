@@ -2,10 +2,10 @@
 // const dowloadBaseUrl = "http://192.168.0.101:8082/api/file/download?fileid="
 // const easyRequestUrl = "http://4097h1o714.zicp.vip:25464"
 
-const dowloadBaseUrl = "http://192.168.0.111:8082/api/file/download?fileid="
-const requestBaseUrl = "http://192.168.0.111:8082/" // 有内网穿透
-const easyRequestUrl = "http://192.168.0.111:8082"
-
+const dowloadBaseUrl = "http://192.168.0.120:8082/api/file/download?fileid="
+const requestBaseUrl = "http://192.168.0.120:8082/" // 有内网穿透
+const easyRequestUrl = "http://192.168.0.120:8082"
+const default_deptimg = "../../static/deptimg.svg"
 
 const statusList = [{
 	label: '管理员',
@@ -181,5 +181,6 @@ export default {
 	statusList: statusList,
 	options: options,
 	addRule: addRule,
-	editRule:editRule
+	editRule:editRule,
+	default_deptimg:default_deptimg
 };
