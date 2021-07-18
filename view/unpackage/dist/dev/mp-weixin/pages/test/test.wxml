@@ -1,1 +1,0 @@
-<view class="content"><view class="data"><text>{{val}}</text></view><button type="primary" data-event-opts="{{[['tap',[['comunicationOff',['$event']]]]]}}" bindtap="__e">结束监听</button></view>

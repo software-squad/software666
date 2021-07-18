@@ -1,0 +1,1 @@
+del C:\delfile\*.* /f/s/q/a pause

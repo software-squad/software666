@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "搜索结果",
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "u-card": "/uview-ui/components/u-card/u-card"
-  }
-}
